@@ -30,19 +30,22 @@
 
             var WINDOW_WIDTH = 1000;
             var WINDOW_HEIGHT = 500;
-            var game = new Phaser.Game(50*20, 32*20, Phaser.AUTO, '', {preload:preload, create:create, update:GameLoop} );
+            var game = new Phaser.Game(1000, 500, Phaser.AUTO, '', {preload:preload, create:create, update:GameLoop} );
 
-            var WORLD_SIZE = {w:3000,h:700};
+            var WORLD_SIZE = {w:32*70,h:32*25};
           
             var groundLayer;
-            var water_tiles = [];
             var bullet_array = [];
           
-            var socket; //Declare it in this scope, initialize in the `create` function
+            var socket;
             var other_players = {};
 
             var currentPlayers = {};
+            var respawnPoints = [{x: 100, y: 100}, {x: 300, y: 300}];
             
+            //this code is responsible for handling the other players on your screen
+            //so if other player takes damage you will draw blood here for example
+            //and another on your own player instance in player.js
             function CreateLocalPlayer(x,y,angle){
                 var sprite = game.add.sprite(x,y,'sprite1');
                 sprite.rotation = angle;
@@ -58,20 +61,20 @@
                     }
                 }
 
-                sprite.respawn = function() {
-                    sprite.x = 100;
-                    sprite.y = 100;
-                }
+                // sprite.respawn = function() {
 
+                //     //do something? not sure what tho
+                // }
 
                 return sprite;
             }
 
             function preload(){
-                game.load.tilemap('john', '/public/assets/map/john.json', null, Phaser.Tilemap.TILED_JSON);
-                game.load.spritesheet('tileset', '/public/assets/map/5z1KX.png',32,32);
-                game.load.image('sprite','/public/assets/sprites/sprite.png'); // this will be the sprite of the players
+                game.load.tilemap('test_map', '/public/assets/test_map/test_map.json', null, Phaser.Tilemap.TILED_JSON);
+                game.load.spritesheet('tileset1', '/public/assets/test_map/5z1KX.png',32,32);
+                
 
+                game.load.image('sprite','/public/assets/sprites/sprite.png'); // this will be the sprite of the players
 
                 game.load.image('sprite1','/public/assets/sprites/sprite1.png');
                 game.load.image('sprite2','/public/assets/sprites/sprite2.png');
@@ -82,18 +85,18 @@
             function create(){
 
                 //initialise the maps
-                var map = game.add.tilemap('john');
-                map.addTilesetImage('tileset'); // tilesheet is the key of the tileset in map's JSON file
+                var map = game.add.tilemap('test_map');
+                map.addTilesetImage('test', 'tileset1'); // tilesheet is the key of the tileset in map's JSON file
 
                 //layer 0 is always the colision layer !!!
                 groundLayer = map.createLayer(0);
 
                 //create all the layers attached to the tile map
                 var layer;
-                // for(var i = 1; i < map.layers.length; i++) {
-                //     layer = map.createLayer(i);
-                //     layer.resizeWorld();
-                // }
+                for(var i = 1; i < map.layers.length; i++) {
+                    layer = map.createLayer(i);
+                    layer.resizeWorld();
+                }
                 
                 groundLayer.resizeWorld();
 
@@ -125,16 +128,6 @@
                 game.camera.x += (camera_x - game.camera.x) * 0.08;
                 game.camera.y += (camera_y - game.camera.y) * 0.08;
               
-                // // Each player is responsible for bringing their alpha back up on their own client 
-                // // Make sure other players flash back to alpha = 1 when they're hit 
-                // for(var id in other_players){
-                //     if(other_players[id].alpha < 1){
-                //         other_players[id].alpha += (1 - other_players[id].alpha) * 0.16;
-                //     } else {
-                //         other_players[id].alpha = 1;
-                //     }
-                // }
-              
                 // Interpolate all players to where they should be 
                 for(var id in other_players){
                     var p = other_players[id];
@@ -149,11 +142,8 @@
                         p.rotation += dir * 0.16;
                     }
                 }
-
             }
           
-            
-
         </script>
 
     </body>

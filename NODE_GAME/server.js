@@ -58,6 +58,7 @@ io.on('connection', function(socket){
     if(players[socket.id] == undefined) return;
     var new_bullet = data;
     data.owner_id = socket.id; // Attach id of the player to the bullet 
+
     //if(Math.abs(data.speed_x) > 20 || Math.abs(data.speed_y) > 20){
       //console.log("Player",socket.id,"is cheating!");
     //}
@@ -96,7 +97,7 @@ function ServerGameLoop(){
     }
     
     // Remove if it goes too far off screen 
-    if(bullet.x < -10 || bullet.x > 1000 || bullet.y < -10 || bullet.y > 1000 || bullet.hit){
+    if(bullet.x < -10 || bullet.x > 3000 || bullet.y < -10 || bullet.y > 1000 || bullet.hit){
         bullet_array.splice(i,1);
         i--;
     }
@@ -106,10 +107,11 @@ function ServerGameLoop(){
   io.emit("bullets-update",bullet_array);
 
 
-  //loop for player
+  //general loop for non specific things
   for(var id in players) {
     console.log("Player : " + id + " h: " + players[id].health + " DEAD: " + players[id].deaths + " kills: " + players[id].kills);
 
+    //handle deaths
     if(players[id].health <= 0) {
 
       //rerset healt & add death to count
