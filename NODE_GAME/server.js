@@ -26,16 +26,23 @@ io.on('connection', function(socket){
 	// Listen for a new player trying to connect
 	socket.on('new-player',function(state){
 		console.log("New player joined with state:",state);
-		players[socket.id] = state;
+		//add extra server side properties to keep track of certain stats
+    state.kills = 0;
+    state.deaths = 0;
+    state.health = 100;
+    state.damageDelt = 0;
+
+    players[socket.id] = state;
+
 		// Broadcast a signal to everyone containing the updated players list
 		io.emit('update-players',players);
-	})
+	});
   
   // Listen for a disconnection and update our player table 
   socket.on('disconnect',function(state){
     delete players[socket.id];
     io.emit('update-players',players);
-  }) 
+  });
   
   // Listen for move events and tell all other clients that something has moved 
   socket.on('move-player',function(position_data){
@@ -44,7 +51,7 @@ io.on('connection', function(socket){
     players[socket.id].y = position_data.y; 
     players[socket.id].angle = position_data.angle; 
     io.emit('update-players',players);
-  })
+  });
   
   // Listen for shoot-bullet events and add it to our bullet array
   socket.on('shoot-bullet',function(data){
@@ -60,21 +67,12 @@ io.on('connection', function(socket){
 
 // Update the bullets 60 times per frame and send updates 
 function ServerGameLoop(){
-	
-/*	if(bullet_array.length !== 0) {
-		console.log("bullets array");
-		console.log(bullet_array);
-	
-	
-	}
-	
-	
-	
-	*/
+	//bullet code
   for(var i=0;i<bullet_array.length;i++){
     var bullet = bullet_array[i];
     bullet.x += bullet.speed_x; 
-    bullet.y += bullet.speed_y; 
+    bullet.y += bullet.speed_y;
+    //bullet.hit = false;
     
     // Check if this bullet is close enough to hit any player 
     for(var id in players){
@@ -83,14 +81,22 @@ function ServerGameLoop(){
         var dx = players[id].x - bullet.x; 
         var dy = players[id].y - bullet.y;
         var dist = Math.sqrt(dx * dx + dy * dy);
-        if(dist < 70){
-          io.emit('player-hit',id); // Tell everyone this player got hit
+        
+        //bullet hit
+        if(dist < 50){
+          io.emit('player-hit',id, bullet); // Tell everyone this player got hit
+          bullet.hit = true;
+
+          players[id].health -= bullet.damage;
+          players[id].hit_by = bullet.owner_id;
+
+          players[bullet.owner_id].damageDelt += bullet.damage;
         }
       }
     }
     
     // Remove if it goes too far off screen 
-    if(bullet.x < -10 || bullet.x > 1000 || bullet.y < -10 || bullet.y > 1000){
+    if(bullet.x < -10 || bullet.x > 1000 || bullet.y < -10 || bullet.y > 1000 || bullet.hit){
         bullet_array.splice(i,1);
         i--;
     }
@@ -98,6 +104,24 @@ function ServerGameLoop(){
   }
   // Tell everyone where all the bullets are by sending the whole array
   io.emit("bullets-update",bullet_array);
+
+
+  //loop for player
+  for(var id in players) {
+    console.log("Player : " + id + " h: " + players[id].health + " DEAD: " + players[id].deaths + " kills: " + players[id].kills);
+
+    if(players[id].health <= 0) {
+
+      //rerset healt & add death to count
+      players[id].health = 100;
+      players[id].deaths ++;
+      
+      //add kill to player who shot the person last
+      players[players[id].hit_by].kills++;
+
+      io.emit("dead-respawn", id);
+    }
+  }
 }
 
 setInterval(ServerGameLoop, 16); 
