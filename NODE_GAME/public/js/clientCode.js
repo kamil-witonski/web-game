@@ -42,7 +42,10 @@ function initialiseClient() {
     // If there's not enough bullets on the client, create them
    for(var i=0;i<server_bullet_array.length;i++){
         if(bullet_array[i] == undefined){
-            bullet_array[i] = game.add.sprite(server_bullet_array[i].x,server_bullet_array[i].y,'bullet');
+            var bullet = game.add.sprite(server_bullet_array[i].x,server_bullet_array[i].y,'bullet');
+            bullet.scale.setTo(0.5,0.5);
+
+            bullet_array[i] = bullet;
         } else {
             //Otherwise, just update it! 
             bullet_array[i].x = server_bullet_array[i].x; 
@@ -71,6 +74,8 @@ function initialiseClient() {
           entity = other_players[id]
       }
 
+      //both checks are necessary if you want to display the necessary data for all players
+
       // entity.alpha = 0;
       entity.takeDamage(10);
 
@@ -85,10 +90,7 @@ function initialiseClient() {
     if(id == socket.id){
         //If this is you
         player.respawn();
-    } else {
-        // Find the right player 
-        other_players[id].respawn();
-    }
+    } 
   });
 }
 
