@@ -1,68 +1,94 @@
-// var Client = {};
-// Client.socket = io.connect();
+function initialiseClient() {
+  //create multiplayer link
+  socket = io(); // This triggers the 'connection' event on the server
+  socket.emit('new-player',{x:player.sprite.x,y:player.sprite.y,angle:player.sprite.rotation,type:1})
 
-// Client.askNewPlayer = function(){
-//     Client.socket.emit('newplayer');
-// };
+  // Listen for other players connecting
+  socket.on('update-players',function(players_data){
+      var players_found = {};
 
-// // Client.socket.on('newplayer', function(data){
-// //     Game.addNewPlayer(data.id,data.x,data.y);
-// // });
+      // Loop over all the player data received
+      for(var id in players_data){
+          // If the player hasn't been created yet
+          if(other_players[id] == undefined && id != socket.id){ // Make sure you don't create yourself
+              var data = players_data[id];
+              var p = CreateLocalPlayer(data.x,data.y,data.angle);
+              other_players[id] = p;
+              console.log("Created new player at (" + data.x + ", " + data.y + ")");
+          }
+          players_found[id] = true;
+          
+          // Update positions of other players 
+          if(id != socket.id){
+            other_players[id].target_x  = players_data[id].x; // Update target, not actual position, so we can interpolate
+            other_players[id].target_y  = players_data[id].y;
+            other_players[id].target_rotation  = players_data[id].angle;
+          }
+          
+          
+      }
+      // Check if a player is missing and delete them 
+      for(var id in other_players){
+          if(!players_found[id]){
+              other_players[id].destroy();
+              delete other_players[id];
+          }
+      }
+  });
 
-// var currentPlayers = {};
+  // Listen for bullet update events 
+  socket.on('bullets-update',function(server_bullet_array){
 
-// Client.socket.on('update_players', function(players) {
-//     var playersInSession = {};
-
-//     for(var pID in players) {
-
-//         if(currentPlayers[pID] == undefined && pID !== Client.socket.io) {
-//             var p = Game.addNewPlayer(pID, players[pID].x, players[pID].y);
-//             console.log(p);
-//             currentPlayers[pID] = p;
-//         }
-
-//         playersInSession[pID] = true;
+    // If there's not enough bullets on the client, create them
+   for(var i=0;i<server_bullet_array.length;i++){
+        if(bullet_array[i] == undefined){
+            bullet_array[i] = game.add.sprite(server_bullet_array[i].x,server_bullet_array[i].y,'bullet');
+        } else {
+            //Otherwise, just update it! 
+            bullet_array[i].x = server_bullet_array[i].x; 
+            bullet_array[i].y = server_bullet_array[i].y;
+        }
+    }
+    // Otherwise if there's too many, delete the extra 
+    for(var i=server_bullet_array.length;i<bullet_array.length;i++){
+         bullet_array[i].destroy();
+         bullet_array.splice(i,1);
+         i--;
+     }
     
-//         if(pID !== Client.socket.id) {
-//             currentPlayers[pID].target_x = players[pID].x;
-//             currentPlayers[pID].target_y = players[pID].y;
-//         }
-
-//     }
-
-//     for(var pID in currentPlayers) {
-//         if(!playersInSession[pID]) {
-//             currentPlayers[pID].destroy();
-//             delete currentPlayers[id];
-//         }
-//     }
-
-// });
+  });
 
 
 
-// //hooks for recieveing data from the server
-// Client.socket.on('remove', function(id){
-//     Game.removePlayer(id);
-// });
+  // Listen for any player hit events and make that player flash 
+  socket.on('player-hit',function(id, bullet){
+    var entity;
+      if(id == socket.id){
+          //If this is you
+          entity = player;
+      } else {
+          // Find the right player 
+          entity = other_players[id]
+      }
 
-// // Client.socket.on('move', function(data){
-// //     Game.movePlayer(data.id,data.x,data.y);
-// // });
+      // entity.alpha = 0;
+      entity.takeDamage(10);
 
-// Client.socket.on('game_spawnBullet', function(data) {
-// 	Game.spawnBulleet(data);
-// });
+      console.log("player that got hit" + id);
+      console.log("by bullet " + bullet);
 
+      console.log(other_players);
 
+  });
 
+  socket.on("dead-respawn", function(id) {
+    if(id == socket.id){
+        //If this is you
+        player.respawn();
+    } else {
+        // Find the right player 
+        other_players[id].respawn();
+    }
+  });
+}
 
-// //hook for sending data to the server
-// Client.fireGun = function(playerPos, mousePos) {
-// 	Client.socket.emit('fireGun', {p1: playerPos, p2: mousePos});
-// }
-
-// Client.sendClick = function(x,y){
-//   Client.socket.emit('click',{x:x,y:y});
-// };
