@@ -9,6 +9,7 @@ var player = {
     canJump: false,
 	nextFire: 0,
     debug: true,
+    bulletsFired: 0,
     createPlayer: function() {
         this.sprite = game.add.sprite(100 ,100 ,'sprite2');
         this.sprite.anchor.setTo(0.5,0.5);
@@ -34,7 +35,6 @@ var player = {
         this.handleMovement();
 
         if(game.input.activePointer.isDown) {
-            console.log("bullet");
             this.fireWeapon();
         }
     },
@@ -59,7 +59,6 @@ var player = {
                 this.canJump = true;
 
                 this.sprite.body.velocity.y = -250;
-                
             }
 
             //if we can jump and the key has been held 
@@ -95,15 +94,21 @@ var player = {
         socket.emit('move-player',{x:this.sprite.x,y:this.sprite.y,angle:this.sprite.rotation});
     },
 	fireWeapon: function( ) {
-		if(game.time.now > this.nextFire) {								
-			var fireRate = 200;
 
-			//claculate the next time you can fire weapon
-			this.nextFire = game.time.now + fireRate;
+        //the guns will be loaded from back end and the values will be overwritten here to give different specs to guns
+        var reloadTime = 2000;
+        var fireRate = 200;
+        var bulletVelocity = 20;
+        var bulletDamage = 50;
+        var bulletsInMagazine = 10;
+
+		if(game.time.now > this.nextFire) {								
+            //claculate the next time you can fire weapon
+            this.nextFire = game.time.now + fireRate;
 
 			//if all the bullets form the magazine have been used prevent from shooting while reloading
-			if(this.bulletsFired >= 6) {
-				this.nextFire = game.time.now + 20;
+			if(this.bulletsFired >= bulletsInMagazine) {
+				this.nextFire = game.time.now + reloadTime;
 
 				//play reload sound
 				this.bulletsFired = 0;
@@ -115,33 +120,30 @@ var player = {
 			//figure out the angle from the sprite to the mouse pointer
 			var angleToPointer = game.physics.arcade.angleToPointer(this.sprite);
 			
-			//
-			var vel = game.physics.arcade.velocityFromRotation(angleToPointer);
+			//calculate the vector for the bullet path
+			var vel = game.physics.arcade.velocityFromRotation(angleToPointer, bulletVelocity);
 			
 			socket.emit('shoot-bullet',{
                 x: this.sprite.x, 
                 y: this.sprite.y, 
                 speed_x: vel.x , 
                 speed_y:vel.y,
-                damage: 10
+                damage: bulletDamage
             });
+
+            this.bulletsFired++;
+            console.log(this.bulletsFired);
 		}
 	},
     takeDamage: function(damage) {
         console.log("taking damage boii");
 
         //draw blood or soemthing
-
-        //server handles the damage
-        // this.health -= damage;
-
-        // if(this.health <= 0) {
-        //     console.log("deed");
-        // }
     },
     respawn: function() {
-        this.sprite.x = 100;
-        this.sprite.y = 100;
+        var spawn = respawnPoints[Math.floor(Math.random()*respawnPoints.length)];
+        this.sprite.x = spawn.x;
+        this.sprite.y = spawn.y;
         socket.emit('move-player',{x:this.sprite.x,y:this.sprite.y,angle:this.sprite.rotation});
     },
     debugData: function() {
