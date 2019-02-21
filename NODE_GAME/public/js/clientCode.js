@@ -12,7 +12,7 @@ function initialiseClient() {
           // If the player hasn't been created yet
           if(other_players[id] == undefined && id != socket.id){ // Make sure you don't create yourself
               var data = players_data[id];
-              var p = CreateLocalPlayer(data.x,data.y,data.angle);
+              var p = playState.CreateLocalPlayer(data.x,data.y,data.angle);
               other_players[id] = p;
               console.log("Created new player at (" + data.x + ", " + data.y + ")");
           }

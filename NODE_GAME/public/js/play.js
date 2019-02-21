@@ -79,8 +79,7 @@ var playState = {
 
         currentPlayers
     },
-
-    GameLoop: function() {
+    update: function() {
         player.update();
 
         // Move camera with player 
