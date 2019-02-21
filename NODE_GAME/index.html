@@ -1,150 +1,42 @@
 ﻿<html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>Multiplayer Experiment</title>
-        <!-- Load the Phaser game library -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/2.4.2/phaser.min.js"></script>
-        <!-- Load the Socket.io networking library -->
-        <script src="/socket.io/socket.io.js"></script>
-        
-        <!-- <script src="public/js/Entity.js"></script> -->
-        <script src="public/js/player.js"></script>
-        <script src="public/js/clientCode.js"></script>
+<head>
+    <meta charset="UTF-8" />
+    <title>Multiplayer Experiment</title>
+    <!-- Load the Phaser game library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/2.4.2/phaser.min.js"></script>
+    <!-- Load the Socket.io networking library -->
+    <script src="/socket.io/socket.io.js"></script>
 
-        <!-- Some simple styles and fonts -->
-        <style type="text/css">
-            body,html { /* Remove margins */
-                margin: 0px;
-                position: relative;
-                background-color:#9FC7E1; 
-            }
-            canvas { /* Center the canvas */
-                margin: auto;
-                cursor: crosshair;
-                /*border: 1px solid black;*/
-            }
-        </style>
-    </head>
-    <body>
-        <script type="text/javascript">
+    <!-- <script src="public/js/Entity.js"></script> -->
+    <script src="public/js/player.js"></script>
+    <script src="public/js/clientCode.js"></script>
 
-            var WINDOW_WIDTH = 1000;
-            var WINDOW_HEIGHT = 500;
-            var game = new Phaser.Game(1000, 500, Phaser.AUTO, '', {preload:preload, create:create, update:GameLoop} );
+    <!-- Load states-->
+    <script src="public/js/boot.js"></script>
+    <script src="public/js/load.js"></script>
+    <script src="public/js/menu.js"></script>
+    <script src="public/js/play.js"></script>
+    <script src="public/js/game.js"></script>
 
-            var WORLD_SIZE = {w:32*70,h:32*25};
-          
-            var groundLayer;
-            var bullet_array = [];
-          
-            var socket;
-            var other_players = {};
+    <!-- Some simple styles and fonts -->
+    <style type="text/css">
+        body, html { /* Remove margins */
+            margin: 0px;
+            position: relative;
+            background-color: #9FC7E1;
+        }
 
-            var currentPlayers = {};
-            var respawnPoints = [{x: 100, y: 100}, {x: 300, y: 300}];
-            
-            //this code is responsible for handling the other players on your screen
-            //so if other player takes damage you will draw blood here for example
-            //and another on your own player instance in player.js
-            function CreateLocalPlayer(x,y,angle){
-                var sprite = game.add.sprite(x,y,'sprite1');
-                sprite.rotation = angle;
-                sprite.anchor.setTo(0.5,0.5);
+        canvas { /* Center the canvas */
+            margin: auto;
+            cursor: crosshair;
+            /*border: 1px solid black;*/
+        }
+    </style>
+</head>
+<body>
 
-                sprite.health = 100;
+    <!-- Game Divison -->
+    <div id="gameDiv"></div>
 
-                sprite.takeDamage = function(damage) {
-                    sprite.health -= damage;
-
-                    if(sprite.health <= 0) {
-                        console.log("deed");
-                    }
-                }
-
-                // sprite.respawn = function() {
-
-                //     //do something? not sure what tho
-                // }
-
-                return sprite;
-            }
-
-            function preload(){
-                game.load.tilemap('test_map', '/public/assets/test_map/test_map.json', null, Phaser.Tilemap.TILED_JSON);
-                game.load.spritesheet('tileset1', '/public/assets/test_map/5z1KX.png',32,32);
-                
-
-                game.load.image('sprite','/public/assets/sprites/sprite.png'); // this will be the sprite of the players
-
-                game.load.image('sprite1','/public/assets/sprites/sprite1.png');
-                game.load.image('sprite2','/public/assets/sprites/sprite2.png');
-
-                this.load.image('bullet', '/public/assets/sprites/bullet.png');
-            }
-
-            function create(){
-
-                //initialise the maps
-                var map = game.add.tilemap('test_map');
-                map.addTilesetImage('test', 'tileset1'); // tilesheet is the key of the tileset in map's JSON file
-
-                //layer 0 is always the colision layer !!!
-                groundLayer = map.createLayer(0);
-
-                //create all the layers attached to the tile map
-                var layer;
-                for(var i = 1; i < map.layers.length; i++) {
-                    layer = map.createLayer(i);
-                    layer.resizeWorld();
-                }
-                
-                groundLayer.resizeWorld();
-
-                game.physics.enable(groundLayer, Phaser.Physics.ARCADE);
-                groundLayer.body.immovable = true;
-
-                game.stage.disableVisibilityChange = true;
-                game.physics.arcade.gravity.y = 500;
-               
-                map.setCollisionByExclusion([], true, groundLayer);
-
-                player.createPlayer();
-
-                //make the agem camera follow the player
-                game.camera.x = player.sprite.x - WINDOW_WIDTH/2;
-                game.camera.y = player.sprite.y - WINDOW_HEIGHT/2;
-
-                initialiseClient();
-
-                currentPlayers
-            }
-
-            function GameLoop(){
-                player.update();
-
-                // Move camera with player 
-                var camera_x = player.sprite.x - WINDOW_WIDTH/2;
-                var camera_y = player.sprite.y - WINDOW_HEIGHT/2;
-                game.camera.x += (camera_x - game.camera.x) * 0.08;
-                game.camera.y += (camera_y - game.camera.y) * 0.08;
-              
-                // Interpolate all players to where they should be 
-                for(var id in other_players){
-                    var p = other_players[id];
-                    if(p.target_x != undefined){
-                        p.x += (p.target_x - p.x) * 0.16;
-                        p.y += (p.target_y - p.y) * 0.16;
-                        // Intepolate angle while avoiding the positive/negative issue 
-                        var angle = p.target_rotation;
-                        var dir = (angle - p.rotation) / (Math.PI * 2);
-                        dir -= Math.round(dir);
-                        dir = dir * Math.PI * 2;
-                        p.rotation += dir * 0.16;
-                    }
-                }
-            }
-          
-        </script>
-
-    </body>
+</body>
 </html>
