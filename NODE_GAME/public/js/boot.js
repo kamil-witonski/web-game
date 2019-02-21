@@ -3,7 +3,7 @@
 var bootState = {
 
     create: function () {
-
+    	console.log(game);
         //Enables physics across the game
         game.physics.startSystem(Phaser.Physics.ARCADE);
 

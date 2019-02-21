@@ -5,8 +5,6 @@ var loadState = {
 
     //Load all assets
     preload: function () {
-
-
         //Create loading text
         var loadlingLabel = game.add.text(80, 150, "loading...", { font: "30px Courier", fill: "#ffffff" });
 
@@ -17,7 +15,6 @@ var loadState = {
         game.load.image('sprite2', '/public/assets/sprites/sprite2.png');
         this.load.image('bullet', '/public/assets/sprites/bullet.png');
     },
-
     create: function () {
 
         //Launch Start Menu

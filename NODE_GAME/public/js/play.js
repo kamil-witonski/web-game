@@ -1,8 +1,4 @@
 // JavaScript source code play
-
-
-
-
 var groundLayer;
 var bullet_array = [];
 
@@ -13,11 +9,9 @@ var currentPlayers = {};
 var respawnPoints = [{ x: 100, y: 100 }, { x: 300, y: 300 }];
 
 var playState = {
-
-
-//this code is responsible for handling the other players on your screen
-//so if other player takes damage you will draw blood here for example
-//and another on your own player instance in player.js
+    //this code is responsible for handling the other players on your screen
+    //so if other player takes damage you will draw blood here for example
+    //and another on your own player instance in player.js
     CreateLocalPlayer: function (x, y, angle) {
         var sprite = game.add.sprite(x, y, 'sprite1');
         sprite.rotation = angle;
@@ -33,26 +27,23 @@ var playState = {
             }
         }
 
-    // sprite.respawn = function() {
+        // sprite.respawn = function() {
 
-    //     //do something? not sure what tho
-    // }
+        //     //do something? not sure what tho
+        // }
 
-    return sprite;
+        return sprite;
     },
-
-
-
     create: function() {
-
-    //initialise the maps
+        console.log("WE HERE?");
+        //initialise the maps
         var map = game.add.tilemap('test_map');
         map.addTilesetImage('test', 'tileset1'); // tilesheet is the key of the tileset in map's JSON file
 
-    //layer 0 is always the colision layer !!!
+        //layer 0 is always the colision layer !!!
         groundLayer = map.createLayer(0);
 
-    //create all the layers attached to the tile map
+        //create all the layers attached to the tile map
         var layer;
         for (var i = 1; i < map.layers.length; i++) {
             layer = map.createLayer(i);

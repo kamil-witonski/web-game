@@ -24,8 +24,6 @@ function initialiseClient() {
             other_players[id].target_y  = players_data[id].y;
             other_players[id].target_rotation  = players_data[id].angle;
           }
-          
-          
       }
       // Check if a player is missing and delete them 
       for(var id in other_players){
