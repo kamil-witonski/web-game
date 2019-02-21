@@ -51,7 +51,7 @@ var player = {
         this.sprite.body.velocity.x = 0;
 
         // handle jump
-        if(game.input.keyboard.isDown(Phaser.Keyboard.W) || game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
+        if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) || game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
             this.jumpTimer += game.time.elapsed;
 
             //check if we are on the ground and jump initially
