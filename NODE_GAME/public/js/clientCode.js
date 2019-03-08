@@ -1,8 +1,14 @@
 function initialiseClient() {
   //create multiplayer link
-  socket = io(); // This triggers the 'connection' event on the server
-  socket.emit('new-player',{x:player.sprite.x,y:player.sprite.y,angle:player.sprite.rotation,type:1})
 
+  if(socket == undefined) {
+    socket = io(); // This triggers the 'connection' event on the server
+    socket.emit('new-player',{x:player.sprite.x,y:player.sprite.y,angle:player.sprite.rotation,type:1})
+  }
+
+  console.log(socket);
+
+  
   // Listen for other players connecting
   socket.on('update-players',function(players_data){
       var players_found = {};
@@ -14,6 +20,7 @@ function initialiseClient() {
               var data = players_data[id];
               var p = playState.CreateLocalPlayer(data.x,data.y,data.angle);
               other_players[id] = p;
+              //enemySprites.add(p);
               console.log("Created new player at (" + data.x + ", " + data.y + ")");
           }
           players_found[id] = true;
@@ -25,6 +32,7 @@ function initialiseClient() {
             other_players[id].target_rotation  = players_data[id].angle;
           }
       }
+
       // Check if a player is missing and delete them 
       for(var id in other_players){
           if(!players_found[id]){
@@ -77,10 +85,10 @@ function initialiseClient() {
       // entity.alpha = 0;
       entity.takeDamage(10);
 
-      console.log("player that got hit" + id);
-      console.log("by bullet " + bullet);
+      // console.log("player that got hit" + id);
+      // console.log("by bullet " + bullet);
 
-      console.log(other_players);
+      // console.log(other_players);
 
   });
 
@@ -89,6 +97,16 @@ function initialiseClient() {
         //If this is you
         player.respawn();
     } 
+  });
+
+  socket.on("game-end", function(data) {
+
+    // console.log("CLIENT: game End");
+    // console.log("winner: "+data.winner);
+
+
+
+    game.state.start('game-end', false, false, data);
   });
 }
 

@@ -1,14 +1,14 @@
 // JavaScript source code play
-var groundLayer;
-var bullet_array = [];
-
-var socket;
-var other_players = {};
-
-var currentPlayers = {};
-var respawnPoints = [{ x: 100, y: 100 }, { x: 300, y: 300 }];
-
 var playState = {
+    data: "",
+    readyToPLay: false,
+    readyToUpdate: false,
+    init: function(data) {
+        this.data = data;
+        console.log("New play session");
+        this.readyToPLay = false;
+        this.preLoadMapData();
+    },
     //this code is responsible for handling the other players on your screen
     //so if other player takes damage you will draw blood here for example
     //and another on your own player instance in player.js
@@ -16,26 +16,28 @@ var playState = {
         var sprite = game.add.sprite(x, y, 'sprite1');
         sprite.rotation = angle;
         sprite.anchor.setTo(0.5, 0.5);
-
         sprite.health = 100;
 
         sprite.takeDamage = function (damage) {
             sprite.health -= damage;
 
             if (sprite.health <= 0) {
-                console.log("deed");
+                // console.log("deed");
             }
         }
 
-        // sprite.respawn = function() {
+        enemySprites.add(enemySprites);
 
-        //     //do something? not sure what tho
-        // }
+        this.game.world.bringToTop(enemySprites);
 
         return sprite;
     },
-    create: function() {
+    startLevel: function() {
+        this.readyToPLay = true;
+        enemySprites = game.add.group();
+
         console.log("WE HERE?");
+
         //initialise the maps
         var map = game.add.tilemap('test_map');
         map.addTilesetImage('test', 'tileset1'); // tilesheet is the key of the tileset in map's JSON file
@@ -59,7 +61,6 @@ var playState = {
         game.physics.arcade.gravity.y = 500;
 
         map.setCollisionByExclusion([], true, groundLayer);
-
         player.createPlayer();
 
         //make the agem camera follow the player
@@ -67,10 +68,12 @@ var playState = {
         game.camera.y = player.sprite.y - WINDOW_HEIGHT / 2;
 
         initialiseClient();
-
-        currentPlayers
     },
     update: function() {
+        if(!this.readyToPLay) {
+            return;
+        }
+
         player.update();
 
         // Move camera with player 
@@ -91,7 +94,28 @@ var playState = {
                 dir -= Math.round(dir);
                 dir = dir * Math.PI * 2;
                 p.rotation += dir * 0.16;
+
+                p.bringToTop();
             }
         }
     },
+    preLoadMapData: function() {
+        //Create loading text
+        var loadlingLabel = game.add.text(80, 150, "loading...", { font: "30px Courier", fill: "#ffffff" });
+
+        //add a way of blocking the triggering of the game before the assets have loaded
+        console.log(this.data);
+        if(this.data == undefined) {
+            this.load.tilemap('test_map', '/public/assets/test_map/test_map.json', null, Phaser.Tilemap.TILED_JSON);
+            this.load.spritesheet('tileset1', '/public/assets/test_map/5z1KX.png', 32, 32);
+        } else {
+            this.load.tilemap('test_map', this.data.tileMapPath, null, Phaser.Tilemap.TILED_JSON);
+            this.load.spritesheet('tileset1', this.data.tileSet[0], 32, 32);
+        }
+        this.load.start();
+
+        this.load.onLoadComplete.add(this.startLevel, this);
+
+        console.log('loaded everything');
+    }
 };

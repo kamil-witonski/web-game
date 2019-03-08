@@ -20,7 +20,37 @@ http.listen(app.get('port'), function(){
 });
 
 var players = {}; //Keeps a table of all players, the key is the socket id
-var bullet_array = []; // Keeps track of all the bullets to update them on the server 
+var bullet_array = []; // Keeps track of all the bullets to update them on the server
+var levelData = []; //Keeps a track of all the levels that are playable
+var currentLevelIndex = 0;
+
+levelData = [
+  {
+    name: "level1",
+    tileMapPath: "/public/assets/test_map/test_map.json",
+    tileSet: [
+      "/public/assets/test_map/5z1KX.png"
+    ],
+    audioFile: ""
+  },
+  {
+    name: "level2",
+    tileMapPath: "/public/assets/test_map/level2.json",
+    tileSet: [
+      "/public/assets/test_map/5z1KX.png"
+    ],
+    audioFile: ""
+  }
+];
+
+
+var winConditions = {
+  kills: 5,
+  time: 10000
+};
+
+var isGameOver = false;
+
 // Tell Socket.io to start accepting connections
 io.on('connection', function(socket){
 	// Listen for a new player trying to connect
@@ -33,6 +63,10 @@ io.on('connection', function(socket){
     state.damageDelt = 0;
 
     players[socket.id] = state;
+
+
+    console.log(players);
+    console.log("SOCKET: " + socket);
 
 		// Broadcast a signal to everyone containing the updated players list
 		io.emit('update-players',players);
@@ -64,9 +98,25 @@ io.on('connection', function(socket){
     //}
     bullet_array.push(new_bullet);
   });
-})
+});
 
-// Update the bullets 60 times per frame and send updates 
+
+function getCurrentLevelData() {
+  return levelData[currentLevelIndex]
+}
+
+function getNextLevel() {
+  currentLevelIndex++;
+
+  if(currentLevelIndex > levelData.length - 1) {
+    currentLevelIndex = 0;
+  }
+
+
+  return levelData[currentLevelIndex]
+}
+
+// Update the bullets 16 times per frame and send updates 
 function ServerGameLoop(){
 	//bullet code
   for(var i=0;i<bullet_array.length;i++){
@@ -106,12 +156,11 @@ function ServerGameLoop(){
   // Tell everyone where all the bullets are by sending the whole array
   io.emit("bullets-update",bullet_array);
 
-
   //general loop for non specific things
   for(var id in players) {
-    console.log("Player : " + id + " h: " + players[id].health + " DEAD: " + players[id].deaths + " kills: " + players[id].kills);
+    //console.log("Player : " + id + " h: " + players[id].health + " DEAD: " + players[id].deaths + " kills: " + players[id].kills);
 
-    //handle deaths
+    //handle player kills
     if(players[id].health <= 0) {
 
       //rerset healt & add death to count
@@ -123,7 +172,27 @@ function ServerGameLoop(){
 
       io.emit("dead-respawn", id);
     }
+
+    if(players[id].kills >= winConditions.kills) {
+      console.log("Game end load new level");
+      //get player data from db for tyhe winner
+
+      var gameEndData = {
+        winner: players[id],
+        players: players,
+        level: getNextLevel()
+      }
+
+      //save all the player kills into db???
+      for(var p in players) {
+        players[p].kills = 0;
+      }
+
+      //for new level we will broad cast mesage of who won, show all highscores and have a 10s countdown before the next level starrts
+      io.emit("game-end", gameEndData);
+    }
   }
+
 }
 
-setInterval(ServerGameLoop, 16); 
+setInterval(ServerGameLoop, 16);
