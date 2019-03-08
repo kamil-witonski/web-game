@@ -64,10 +64,6 @@ io.on('connection', function(socket){
 
     players[socket.id] = state;
 
-
-    console.log(players);
-    console.log("SOCKET: " + socket);
-
 		// Broadcast a signal to everyone containing the updated players list
 		io.emit('update-players',players);
 	});
@@ -192,7 +188,6 @@ function ServerGameLoop(){
       io.emit("game-end", gameEndData);
     }
   }
-
 }
 
 setInterval(ServerGameLoop, 16);

@@ -8,7 +8,6 @@ function initialiseClient() {
 
   console.log(socket);
 
-  
   // Listen for other players connecting
   socket.on('update-players',function(players_data){
       var players_found = {};
@@ -85,11 +84,6 @@ function initialiseClient() {
       // entity.alpha = 0;
       entity.takeDamage(10);
 
-      // console.log("player that got hit" + id);
-      // console.log("by bullet " + bullet);
-
-      // console.log(other_players);
-
   });
 
   socket.on("dead-respawn", function(id) {
@@ -100,12 +94,6 @@ function initialiseClient() {
   });
 
   socket.on("game-end", function(data) {
-
-    // console.log("CLIENT: game End");
-    // console.log("winner: "+data.winner);
-
-
-
     game.state.start('game-end', false, false, data);
   });
 }

@@ -115,7 +115,5 @@ var playState = {
         this.load.start();
 
         this.load.onLoadComplete.add(this.startLevel, this);
-
-        console.log('loaded everything');
     }
 };

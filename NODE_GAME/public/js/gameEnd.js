@@ -16,7 +16,6 @@ var gameEnd = {
         console.log("we are in eng game?");
 
         var selfs = this;
-
         var count = 5;
 
         //count down before game restarts
@@ -24,7 +23,7 @@ var gameEnd = {
             console.log("sadasdas");
             count--;
             if(count == 1) {
-                clearInterval(timer);  
+                clearInterval(timer);
                 game.state.start("play", false, false, selfs.data.level);
             } 
         }, 1000);

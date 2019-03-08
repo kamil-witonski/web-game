@@ -18,7 +18,6 @@ var enemySprites;
 var currentPlayers = {};
 var respawnPoints = [{ x: 100, y: 100 }, { x: 300, y: 300 }];
 
-
 //Add each state
 game.state.add('boot', bootState);
 game.state.add('load', loadState);
