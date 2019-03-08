@@ -132,7 +132,7 @@ var player = {
             });
 
             this.bulletsFired++;
-            console.log(this.bulletsFired);
+            // console.log(this.bulletsFired);
 		}
 	},
     takeDamage: function(damage) {
