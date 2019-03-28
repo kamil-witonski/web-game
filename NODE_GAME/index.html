@@ -2,15 +2,17 @@
 <head>
     <meta charset="UTF-8" />
     <title>Multiplayer Experiment</title>
+	
     <!-- Load the Phaser game library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/2.4.2/phaser.min.js"></script>
+	
     <!-- Load the Socket.io networking library -->
     <script src="/socket.io/socket.io.js"></script>
-
+	
     <!-- <script src="public/js/Entity.js"></script> -->
     <script src="public/js/player.js"></script>
     <script src="public/js/clientCode.js"></script>
-
+	
     <!-- Load states-->
     <script src="public/js/boot.js"></script>
     <script src="public/js/load.js"></script>
@@ -18,14 +20,16 @@
     <script src="public/js/play.js"></script>
     <script src="public/js/gameEnd.js"></script>
     <script src="public/js/game.js"></script>
-
-
+	
+	<!-- Load some styles -->
+	<link href="public/css/default.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="public/css/fonts.css" rel="stylesheet" type="text/css" media="all" />
+	
     <!-- Some simple styles and fonts -->
     <style type="text/css">
         body, html { /* Remove margins */
             margin: 0px;
             position: relative;
-            background-color: #9FC7E1;
         }
 
         canvas { /* Center the canvas */
@@ -36,9 +40,50 @@
     </style>
 </head>
 <body>
-
-    <!-- Game Divison -->
-    <div id="gameDiv"></div>
-
+<div id="header-wrapper">
+	<div id="header" class="container">
+		<div id="logo">
+			<img src="public/images/header1.png" alt="logo";/>
+			<h1><a href="index.html">Web Siege</a></h1>
+			<span>Developed by <a href="" rel="nofollow">Three Dudes</a></span>
+		</div>
+		<div id="triangle-up"></div>
+	</div>
+</div>
+<div id="menu-wrapper">
+		<div id="menu">
+			<ul>
+				<li class="current_page_item"><a href="index.html" accesskey="1" title="">Home</a></li>
+				<li><a href="about.html" accesskey="2" title="">About Us</a></li>
+				<li><a href="game.html" accesskey="3" title="">Game</a></li>
+				<li><a href="documentation.html" accesskey="4" title="">Game Design Document</a></li>
+				<li><a href="inspiration.html" accesskey="5" title="">Inspiration</a></li>
+				<li><a href="contact.html" accesskey="6" title="">Contact Us</a></li>
+			</ul>
+		</div>
+</div>
+<div id="wrapper">
+	<div id="featured-wrapper">
+		<div class="extra2 container">
+			<div class="ebox1">
+			    <!-- Game Divison -->
+				<div id="gameDiv"></div>
+				<BR>
+				<div class="title">
+					<h2>Introduction</h2>
+					<span class="byline">Web Siege</span>
+				</div>
+				<p><strong>Web Siege</strong> is a free web-game where you, the player battle against other players in a bid to hit the kill score. We hope you enjoy our game.</p>
+				<a href="#" class="button">Play Now</a>
+			</div>		
+		</div>
+	</div>
+</div>
+<div id="stamp" class="container">
+	<div class="hexagon"><span class="icon icon-wrench"></span></div>
+</div>
+<div id="copyright" class="container">
+	<p>&copy; Web Siege. All rights reserved. | Developed by <a href="" rel="nofollow">Three Dudes</a>.</p>
+</div>
 </body>
 </html>
