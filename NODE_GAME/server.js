@@ -27,29 +27,54 @@ http.listen(app.get('port'), function(){
   console.log('listening on port',app.get('port'));
 });
 
+//connect to db
+var knex = require('knex')({
+  client: 'mysql',
+  connection: {
+    host : '127.0.0.1',
+    user : 'root',
+    password : 'password123',
+    database : 'web_siege'
+  }
+});
+
+knex.select().from('maps').then(function(data) {
+  console.log(data);
+});
+
+
 var players = {}; //Keeps a table of all players, the key is the socket id
 var bullet_array = []; // Keeps track of all the bullets to update them on the server
 var levelData = []; //Keeps a track of all the levels that are playable
-var currentLevelIndex = 0;
+var currentLevelIndex = 1;
 
-levelData = [
-  {
-    name: "level1",
-    tileMapPath: "/public/assets/test_map/test_map.json",
-    tileSet: [
-      "/public/assets/test_map/5z1KX.png"
-    ],
-    audioFile: ""
-  },
-  {
-    name: "level2",
-    tileMapPath: "/public/assets/test_map/level2.json",
-    tileSet: [
-      "/public/assets/test_map/5z1KX.png"
-    ],
-    audioFile: ""
-  }
-];
+// levelData = [
+//   {
+//     name: "level1",
+//     tileMapPath: "/public/assets/test_map/test_map.json",
+//     tileSet: [
+//       "/public/assets/test_map/5z1KX.png"
+//     ],
+//     audioFile: ""
+//   },
+//   {
+//     name: "level2",
+//     tileMapPath: "/public/assets/test_map/level2.json",
+//     tileSet: [
+//       "/public/assets/test_map/5z1KX.png"
+//     ],
+//     audioFile: ""
+//   }
+// ];
+
+
+
+
+
+
+
+
+
 
 
 var winConditions = {
@@ -105,20 +130,75 @@ io.on('connection', function(socket){
 });
 
 
+
+
+
+
+
 function getCurrentLevelData() {
-  return levelData[currentLevelIndex]
+
+  knex('maps').select().where('id', currentLevelIndex).then(function(data) {
+    callback(data);
+
+
+    return {
+      name: data[0].name,
+      tileMapPath: data[0].tile_map,
+      tileSet: [
+        data[0].tile_set
+      ],
+      audioFile: ""
+    }
+
+
+  });
+
+  // return levelData[currentLevelIndex]
 }
 
-function getNextLevel() {
+function getNextLevel(callback) {
   currentLevelIndex++;
 
-  if(currentLevelIndex > levelData.length - 1) {
-    currentLevelIndex = 0;
-  }
+
+  knex('maps').count('id as CNT').then(function(data) {
+    console.log(data[0].CNT);
+
+    var mapCount = data[0].CNT; 
+
+    if(currentLevelIndex > mapCount) {
+      currentLevelIndex = 1;
+    }
 
 
-  return levelData[currentLevelIndex]
+    knex('maps').select().where('id', currentLevelIndex).then(function(data) {
+      
+
+
+      var returnData = {
+        name: data[0].name,
+        tileMapPath: data[0].tile_map,
+        tileSet: [
+          data[0].tile_set
+        ],
+        audioFile: ""
+      }
+
+
+      callback(returnData);
+
+
+    });
+
+
+  });
+
+  // return levelData[currentLevelIndex]
 }
+
+// getNextLevel(function(data) {
+//   console.log(data);
+// });
+
 
 // Update the bullets 16 times per frame and send updates 
 function ServerGameLoop(){
@@ -181,19 +261,28 @@ function ServerGameLoop(){
       console.log("Game end load new level");
       //get player data from db for tyhe winner
 
-      var gameEndData = {
-        winner: players[id],
-        players: players,
-        level: getNextLevel()
-      }
 
       //save all the player kills into db???
       for(var p in players) {
         players[p].kills = 0;
       }
 
-      //for new level we will broad cast mesage of who won, show all highscores and have a 10s countdown before the next level starrts
-      io.emit("game-end", gameEndData);
+      //prepare the data for sending
+      
+      getNextLevel(function(data) {
+        console.log(data);
+      
+        var gameEndData = {
+          winner: players[id],
+          players: players,
+          level: data
+        }
+
+
+
+        //for new level we will broad cast mesage of who won, show all highscores and have a 10s countdown before the next level starrts
+        io.emit("game-end", gameEndData);
+      });
     }
   }
 }
