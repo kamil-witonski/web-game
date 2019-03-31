@@ -1,0 +1,45 @@
+<% include partials/header %>
+<!-- Load the Phaser game library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/2.4.2/phaser.min.js"></script>
+
+<!-- Load the Socket.io networking library -->
+<script src="/socket.io/socket.io.js"></script>
+
+<!-- <script src="public/js/Entity.js"></script> -->
+<script src="public/js/player.js"></script>
+<script src="public/js/clientCode.js"></script>
+
+<!-- Load states-->
+<script src="public/js/boot.js"></script>
+<script src="public/js/load.js"></script>
+<script src="public/js/menu.js"></script>
+<script src="public/js/play.js"></script>
+<script src="public/js/gameEnd.js"></script>
+<script src="public/js/game.js"></script>
+
+
+
+<% include partials/menu %>
+
+<!-- Game Window w/ introduction -->
+<div id="wrapper">
+	<div id="featured-wrapper">
+		<div class="extra2 container">
+			<div class="ebox1">
+			    <!-- Game Divison -->
+				<div id="gameDiv"></div>
+			
+			</div>		
+		</div>
+	</div>
+</div>
+
+<!-- Footer w/ icon stamp -->
+<div id="stamp" class="container">
+	<div class="hexagon"><span class="icon icon-wrench"></span></div>
+</div>
+<div id="copyright" class="container">
+	<p>&copy; Web Siege. All rights reserved. | Developed by <a href="" rel="nofollow">Three Dudes</a>.</p>
+</div>
+</body>
+</html>

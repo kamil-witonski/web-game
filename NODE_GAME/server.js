@@ -3,9 +3,17 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http); // Here's where we include socket.io as a node module 
 
+app.set('view engine', 'ejs');
+
 // Serve the index page 
-app.get("/", function (request, response) {
-  response.sendFile(__dirname + '/index.html'); 
+app.get("/", function (req, res) {
+  res.render("index");
+});
+
+
+app.get("/game", function (req, res) {
+  res.render("game");
+  // res.sendFile(__dirname + '/game.html'); 
 });
 
 
