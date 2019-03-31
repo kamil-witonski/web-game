@@ -4,10 +4,36 @@ var playState = {
     readyToPLay: false,
     readyToUpdate: false,
     init: function(data) {
-        this.data = data;
-        console.log("New play session");
-        this.readyToPLay = false;
-        this.preLoadMapData();
+
+        var self = this;
+
+        if(data == undefined) {
+            // /get-map-data
+
+
+
+
+            $.ajax({
+                type:'GET',
+                url: '/get-map-data',
+                success: function(data) {
+                    console.log(data);
+                    self.data = data.data;
+                    console.log("New play session");
+                    self.readyToPLay = false;
+                    self.preLoadMapData();
+                }
+            });
+        } else {
+
+            self.data = data;
+            console.log("New play session");
+            self.readyToPLay = false;
+            self.preLoadMapData();
+
+        }
+
+
     },
     //this code is responsible for handling the other players on your screen
     //so if other player takes damage you will draw blood here for example
@@ -105,15 +131,14 @@ var playState = {
 
         //add a way of blocking the triggering of the game before the assets have loaded
         console.log(this.data);
-        if(this.data == undefined) {
-            this.load.tilemap('test_map', '/public/assets/test_map/test_map.json', null, Phaser.Tilemap.TILED_JSON);
-            this.load.spritesheet('tileset1', '/public/assets/test_map/5z1KX.png', 32, 32);
-        } else {
-            this.load.tilemap('test_map', this.data.tileMapPath, null, Phaser.Tilemap.TILED_JSON);
-            this.load.spritesheet('tileset1', this.data.tileSet[0], 32, 32);
-        }
+        //set what to load
+        this.load.tilemap('test_map', this.data.tileMapPath, null, Phaser.Tilemap.TILED_JSON);
+        this.load.spritesheet('tileset1', this.data.tileSet[0], 32, 32);
+        
+        //start loading
         this.load.start();
 
+        //wait for load to complete and run the function
         this.load.onLoadComplete.add(this.startLevel, this);
     }
 };

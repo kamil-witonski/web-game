@@ -5,6 +5,9 @@ var io = require('socket.io')(http); // Here's where we include socket.io as a n
 
 app.set('view engine', 'ejs');
 
+
+/****** ROUTES *******/
+
 // Serve the index page 
 app.get("/", function (req, res) {
   res.render("index");
@@ -15,6 +18,16 @@ app.get("/game", function (req, res) {
   res.render("game");
   // res.sendFile(__dirname + '/game.html'); 
 });
+
+
+app.get('/get-map-data', function(req, res) {
+  getCurrentLevelData(function(data) {
+    res.send({data: data});
+  });
+});
+
+
+/****** END ROUTES ******/
 
 
 app.use('/public/css/',express.static(__dirname + '/public/css'));
@@ -135,25 +148,22 @@ io.on('connection', function(socket){
 
 
 
-function getCurrentLevelData() {
+function getCurrentLevelData(callback) {
 
-  knex('maps').select().where('id', currentLevelIndex).then(function(data) {
-    callback(data);
-
-
-    return {
-      name: data[0].name,
-      tileMapPath: data[0].tile_map,
-      tileSet: [
-        data[0].tile_set
-      ],
-      audioFile: ""
-    }
+    knex('maps').select().where('id', currentLevelIndex).then(function(data) {
+      
+      var returnData = {
+        name: data[0].name,
+        tileMapPath: data[0].tile_map,
+        tileSet: [
+          data[0].tile_set
+        ],
+        audioFile: ""
+      }
 
 
-  });
-
-  // return levelData[currentLevelIndex]
+      callback(returnData);
+    });
 }
 
 function getNextLevel(callback) {
