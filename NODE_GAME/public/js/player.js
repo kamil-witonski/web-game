@@ -10,6 +10,8 @@ var player = {
 	nextFire: 0,
     debug: true,
     bulletsFired: 0,
+    gunIndex: 0,
+    guns: [],
     createPlayer: function() {
         this.sprite = game.add.sprite(100 ,100 ,'sprite2');
         this.sprite.anchor.setTo(0.5,0.5);
@@ -18,6 +20,8 @@ var player = {
         game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
 
         this.sprite.body.collideWorldBounds = true;
+
+        this.getGunsData();
     },
     update: function(){
         /*
@@ -37,6 +41,18 @@ var player = {
         if(game.input.activePointer.isDown) {
             this.fireWeapon();
         }
+
+        if(game.input.keyboard.isDown(Phaser.Keyboard.E)) {
+            this.gunIndex ++;
+
+
+            if(this.gunIndex > (this.guns.length - 1)) {
+                this.gunIndex = 0;
+            }
+
+        }
+
+            // this.gunIndex
     },
     handleMovement: function() {
         /*
@@ -93,14 +109,39 @@ var player = {
         // Tell the server we've moved 
         socket.emit('move-player',{x:this.sprite.x,y:this.sprite.y,angle:this.sprite.rotation});
     },
+    getGunsData: function() {
+        var self = this;
+
+        $.ajax({
+            type: 'GET',
+            url: '/gun-data',
+            success:function(data) {
+                console.log("GUN DATA");
+                console.log(data);
+
+                self.guns = data.data;
+
+                console.log(self.guns);
+            }
+        });
+    },
 	fireWeapon: function( ) {
 
+
+
+
         //the guns will be loaded from back end and the values will be overwritten here to give different specs to guns
-        var reloadTime = 2000;
-        var fireRate = 200;
-        var bulletVelocity = 20;
-        var bulletDamage = 50;
-        var bulletsInMagazine = 10;
+        // var reloadTime = 2000;
+        // var fireRate = 200;
+        // var bulletVelocity = 20;
+        // var bulletDamage = 50;
+        // var bulletsInMagazine = 10;
+
+        var reloadTime = this.guns[this.gunIndex].reload_time;
+        var fireRate = this.guns[this.gunIndex].fire_rate;
+        var bulletVelocity = this.guns[this.gunIndex].bullet_velocity;
+        var bulletDamage = this.guns[this.gunIndex].bullet_damage;
+        var bulletsInMagazine = this.guns[this.gunIndex].mag_size;
 
 		if(game.time.now > this.nextFire) {								
             //claculate the next time you can fire weapon

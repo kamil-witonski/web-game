@@ -26,6 +26,14 @@ app.get('/get-map-data', function(req, res) {
   });
 });
 
+app.get('/gun-data', function(req, res) {
+  getGunData(function(data) {
+
+
+    res.send({data: data});
+
+  })
+});
 
 /****** END ROUTES ******/
 
@@ -51,9 +59,9 @@ var knex = require('knex')({
   }
 });
 
-knex.select().from('maps').then(function(data) {
-  console.log(data);
-});
+// knex.select().from('maps').then(function(data) {
+//   console.log(data);
+// });
 
 
 var players = {}; //Keeps a table of all players, the key is the socket id
@@ -145,7 +153,16 @@ io.on('connection', function(socket){
 
 
 
-
+function getGunData(callback) {
+  knex('guns').select().then(function(data) {
+    console.log("GUNS");
+    console.log(data);
+    
+    callback(data);
+    // return data;
+    
+  });
+}
 
 
 function getCurrentLevelData(callback) {

@@ -10,9 +10,6 @@ var playState = {
         if(data == undefined) {
             // /get-map-data
 
-
-
-
             $.ajax({
                 type:'GET',
                 url: '/get-map-data',
