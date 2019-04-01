@@ -1,0 +1,160 @@
+<% include partials/header %>
+
+<% include partials/menu %>
+
+<!-- Game Design Document-->
+<div id="wrapper">
+    <div id="featured-wrapper">
+        <div class="extra2 container">
+                <div class="title">
+                    <h2>Game Design Document</h2>
+                    <span class="byline">Web Siege</span>
+                    <div id="submenu-wrapper>">
+                        <div id="submenu">
+                        <ul>
+                            <li><a class="content-selector" data-id="gameidea" href="" accesskey="7" title="">Game Idea</a></li>
+                            <li><a class="content-selector" data-id="overview" href="" accesskey="8" title="">Game Overview</a></li>
+                            <li><a class="content-selector" data-id="env" href="" accesskey="9" title="">Game Enviroment</a></li>
+                            <br/>
+                            <li><a class="content-selector" data-id="impl" href="" accesskey="10" title="">Implementation</a></li>
+                            <li><a class="content-selector" data-id="insp" href="" accesskey="10" title="">Inspiration</a></li>
+                            <li><a class="content-selector" data-id="market" href="" accesskey="11" title="">Research</a></li>
+                        </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="content switchable-content">
+                </div>
+                <a href="#" class="button">Play Now</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    $('.content-selector').on('click', function(e) {
+        e.preventDefault();
+
+        var contentId = $(this).data('id');
+
+        var content = $('#' + contentId);
+
+        $('.switchable-content').empty();
+        $('.switchable-content').append(content.clone());
+        $('.switchable-content *').show();
+    });
+</script>
+
+
+</body>
+</html>
+
+
+<div id="gameidea" style="display:none;">
+    <div class="content">
+        <p>
+        <h1>Game Idea</h1>
+        <br/>
+        <h2>Title</h2>
+        The title for this web based game is "Web Siege", we feel this title is justified from the goal of the game.
+        <br/>
+        <br/>
+        <h2>Genre</h2>
+        The genre of this game is classed as " Indie Shooter". <br/>
+        Indie: Is short for independent developer, this is developers that make games without backing of any third-party publisher.<br/>
+        Shooter: Is a genre based on aim and shoot.
+
+        <br/>
+        <h2>Concept</h2>
+        The object of the game is to kill as many players without being killed<br/>
+        The more you kill your tally will rise towards the kill limit.<br/>
+        Each character is unique and has their own style of play and loadout.
+        <br/>
+        <br/>
+        </p>
+    </div>
+</div>
+
+<div id="overview" style="display:none;">
+    <div class="content">
+        <p>
+        <h1>Game Overview</h1>
+        <br/>
+        <h2>Core Objective</h2>
+        The goal is to kill as many players as possible, tallying up points towards the kill limit by using unique characters and loadouts.
+        <br/>
+        Players are encouraged to use each characters main ability to win to their advantage. However, not all abilities will be beneficial in certain situations and will require a cooldown after used.
+        <br/>
+        <br/>
+        <h2>Expected Experience</h2>
+        Players are expected to have fun and feel a sense of laughter from the game. This game is not to resemble reality.
+        <br/>
+        Players are also to feel a little adrenaline rush from the speed at which the game can be played at.
+        <br/>
+        <br/>
+        <h2>Gameplay Theme</h2>
+        
+        <br/>
+        <br/>
+        <h2>Game Structure</h2>
+        <br/>
+        <br/>
+        <h2>Features Implemented</h2>
+    </div>
+</div>
+
+<div id="env" style="display:none;">
+    <div class="content">
+        <p>
+            <h1>Game Environment</h1>
+            <h2>GUI</h2>
+
+            <br/>
+            <h2>Level Design</h2>
+            
+            <br/>
+            <h2>Scene Description</h2>
+            <br/>
+            <br/>
+            <h2>Intended Gameplay Sequence</h2>
+
+        </p>
+    </div>
+</div>
+
+<div id="impl" style="display:none;">
+    <div class="content">
+        <p>
+        <h1>Phaser</h1>
+        We developed this game using <strong>Phaser</strong>, "a fast, free and fun open source framework for canvas and WebGL powered browser games.
+        <h1>What is Phaser?</h1>
+        Phaser is an HTML5 game framework which aims to help developers make powerful, cross-browser HTML5 games really quickly and, unlike some others,
+        has solely been built to work with the mobile browsers. The only browser requirement is the support of the canvas tag. It also borrows a lot from Flixel.
+        </p>
+    </div>
+</div>
+
+<div id="market" style="display:none;">
+    <div class="content">
+        <p>
+            <h1>Behind The Idea</h1>
+
+            <h1>Phaser</h1>
+            The framework behind this game is called <strong>"Phaser"</strong>. Phaser is free for any developer looking to create a web-based game and I encourage you to try it. https://phaser.io/ <br/>
+            Their website is really fun & full of content, there is also a community waiting to share their thoughts and ideas and are willing to help anyone out.
+        </p>
+    </div>
+</div>
+
+<div id="insp" style="display:none;">
+    <div class="content">
+        <p>
+        <h1>Inspiration</h1>
+
+        </p>
+    </div>
+</div>
+
+
+<% include partials/footer %>

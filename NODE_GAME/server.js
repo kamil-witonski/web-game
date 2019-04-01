@@ -13,12 +13,30 @@ app.get("/", function (req, res) {
   res.render("index");
 });
 
+app.get("/aboutus", function (req, res) {
+  res.render("aboutus");
+  // res.sendFile(__dirname + '/aboutus.html'); 
+});
 
 app.get("/game", function (req, res) {
   res.render("game");
   // res.sendFile(__dirname + '/game.html'); 
 });
 
+app.get("/gdd", function (req, res) {
+  res.render("gdd");
+  // res.sendFile(__dirname + '/gdd.html'); 
+});
+
+app.get("/inspiration", function (req, res) {
+  res.render("inspiration");
+  // res.sendFile(__dirname + '/inspiration.html'); 
+});
+
+app.get("/contactus", function (req, res) {
+  res.render("contactus");
+  // res.sendFile(__dirname + '/contactus.html'); 
+});
 
 app.get('/get-map-data', function(req, res) {
   getCurrentLevelData(function(data) {
