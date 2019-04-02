@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "noImplicitAny": false,
+        "sourceMap": true,
+        "outFile": "build/dragonBonesPhaser.js"
+    },
+    "include": [
+        "src",
+        "DragonBonesJS/DragonBones/build/dragonBones.d.ts",
+        "phaser/typescript/phaser.d.ts",
+        "phaser/typescript/pixi.d.ts"
+    ],
+    "exclude": []
+}

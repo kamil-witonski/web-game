@@ -1,3 +1,5 @@
+var dragonBonesPlugin;
+
 // JavaScript source code play
 var playState = {
     data: "",
@@ -6,7 +8,13 @@ var playState = {
     init: function(data) {
 
         var self = this;
+        console.log("BONE GAMES");
+        dragonBonesPlugin = this.game.plugins.add(Rift.DragonBonesPlugin);
 
+
+
+
+        console.log(dragonBonesPlugin);
         if(data == undefined) {
             // /get-map-data
 
@@ -29,6 +37,42 @@ var playState = {
             self.preLoadMapData();
 
         }
+
+
+    },
+    preload: function () {
+ 
+        // public\assets\anim
+
+        // dragonBonesPlugin.addResourceByNames("armatureName",
+        //     "/public/assets/anim/Rooster_Ani_ske.json", "/public/assets/anim/Rooster_Ani_tex.json", "/public/assets/anim/Rooster_Ani_tex.png");
+ 
+        // dragonBonesPlugin.loadResources();
+
+
+
+        // dragonBonesPlugin = this.game.plugins.add(Rift.PhaserBones);
+        dragonBonesPlugin.Cache = this.game.cache;
+        dragonBonesPlugin.addResourceByNames("demon","/public/assets/anim/Demon/skeleton.json", "/public/assets/anim/Demon/texture.json", "/public/assets/anim/Demon/texture.png");
+        dragonBonesPlugin.loadResources();
+    },
+    create: function() {
+
+        var sprite = dragonBonesPlugin.getArmature("demon");
+
+        sprite.position.setTo(100, 100);
+        sprite.scale.setTo(0.6);
+        this.game.world.add(sprite);
+ 
+        var names = sprite.animation._animationNames;
+        console.log(names);
+        sprite.animation.play(names[1]);
+
+        console.log(sprite);
+
+        this.game.world.bringToTop(sprite);
+
+
 
 
     },
@@ -89,6 +133,7 @@ var playState = {
         //make the agem camera follow the player
         game.camera.x = player.sprite.x - WINDOW_WIDTH / 2;
         game.camera.y = player.sprite.y - WINDOW_HEIGHT / 2;
+
 
         initialiseClient();
     },
