@@ -13,33 +13,15 @@ var player = {
     gunIndex: 0,
     guns: [],
     createPlayer: function() {
-        var sprite = dragonBonesPlugin.getArmature("demon");
-        console.log(sprite);
 
-
-        sprite.position.setTo(100, 100);
-        sprite.scale.setTo(0.6);
-        game.world.add(sprite);
- 
-        var names = sprite.animation._animationNames;
-        console.log(names);
-        sprite.animation.play(names[0]);
-
-        console.log(sprite);
-
-        // game.world.bringToTop(sprite);
-        game.add.existing(sprite);
-
-        this.sprite = sprite;
-
-        // this.sprite = game.add.sprite(100 ,100 ,'sprite2');
+        this.sprite = game.add.sprite(100 ,100 ,'sprite2');
         this.sprite.anchor.setTo(0.5,0.5);
 
         //enable physics
         game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
 
         this.sprite.body.collideWorldBounds = true;
-        
+
         this.sprite.bringToTop();
         this.getGunsData();
 

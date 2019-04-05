@@ -8,13 +8,7 @@ var playState = {
     init: function(data) {
 
         var self = this;
-        console.log("BONE GAMES");
-        dragonBonesPlugin = this.game.plugins.add(Rift.DragonBonesPlugin);
 
-
-
-
-        console.log(dragonBonesPlugin);
         if(data == undefined) {
             // /get-map-data
 
@@ -41,57 +35,8 @@ var playState = {
 
     },
     preload: function () {
- 
-        // public\assets\anim
-
-        // dragonBonesPlugin.addResourceByNames("armatureName",
-        //     "/public/assets/anim/Rooster_Ani_ske.json", "/public/assets/anim/Rooster_Ani_tex.json", "/public/assets/anim/Rooster_Ani_tex.png");
- 
-        // dragonBonesPlugin.loadResources();
-
-
-        console.log('asdasds');
-        // dragonBonesPlugin = this.game.plugins.add(Rift.PhaserBones);
-        dragonBonesPlugin.Cache = this.game.cache;
-        dragonBonesPlugin.addResourceByNames("demon","/public/assets/anim/Demon/skeleton.json", "/public/assets/anim/Demon/texture.json", "/public/assets/anim/Demon/texture.png");
-        dragonBonesPlugin.loadResources();
+        
     },
-    // preload: function () {
- 
-    //     // public\assets\anim
-
-    //     // dragonBonesPlugin.addResourceByNames("armatureName",
-    //     //     "/public/assets/anim/Rooster_Ani_ske.json", "/public/assets/anim/Rooster_Ani_tex.json", "/public/assets/anim/Rooster_Ani_tex.png");
- 
-    //     // dragonBonesPlugin.loadResources();
-
-
-
-    //     // dragonBonesPlugin = this.game.plugins.add(Rift.PhaserBones);
-    //     dragonBonesPlugin.Cache = this.game.cache;
-    //     dragonBonesPlugin.addResourceByNames("demon","/public/assets/anim/Demon/skeleton.json", "/public/assets/anim/Demon/texture.json", "/public/assets/anim/Demon/texture.png");
-    //     dragonBonesPlugin.loadResources();
-    // },
-    // create: function() {
-
-    //     var sprite = dragonBonesPlugin.getArmature("demon");
-
-    //     sprite.position.setTo(100, 100);
-    //     sprite.scale.setTo(0.6);
-    //     this.game.world.add(sprite);
- 
-    //     var names = sprite.animation._animationNames;
-    //     console.log(names);
-    //     sprite.animation.play(names[0]);
-
-    //     console.log(sprite);
-
-    //     this.game.world.bringToTop(sprite);
-
-
-
-
-    // },
     //this code is responsible for handling the other players on your screen
     //so if other player takes damage you will draw blood here for example
     //and another on your own player instance in player.js
@@ -193,8 +138,13 @@ var playState = {
         this.load.tilemap('test_map', this.data.tileMapPath, null, Phaser.Tilemap.TILED_JSON);
         this.load.spritesheet('tileset1', this.data.tileSet[0], 32, 32);
         
+
+        
+
         //start loading
         this.load.start();
+
+
 
         //wait for load to complete and run the function
         this.load.onLoadComplete.add(this.startLevel, this);
