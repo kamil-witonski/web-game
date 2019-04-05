@@ -16,6 +16,11 @@ var loadState = {
         this.load.image('sprite2', '/public/assets/sprites/sprite2.png');
         this.load.image('bullet', '/public/assets/sprites/bullet.png');
 
+
+
+        this.load.spritesheet('recruit', '/public/assets/sprites/recruit.png', 61, 76, 24);
+
+
         this.load.tilemap('test_map', '/public/assets/test_map/test_map.json', null, Phaser.Tilemap.TILED_JSON);
         this.load.spritesheet('tileset1', '/public/assets/test_map/5z1KX.png', 32, 32);
     },
