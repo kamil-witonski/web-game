@@ -8,7 +8,7 @@ var player = {
     jumpTimer: 0,
     canJump: false,
 	nextFire: 0,
-    debug: true,
+    debug: false,
     bulletsFired: 0,
     gunIndex: 0,
     guns: [],
@@ -16,8 +16,14 @@ var player = {
 
         // this.sprite = game.add.sprite(100 ,100 ,'sprite2');
         this.sprite = game.add.sprite(100 ,100 ,'recruit');
-        this.sprite.animations.add('run');
-        this.sprite.animations.play('run', 24, true);
+
+        //generate the animations from the sprite sheet
+        this.sprite.animations.add('idle', Phaser.ArrayUtils.numberArray(0,44), 24, true);
+        this.sprite.animations.add('run', Phaser.ArrayUtils.numberArray(45, 69), 24, true);
+
+        //set up default animation
+        this.sprite.animations.play('idle');
+        
         this.sprite.anchor.setTo(0.5,0.5);
 
         //enable physics
@@ -27,10 +33,6 @@ var player = {
 
         this.sprite.bringToTop();
         this.getGunsData();
-
-
-
-
     },
     update: function(){
         /*
@@ -46,6 +48,7 @@ var player = {
         //game.physics.arcade.overlap(this.sprite, groundLayer, function(){}, null, this);
 
         this.handleMovement();
+        this.handleAnimation();
 
         if(game.input.activePointer.isDown) {
             this.fireWeapon();
@@ -106,12 +109,14 @@ var player = {
 
         if(game.input.keyboard.isDown(Phaser.Keyboard.A) || game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
             this.speed_x -= this.speed;
-            this.sprite.scale.x = -1;
+           
+
+
         }
 
         if(game.input.keyboard.isDown(Phaser.Keyboard.D) || game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
             this.speed_x += this.speed;
-            this.sprite.scale.x = 1;
+            
         }
         
         //move the actual sprite
@@ -119,6 +124,22 @@ var player = {
      
         // Tell the server we've moved 
         socket.emit('move-player',{x:this.sprite.x,y:this.sprite.y,angle:this.sprite.rotation});
+    },
+    handleAnimation: function() {
+
+        //check the player speed
+        if(this.speed_x == 0) {
+            this.sprite.animations.play('idle');    
+        } else {
+
+            this.sprite.animations.play('run');
+            //face the sprite in the direction of movement
+            if (this.speed_x > 0) {
+                this.sprite.scale.x = 1;
+            } else {
+                this.sprite.scale.x = -1;
+            }
+        }
     },
     getGunsData: function() {
         var self = this;
