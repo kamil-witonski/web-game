@@ -7,19 +7,21 @@ var player = {
     shot:false,
     jumpTimer: 0,
     canJump: false,
+    isInAir: false,
 	nextFire: 0,
-    debug: false,
+    debug: true,
     bulletsFired: 0,
     gunIndex: 0,
     guns: [],
     createPlayer: function() {
 
         // this.sprite = game.add.sprite(100 ,100 ,'sprite2');
-        this.sprite = game.add.sprite(100 ,100 ,'recruit');
+        this.sprite = game.add.sprite(100 ,100 ,'recruit_legs');
 
         //generate the animations from the sprite sheet
-        this.sprite.animations.add('idle', Phaser.ArrayUtils.numberArray(0,44), 24, true);
-        this.sprite.animations.add('run', Phaser.ArrayUtils.numberArray(45, 69), 24, true);
+        this.sprite.animations.add('idle', [2], 24, true);
+        this.sprite.animations.add('run', Phaser.ArrayUtils.numberArray(3, 25), 24, true);
+        this.sprite.animations.add('fall', Phaser.ArrayUtils.numberArray(0, 1), 24, true);
 
         //set up default animation
         this.sprite.animations.play('idle');
@@ -54,17 +56,14 @@ var player = {
             this.fireWeapon();
         }
 
+        //change gun index
         if(game.input.keyboard.isDown(Phaser.Keyboard.E)) {
             this.gunIndex ++;
-
 
             if(this.gunIndex > (this.guns.length - 1)) {
                 this.gunIndex = 0;
             }
-
         }
-
-            // this.gunIndex
     },
     handleMovement: function() {
         /*
@@ -85,13 +84,14 @@ var player = {
             //check if we are on the ground and jump initially
             if(this.sprite.body.blocked.down) {
                 this.canJump = true;
+                // this.isInAir = false;
 
                 this.sprite.body.velocity.y = -250;
             }
 
             //if we can jump and the key has been held 
             if (this.canJump && this.jumpTimer !== 0) {
-
+                // this.isInAir = true;
                 //check how long its been held for
                 if(this.jumpTimer > 300) {
                     this.canJump = false;
@@ -109,16 +109,19 @@ var player = {
 
         if(game.input.keyboard.isDown(Phaser.Keyboard.A) || game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
             this.speed_x -= this.speed;
-           
-
-
         }
 
         if(game.input.keyboard.isDown(Phaser.Keyboard.D) || game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
             this.speed_x += this.speed;
-            
         }
-        
+
+        //check if the player is on the ground
+        if(this.sprite.body.blocked.down) {
+            this.isInAir = false;
+        } else {
+            this.isInAir = true;
+        }
+    
         //move the actual sprite
         this.sprite.body.velocity.x = this.speed_x;
      
@@ -127,47 +130,41 @@ var player = {
     },
     handleAnimation: function() {
 
-        //check the player speed
-        if(this.speed_x == 0) {
-            this.sprite.animations.play('idle');    
+        //i fwe are in the air
+        if(this.isInAir) {
+            this.sprite.animations.play('fall');
         } else {
-
-            this.sprite.animations.play('run');
-            //face the sprite in the direction of movement
-            if (this.speed_x > 0) {
-                this.sprite.scale.x = 1;
+            //check the player speed
+            if(this.speed_x == 0) {
+                this.sprite.animations.play('idle');    
             } else {
-                this.sprite.scale.x = -1;
-            }
+
+                this.sprite.animations.play('run');
+            }    
+        }
+
+        //face the sprite in the direction of movement
+        if (this.speed_x > 0) {
+            this.sprite.scale.x = 1;
+        } else if(this.speed_x < 0){
+            this.sprite.scale.x = -1;
         }
     },
     getGunsData: function() {
+        //get gun data from the server
+
         var self = this;
 
         $.ajax({
             type: 'GET',
             url: '/gun-data',
             success:function(data) {
-                console.log("GUN DATA");
-                console.log(data);
-
                 self.guns = data.data;
-
-                console.log(self.guns);
             }
         });
     },
 	fireWeapon: function( ) {
 
-
-
-
-        //the guns will be loaded from back end and the values will be overwritten here to give different specs to guns
-        // var reloadTime = 2000;
-        // var fireRate = 200;
-        // var bulletVelocity = 20;
-        // var bulletDamage = 50;
-        // var bulletsInMagazine = 10;
 
         var reloadTime = this.guns[this.gunIndex].reload_time;
         var fireRate = this.guns[this.gunIndex].fire_rate;
