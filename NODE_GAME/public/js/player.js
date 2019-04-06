@@ -211,7 +211,9 @@ var player = {
                 (game.input.activePointer.y - (this.sprite.y - game.camera.y))
             );
                 
-            this.topSprite.rotation = angle - 180;
+            angle = angle - 180;
+
+            this.topSprite.rotation = angle;
         } else {
             this.topSprite.scale.y = topSpriteOrientation;
 
