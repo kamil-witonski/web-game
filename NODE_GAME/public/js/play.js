@@ -40,11 +40,43 @@ var playState = {
     //this code is responsible for handling the other players on your screen
     //so if other player takes damage you will draw blood here for example
     //and another on your own player instance in player.js
-    CreateLocalPlayer: function (x, y, angle) {
-        var sprite = game.add.sprite(x, y, 'sprite1');
-        sprite.rotation = angle;
+    CreateLocalPlayer: function (x, y, angle, direction) {
+
+
+        var sprite = game.add.sprite(x ,y ,'recruit_legs');
+
+
+      //generate the animations from the sprite sheet
+        sprite.animations.add('idle', [2], 24, true);
+        sprite.animations.add('run', Phaser.ArrayUtils.numberArray(3, 25), 24, true);
+        sprite.animations.add('fall', Phaser.ArrayUtils.numberArray(0, 1), 24, true);
+
+        //set up default animation
+        sprite.animations.play('idle');
+        
+
+        sprite.anchor.setTo(0.5,0.5);
+
+        //enable physics
+        // game.physics.enable(sprite, Phaser.Physics.ARCADE);
+        // sprite.body.collideWorldBounds = true;
+
+
+
+        //load top part of the body
+        var topSprite = game.add.sprite(0,0, 'recruit_body');
+        topSprite.anchor.setTo(0.5,0.5);
+
+        sprite.addChild(topSprite);
+
+        topSprite.animations.add('one_hand', [0], 24, true);
+        topSprite.animations.add('two_hand', [1], 24, true);
+        topSprite.animations.play('two_hand');
+  
         sprite.anchor.setTo(0.5, 0.5);
         sprite.health = 100;
+
+
 
         sprite.takeDamage = function (damage) {
             sprite.health -= damage;
@@ -54,7 +86,7 @@ var playState = {
             }
         }
 
-        enemySprites.add(enemySprites);
+        enemySprites.add(sprite);
 
         this.game.world.bringToTop(enemySprites);
 
@@ -115,14 +147,13 @@ var playState = {
         for (var id in other_players) {
             var p = other_players[id];
             if (p.target_x != undefined) {
+                //assign values from the server to all the players
                 p.x += (p.target_x - p.x) * 0.16;
                 p.y += (p.target_y - p.y) * 0.16;
-            // Intepolate angle while avoiding the positive/negative issue 
-                var angle = p.target_rotation;
-                var dir = (angle - p.rotation) / (Math.PI * 2);
-                dir -= Math.round(dir);
-                dir = dir * Math.PI * 2;
-                p.rotation += dir * 0.16;
+                p.scale.x = p.target_dir;
+                p.children[0].scale.y = p.target_topOrient;
+                p.children[0].rotation = p.target_angle;
+                p.animations.play(p.target_anim);
 
                 p.bringToTop();
             }

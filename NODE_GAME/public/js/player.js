@@ -1,6 +1,6 @@
 var player = {
-    sprite:null,//Will hold the sprite when it's created 
-    speed_x:0,// This is the speed it's currently moving at
+    sprite:null,
+    speed_x:0,
     speed_y:0,
     speed:250,
     friction:0.95,
@@ -13,6 +13,10 @@ var player = {
     bulletsFired: 0,
     gunIndex: 0,
     guns: [],
+    topBodyAngle: 0,
+    direction: 0,
+    topBondOrient: 0,
+    animation: '',
     createPlayer: function() {
 
         // this.sprite = game.add.sprite(100 ,100 ,'sprite2');
@@ -25,7 +29,7 @@ var player = {
 
         //set up default animation
         this.sprite.animations.play('idle');
-        
+        this.animation = 'idle';
 
         this.sprite.anchor.setTo(0.5,0.5);
 
@@ -148,42 +152,41 @@ var player = {
         this.sprite.body.velocity.x = this.speed_x;
      
         // Tell the server we've moved 
-        socket.emit('move-player',{x:this.sprite.x,y:this.sprite.y,angle:this.sprite.rotation});
+        socket.emit('move-player',{
+            x:this.sprite.x,
+            y:this.sprite.y,
+            angle: this.topBodyAngle,
+            dir:this.direction,
+            topOrient: this.topBondOrient,
+            anim: this.animation
+        });
     },
     handleAnimation: function() {
 
         //i fwe are in the air
         if(this.isInAir) {
             this.sprite.animations.play('fall');
+            this.animation = 'fall';            
         } else {
             //check the player speed
             if(this.speed_x == 0) {
-                this.sprite.animations.play('idle');    
+                this.sprite.animations.play('idle');
+                this.animation = 'idle';
             } else {
-
                 this.sprite.animations.play('run');
+                this.animation = 'run';
             }    
         }
 
         var topSpriteOrientation;
 
-
-        //THIS IS CAUSING THE ISSEU WITH ROTATION OF THE BODY
         //corectly orient the sprite based on the direction of movement and mouse position
         if (this.speed_x > 0) {
             this.sprite.scale.x = 1;
-
-
-
-
         } else if(this.speed_x < 0){
             this.sprite.scale.x = -1;
-
         }
 
-
-
-        var angle;
 
         //rotate correctly rthe top body of the solider
         if(game.input.activePointer.x < this.sprite.x - game.camera.x) {
@@ -199,32 +202,17 @@ var player = {
         topSpriteOrientation *= this.sprite.scale.x;
 
 
-
-
-
-
+        //corectly rotate the player body based on which way the sprite is facing
         if(this.sprite.scale.x < 0) {
-            // console.log('heeeeee');
-
             this.topSprite.scale.y = topSpriteOrientation;
 
             var angle =  Math.atan2(
                 (game.input.activePointer.x - (this.sprite.x - game.camera.x)),
                 (game.input.activePointer.y - (this.sprite.y - game.camera.y))
-                
-                
-                
             );
                 
             this.topSprite.rotation = angle - 180;
-
-
-
         } else {
-            // console.log('dasdasdsds');
-
-
-
             this.topSprite.scale.y = topSpriteOrientation;
 
             var angle =  Math.atan2(
@@ -233,50 +221,11 @@ var player = {
             );
                 
             this.topSprite.rotation = angle;
-
-
-
         }
 
-
-
-
-        // if(this.sprite.scale.x == -1) {
-            
-
-        //     if(topSpriteOrientation == 1) {
-        //         this.topSprite.scale.y = -1;
-        //         this.topSprite.scale.x = -1;
-
-        //         console.log('we here 1');
-        //     } else {
-        //         this.topSprite.scale.y = 1;
-        //         this.topSprite.scale.x = -1;
-        //         console.log('we here 2');
-        //     }
-        // } else {
-
-
-        //     if(topSpriteOrientation == 1) {
-        //         // this.topSprite.scale.y = -1;
-        //         this.topSprite.scale.x = -1;
-
-        //         console.log('we here 11');
-        //     } else {
-        //         this.topSprite.scale.y = -1;
-        //         this.topSprite.scale.x = 1;
-        //         console.log('we here 12');
-        //     }
-
-
-
-        //     // this.topSprite.scale.x = -1;
-        //      // this.topSprite.scale.y = topSpriteOrientation;
-        // }
-
-        
-
-
+        this.direction = this.sprite.scale.x;
+        this.topBodyAngle = angle;
+        this.topBondOrient = topSpriteOrientation;
     },
     getGunsData: function() {
         //get gun data from the server
@@ -340,7 +289,14 @@ var player = {
         var spawn = respawnPoints[Math.floor(Math.random()*respawnPoints.length)];
         this.sprite.x = spawn.x;
         this.sprite.y = spawn.y;
-        socket.emit('move-player',{x:this.sprite.x,y:this.sprite.y,angle:this.sprite.rotation});
+        socket.emit('move-player',{
+            x:this.sprite.x,
+            y:this.sprite.y,
+            angle: this.topBodyAngle,
+            dir:this.direction,
+            topOrient: this.topBondOrient,
+            anim: this.animation
+        });
     },
     debugData: function() {
         if(this.debug) {

@@ -153,9 +153,12 @@ io.on('connection', function(socket){
     players[socket.id].x = position_data.x;  
     players[socket.id].y = position_data.y; 
     players[socket.id].angle = position_data.angle; 
+    players[socket.id].dir = position_data.dir; 
+    players[socket.id].topOrient = position_data.topOrient;
+    players[socket.id].anim = position_data.anim;
     io.emit('update-players',players);
   });
-  
+
   // Listen for shoot-bullet events and add it to our bullet array
   socket.on('shoot-bullet',function(data){
     if(players[socket.id] == undefined) return;
@@ -174,12 +177,9 @@ io.on('connection', function(socket){
 
 function getGunData(callback) {
   knex('guns').select().then(function(data) {
-    console.log("GUNS");
-    console.log(data);
-    
+   
     callback(data);
-    // return data;
-    
+    // return data;    
   });
 }
 
@@ -240,10 +240,6 @@ function getNextLevel(callback) {
 
   // return levelData[currentLevelIndex]
 }
-
-// getNextLevel(function(data) {
-//   console.log(data);
-// });
 
 
 // Update the bullets 16 times per frame and send updates 

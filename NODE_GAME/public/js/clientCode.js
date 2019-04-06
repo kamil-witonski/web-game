@@ -28,7 +28,10 @@ function initialiseClient() {
           if(id != socket.id){
             other_players[id].target_x  = players_data[id].x; // Update target, not actual position, so we can interpolate
             other_players[id].target_y  = players_data[id].y;
-            other_players[id].target_rotation  = players_data[id].angle;
+            other_players[id].target_angle  = players_data[id].angle;
+            other_players[id].target_dir  = players_data[id].dir;
+            other_players[id].target_topOrient  = players_data[id].topOrient;
+            other_players[id].target_anim  = players_data[id].anim;
           }
       }
 
