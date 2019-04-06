@@ -148,8 +148,8 @@ var playState = {
             var p = other_players[id];
             if (p.target_x != undefined) {
                 //assign values from the server to all the players
-                p.x += (p.target_x - p.x) * 0.16;
-                p.y += (p.target_y - p.y) * 0.16;
+                p.x += (p.target_x - p.x);// * 0.16;
+                p.y += (p.target_y - p.y);// * 0.16;
                 p.scale.x = p.target_dir;
                 p.children[0].scale.y = p.target_topOrient;
                 p.children[0].rotation = p.target_angle;
