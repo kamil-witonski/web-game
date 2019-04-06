@@ -64,7 +64,7 @@ var player = {
         *Update function for the player, handle all inputs here
         *
         */
-
+        game.debug.pointer( game.input.activePointer );
         this.debugData();
 
         //set up colision between player and ground layers
@@ -167,12 +167,20 @@ var player = {
 
         var topSpriteOrientation;
 
+
+        //THIS IS CAUSING THE ISSEU WITH ROTATION OF THE BODY
         //corectly orient the sprite based on the direction of movement and mouse position
         if (this.speed_x > 0) {
             this.sprite.scale.x = 1;
+
+
+
+
         } else if(this.speed_x < 0){
             this.sprite.scale.x = -1;
+
         }
+
 
 
         var angle;
@@ -181,13 +189,6 @@ var player = {
         if(game.input.activePointer.x < this.sprite.x - game.camera.x) {
             // console.log('pointer on left');
             topSpriteOrientation = -1;
-
-
-            // angle = Math.atan2(
-            //     (game.input.activePointer.y - (this.sprite.y + game.camera.y) ), 
-            //     // (game.input.activePointer.x - topSpriteOrientation + game.camera.x) );
-            //     (game.input.activePointer.x - (this.sprite.x + game.camera.x)) );
-
 
         } else {
             // console.log('pointer on right');
@@ -198,37 +199,82 @@ var player = {
         topSpriteOrientation *= this.sprite.scale.x;
 
 
-        this.topSprite.scale.x = topSpriteOrientation;
 
 
 
 
-        //body animation
-        // var angleToPointer = game.physics.arcade.angleToPointer(this.sprite);
+        if(this.sprite.scale.x < 0) {
+            // console.log('heeeeee');
+
+            this.topSprite.scale.y = topSpriteOrientation;
+
+            var angle =  Math.atan2(
+                (game.input.activePointer.x - (this.sprite.x - game.camera.x)),
+                (game.input.activePointer.y - (this.sprite.y - game.camera.y))
+                
+                
+                
+            );
+                
+            this.topSprite.rotation = angle - 180;
+
+
+
+        } else {
+            // console.log('dasdasdsds');
+
+
+
+            this.topSprite.scale.y = topSpriteOrientation;
+
+            var angle =  Math.atan2(
+                (game.input.activePointer.y - (this.sprite.y - game.camera.y)), 
+                (game.input.activePointer.x - (this.sprite.x - game.camera.x))
+            );
+                
+            this.topSprite.rotation = angle;
+
+
+
+        }
+
+
+
+
+        // if(this.sprite.scale.x == -1) {
             
 
-        // console.log('Angle pointer');
-        // console.log(angleToPointer);
+        //     if(topSpriteOrientation == 1) {
+        //         this.topSprite.scale.y = -1;
+        //         this.topSprite.scale.x = -1;
+
+        //         console.log('we here 1');
+        //     } else {
+        //         this.topSprite.scale.y = 1;
+        //         this.topSprite.scale.x = -1;
+        //         console.log('we here 2');
+        //     }
+        // } else {
 
 
-        // var bodyAngle = game.physics.arcade.angleToPointer(this.sprite);
+        //     if(topSpriteOrientation == 1) {
+        //         // this.topSprite.scale.y = -1;
+        //         this.topSprite.scale.x = -1;
 
-        // this.topSprite.rotation = bodyAngle * this.sprite.scale.x;
-
-
-
-
-
-        var angle =  Math.atan2(
-            (game.input.activePointer.y - (this.sprite.y + game.camera.y) ) * topSpriteOrientation, 
-            (game.input.activePointer.x - topSpriteOrientation + game.camera.x) );
-            // (game.input.activePointer.x - (this.sprite.x + game.camera.x)) );
+        //         console.log('we here 11');
+        //     } else {
+        //         this.topSprite.scale.y = -1;
+        //         this.topSprite.scale.x = 1;
+        //         console.log('we here 12');
+        //     }
 
 
 
-        this.topSprite.rotation = angle;
-        //calculate the vector for the bullet path
-        // var vel = game.physics.arcade.velocityFromRotation(angleToPointer, bulletVelocity);
+        //     // this.topSprite.scale.x = -1;
+        //      // this.topSprite.scale.y = topSpriteOrientation;
+        // }
+
+        
 
 
     },
