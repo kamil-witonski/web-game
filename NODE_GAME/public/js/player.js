@@ -26,14 +26,36 @@ var player = {
         //set up default animation
         this.sprite.animations.play('idle');
         
+
         this.sprite.anchor.setTo(0.5,0.5);
 
         //enable physics
         game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
-
         this.sprite.body.collideWorldBounds = true;
 
+
+
+        //load top part of the body
+        this.topSprite = game.add.sprite(0,0, 'recruit_body');
+        this.topSprite.anchor.setTo(0.5,0.5);
+
+
+
+        this.sprite.addChild(this.topSprite);
+
+        this.topSprite.animations.add('one_hand', [0], 24, true);
+        this.topSprite.animations.add('two_hand', [1], 24, true);
+        this.topSprite.animations.play('two_hand');
+
+
+
+
+
         this.sprite.bringToTop();
+
+
+
+
         this.getGunsData();
     },
     update: function(){
@@ -143,12 +165,72 @@ var player = {
             }    
         }
 
-        //face the sprite in the direction of movement
+        var topSpriteOrientation;
+
+        //corectly orient the sprite based on the direction of movement and mouse position
         if (this.speed_x > 0) {
             this.sprite.scale.x = 1;
         } else if(this.speed_x < 0){
             this.sprite.scale.x = -1;
         }
+
+
+        var angle;
+
+        //rotate correctly rthe top body of the solider
+        if(game.input.activePointer.x < this.sprite.x - game.camera.x) {
+            // console.log('pointer on left');
+            topSpriteOrientation = -1;
+
+
+            // angle = Math.atan2(
+            //     (game.input.activePointer.y - (this.sprite.y + game.camera.y) ), 
+            //     // (game.input.activePointer.x - topSpriteOrientation + game.camera.x) );
+            //     (game.input.activePointer.x - (this.sprite.x + game.camera.x)) );
+
+
+        } else {
+            // console.log('pointer on right');
+            topSpriteOrientation = 1;
+        }
+
+        //times the calculated orientation by the current sprite orientation to get the correct direction
+        topSpriteOrientation *= this.sprite.scale.x;
+
+
+        this.topSprite.scale.x = topSpriteOrientation;
+
+
+
+
+        //body animation
+        // var angleToPointer = game.physics.arcade.angleToPointer(this.sprite);
+            
+
+        // console.log('Angle pointer');
+        // console.log(angleToPointer);
+
+
+        // var bodyAngle = game.physics.arcade.angleToPointer(this.sprite);
+
+        // this.topSprite.rotation = bodyAngle * this.sprite.scale.x;
+
+
+
+
+
+        var angle =  Math.atan2(
+            (game.input.activePointer.y - (this.sprite.y + game.camera.y) ) * topSpriteOrientation, 
+            (game.input.activePointer.x - topSpriteOrientation + game.camera.x) );
+            // (game.input.activePointer.x - (this.sprite.x + game.camera.x)) );
+
+
+
+        this.topSprite.rotation = angle;
+        //calculate the vector for the bullet path
+        // var vel = game.physics.arcade.velocityFromRotation(angleToPointer, bulletVelocity);
+
+
     },
     getGunsData: function() {
         //get gun data from the server
@@ -164,8 +246,6 @@ var player = {
         });
     },
 	fireWeapon: function( ) {
-
-
         var reloadTime = this.guns[this.gunIndex].reload_time;
         var fireRate = this.guns[this.gunIndex].fire_rate;
         var bulletVelocity = this.guns[this.gunIndex].bullet_velocity;

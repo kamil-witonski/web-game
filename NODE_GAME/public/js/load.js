@@ -19,6 +19,7 @@ var loadState = {
 
 
         this.load.spritesheet('recruit_legs', '/public/assets/sprites/rec_legs.png', 61, 76);
+        this.load.spritesheet('recruit_body', '/public/assets/sprites/rec_body.png', 61, 76);
 
 
         this.load.tilemap('test_map', '/public/assets/test_map/test_map.json', null, Phaser.Tilemap.TILED_JSON);
