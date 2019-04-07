@@ -6,7 +6,7 @@ function initialiseClient() {
     socket.emit('new-player',{x:player.sprite.x,y:player.sprite.y,angle:player.sprite.rotation,type:1})
   }
 
-  console.log(socket);
+  // console.log(socket);
 
   // Listen for other players connecting
   socket.on('update-players',function(players_data){
