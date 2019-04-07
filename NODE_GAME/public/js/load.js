@@ -17,15 +17,43 @@ var loadState = {
         this.load.image('bullet', '/public/assets/sprites/bullet.png');
 
 
-
         this.load.spritesheet('recruit_legs', '/public/assets/sprites/rec_legs.png', 61, 76);
         this.load.spritesheet('recruit_body', '/public/assets/sprites/rec_body.png', 61, 76);
 
 
         this.load.tilemap('test_map', '/public/assets/test_map/test_map.json', null, Phaser.Tilemap.TILED_JSON);
         this.load.spritesheet('tileset1', '/public/assets/test_map/5z1KX.png', 32, 32);
+
+        //load audio for all guns
+        this.load.audio('pistol', ['/public/assets/audio/9mm.mp3']);
+        this.load.audio('uzi', ['/public/assets/audio/barreta.mp3']);
+        this.load.audio('rifle', ['/public/assets/audio/m4a1.mp3']);
+        // this.load.audio('pistol', ['/public/assets/audio/pistol.mp3']);
+
+
+        //load each gun dynamically for the database
+        $.ajax({
+            type: 'GET',
+            url: '/gun-data',
+            success:function(data) {
+                self.guns = data.data;
+
+                $.each(data.data, function(i, gun) {
+                    console.log(gun.name)
+                    game.load.image(gun.name + '_gun', gun.asset_img);
+
+                });
+               
+            }
+        });
+
     },
     create: function () {
+        //add the sounds to be used in game
+        this.sound.add('pistol');
+        this.sound.add('uzi');
+        this.sound.add('rifle');
+
         game.state.start("menu");
     },
 };
