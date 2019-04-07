@@ -9,7 +9,7 @@ var player = {
     canJump: false,
     isInAir: false,
 	nextFire: 0,
-    debug: true,
+    debug: false,
     bulletsFired: 0,
     gunIndex: 0,
     guns: [],
@@ -49,18 +49,39 @@ var player = {
 
         this.topSprite.animations.add('one_hand', [0], 24, true);
         this.topSprite.animations.add('two_hand', [1], 24, true);
-        this.topSprite.animations.play('two_hand');
-
-
-
-
+        // this.topSprite.animations.play('one_hand');
 
         this.sprite.bringToTop();
 
-
-
-
         this.getGunsData();
+
+
+        //set for pistol
+        // var gunsprite = game.add.sprite(20,-12,'pistol_gun');
+        // gunsprite.scale.setTo(0.5, 0.5);
+        // gunsprite.anchor.setTo(0.5,0.5);
+        // this.topSprite.animations.play('one_hand');
+
+        //set up for uzi - need image
+        // var gunsprite = game.add.sprite(20,-12,'UZI_gun');
+        // gunsprite.scale.setTo(0.5, 0.5);
+        // gunsprite.anchor.setTo(0.5,0.5);
+        // this.topSprite.animations.play('one_hand');
+
+        // var gunsprite = game.add.sprite(15,-5,'AK47_gun');
+        // gunsprite.scale.setTo(0.5, 0.5);
+        // gunsprite.anchor.setTo(0.5,0.5);
+        // this.topSprite.animations.play('two_hand');
+
+
+
+        // this.sprite.children[0].addChild(gunsprite);
+
+
+        var fireButton = game.input.keyboard.addKey(Phaser.Keyboard.E);
+        fireButton.onDown.add(this.changeGun, this);
+
+
     },
     update: function(){
         /*
@@ -68,7 +89,7 @@ var player = {
         *Update function for the player, handle all inputs here
         *
         */
-        game.debug.pointer( game.input.activePointer );
+
         this.debugData();
 
         //set up colision between player and ground layers
@@ -80,15 +101,6 @@ var player = {
 
         if(game.input.activePointer.isDown) {
             this.fireWeapon();
-        }
-
-        //change gun index
-        if(game.input.keyboard.isDown(Phaser.Keyboard.E)) {
-            this.gunIndex ++;
-
-            if(this.gunIndex > (this.guns.length - 1)) {
-                this.gunIndex = 0;
-            }
         }
     },
     handleMovement: function() {
@@ -229,6 +241,30 @@ var player = {
         this.topBodyAngle = angle;
         this.topBondOrient = topSpriteOrientation;
     },
+    changeGun: function() {
+        this.gunIndex ++;
+
+        if(this.gunIndex > (this.guns.length - 1)) {
+            this.gunIndex = 0;
+        }
+
+        //clear the exisitng gun
+        this.sprite.children[0].children[0].destroy(true)
+
+        var gun = guns[this.gunIndex];
+
+        var gunOffset = JSON.parse(gun.gun_offset);
+
+        //position the gun where its supposed to be
+        var gunsprite = game.add.sprite(gunOffset.x,gunOffset.y, gun.name + '_gun');
+        gunsprite.scale.setTo(0.5, 0.5);
+        gunsprite.anchor.setTo(0.5,0.5);
+
+        //set the correct animation for the player (one hand or 2 hand)
+        this.topSprite.animations.play(gun.animation);
+        //add the gun as a child of the top body
+        this.sprite.children[0].addChild(gunsprite);
+    },
     getGunsData: function() {
         //get gun data from the server
 
@@ -239,6 +275,19 @@ var player = {
             url: '/gun-data',
             success:function(data) {
                 self.guns = data.data;
+
+                //load the initial gun for the player
+                var gun = self.guns[self.gunIndex];
+                console.log(gun);
+
+                var gunOffset = JSON.parse(gun.gun_offset);
+
+                var gunsprite = game.add.sprite(gunOffset.x,gunOffset.y,'pistol_gun');
+                gunsprite.scale.setTo(0.5, 0.5);
+                gunsprite.anchor.setTo(0.5,0.5);
+
+                self.topSprite.animations.play(gun.animation);
+                self.sprite.children[0].addChild(gunsprite);
             }
         });
     },
@@ -248,6 +297,7 @@ var player = {
         var bulletVelocity = this.guns[this.gunIndex].bullet_velocity;
         var bulletDamage = this.guns[this.gunIndex].bullet_damage;
         var bulletsInMagazine = this.guns[this.gunIndex].mag_size;
+        var audio = this.guns[this.gunIndex].audio;
 
 		if(game.time.now > this.nextFire) {								
             //claculate the next time you can fire weapon
@@ -278,8 +328,10 @@ var player = {
                 damage: bulletDamage
             });
 
+            //play the gun sound
+            game.sound.play(audio);  
+
             this.bulletsFired++;
-            // console.log(this.bulletsFired);
 		}
 	},
     takeDamage: function(damage) {
@@ -304,6 +356,7 @@ var player = {
         if(this.debug) {
             game.debug.body(this.sprite);
             game.debug.bodyInfo(this.sprite);
+            game.debug.pointer(game.input.activePointer);
         }
     }
 };
