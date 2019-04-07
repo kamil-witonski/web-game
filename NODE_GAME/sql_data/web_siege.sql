@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 31, 2019 at 04:27 PM
+-- Generation Time: Apr 07, 2019 at 01:36 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.9
 
@@ -36,17 +36,21 @@ CREATE TABLE `guns` (
   `reload_time` int(11) NOT NULL,
   `bullet_velocity` int(11) NOT NULL,
   `bullet_damage` int(11) NOT NULL,
-  `mag_size` int(11) NOT NULL
+  `mag_size` int(11) NOT NULL,
+  `audio` varchar(100) DEFAULT NULL,
+  `asset_img` varchar(100) DEFAULT NULL,
+  `animation` varchar(50) DEFAULT NULL,
+  `gun_offset` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `guns`
 --
 
-INSERT INTO `guns` (`id`, `name`, `sprite`, `fire_rate`, `reload_time`, `bullet_velocity`, `bullet_damage`, `mag_size`) VALUES
-(1, 'pistol', '', 300, 2000, 20, 25, 7),
-(2, 'UZI', '', 150, 2500, 40, 30, 15),
-(3, 'AK47', '', 200, 2500, 45, 33, 30);
+INSERT INTO `guns` (`id`, `name`, `sprite`, `fire_rate`, `reload_time`, `bullet_velocity`, `bullet_damage`, `mag_size`, `audio`, `asset_img`, `animation`, `gun_offset`) VALUES
+(1, 'pistol', '', 300, 2000, 20, 25, 7, 'pistol', '/public/assets/guns/pistol.png', 'one_hand', '{\"x\": \"20\",\r\n\"y\": \"-12\"}'),
+(2, 'UZI', '', 150, 2500, 40, 30, 15, 'uzi', '/public/assets/guns/uzi.png', 'one_hand', '{\"x\":\"20\",\"y\":\"-12\"}'),
+(3, 'AK47', '', 200, 2500, 45, 33, 30, 'rifle', '/public/assets/guns/ar.png', 'two_hand', '{\"x\":\"15\",\"y\": \"-5\"}');
 
 -- --------------------------------------------------------
 
@@ -66,8 +70,8 @@ CREATE TABLE `maps` (
 --
 
 INSERT INTO `maps` (`id`, `name`, `tile_map`, `tile_set`) VALUES
-(1, 'level1', '/public/assets/test_map/test_map.json', '\"/public/assets/test_map/5z1KX.png\"'),
-(2, 'level2', '/public/assets/test_map/level2.json', '\"/public/assets/test_map/5z1KX.png\"');
+(1, 'level1', '/public/assets/test_map/test_map.json', '/public/assets/test_map/5z1KX.png'),
+(2, 'level2', '/public/assets/test_map/level2.json', '/public/assets/test_map/5z1KX.png');
 
 --
 -- Indexes for dumped tables
