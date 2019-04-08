@@ -10,14 +10,17 @@ var player = {
     isInAir: false,
 	nextFire: 0,
     debug: false,
-    bulletsFired: 0,
+    totalBulletsFired: 0,
     gunIndex: 0,
     guns: [],
     topBodyAngle: 0,
     direction: 0,
     topBondOrient: 0,
     animation: '',
+    ui: {
+        ammoText: null,
         gunText: null
+    },
     createPlayer: function() {
 
         // this.sprite = game.add.sprite(100 ,100 ,'sprite2');
@@ -95,7 +98,7 @@ var player = {
         *
         */
 		
-		this.playerUI();
+		// this.playerUI();
 		
         this.debugData();
 
@@ -259,7 +262,6 @@ var player = {
         this.sprite.children[0].children[0].destroy(true)
 
         var gun = guns[this.gunIndex];
-
         var gunOffset = JSON.parse(gun.gun_offset);
 
         //position the gun where its supposed to be
@@ -271,6 +273,20 @@ var player = {
         this.topSprite.animations.play(gun.animation);
         //add the gun as a child of the top body
         this.sprite.children[0].addChild(gunsprite);
+
+
+        //assign new gun data
+        // this.gun.bulletsFired = 0;
+        // this.gun.reloadTime = this.guns[this.gunIndex].reload_time;
+        // this.gun.fireRate = this.guns[this.gunIndex].fire_rate;
+        // this.gun.bulletVelocity = this.guns[this.gunIndex].bullet_velocity;
+        // this.gun.bulletDamage = this.guns[this.gunIndex].bullet_damage;
+        // this.gun.bulletsInMagazine = this.guns[this.gunIndex].mag_size;
+        // this.gun.audio = this.guns[this.gunIndex].audio;
+        this.nextFire = 0;
+
+
+
         this.updateUI();
     },
     getGunsData: function() {
@@ -284,11 +300,17 @@ var player = {
             success:function(data) {
                 self.guns = data.data;
 
+                for(var i =0; i < self.guns.length; i++) {
+                    self.guns[i].bullets_fired = 0;
+                }
+
+
                 //load the initial gun for the player
                 var gun = self.guns[self.gunIndex];
-                console.log(gun);
 
                 var gunOffset = JSON.parse(gun.gun_offset);
+
+                console.log(self.guns);
 
                 var gunsprite = game.add.sprite(gunOffset.x,gunOffset.y,'pistol_gun');
                 gunsprite.scale.setTo(0.5, 0.5);
@@ -296,28 +318,27 @@ var player = {
 
                 self.topSprite.animations.play(gun.animation);
                 self.sprite.children[0].addChild(gunsprite);
+
+
                 self.updateUI();
             }
         });
     },
 	fireWeapon: function( ) {
-        var reloadTime = this.guns[this.gunIndex].reload_time;
-        var fireRate = this.guns[this.gunIndex].fire_rate;
-        var bulletVelocity = this.guns[this.gunIndex].bullet_velocity;
-        var bulletDamage = this.guns[this.gunIndex].bullet_damage;
-        var bulletsInMagazine = this.guns[this.gunIndex].mag_size;
-        var audio = this.guns[this.gunIndex].audio;
 
 		if(game.time.now > this.nextFire) {								
             //claculate the next time you can fire weapon
-            this.nextFire = game.time.now + fireRate;
+            this.nextFire = game.time.now + this.guns[this.gunIndex].fire_rate;
 
 			//if all the bullets form the magazine have been used prevent from shooting while reloading
-			if(this.bulletsFired >= bulletsInMagazine) {
-				this.nextFire = game.time.now + reloadTime;
+			if(this.guns[this.gunIndex].bullets_fired >= this.guns[this.gunIndex].mag_size) {
+				this.nextFire = game.time.now + this.guns[this.gunIndex].reload_time;
+
 
 				//play reload sound
-				this.bulletsFired = 0;
+				this.guns[this.gunIndex].bullets_fired = 0;
+
+                //play the reload sound
                 this.updateUI();
 				return;
 			}
@@ -328,20 +349,22 @@ var player = {
 			var angleToPointer = game.physics.arcade.angleToPointer(this.sprite);
 			
 			//calculate the vector for the bullet path
-			var vel = game.physics.arcade.velocityFromRotation(angleToPointer, bulletVelocity);
+			var vel = game.physics.arcade.velocityFromRotation(angleToPointer, this.guns[this.gunIndex].bullet_velocity);
 			
 			socket.emit('shoot-bullet',{
                 x: this.sprite.x, 
                 y: this.sprite.y, 
                 speed_x: vel.x , 
                 speed_y:vel.y,
-                damage: bulletDamage
+                damage: this.guns[this.gunIndex].bullet_damage
             });
 
             //play the gun sound
-            game.sound.play(audio);  
+            game.sound.play(this.guns[this.gunIndex].audio);  
 
-            this.bulletsFired++;
+            this.guns[this.gunIndex].bullets_fired++;
+            this.totalBulletsFired++;
+
             this.updateUI();
 		}
 	},
