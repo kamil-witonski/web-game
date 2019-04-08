@@ -27,3 +27,9 @@ game.state.add('game-end', gameEnd);
 
 //Load boot state
 game.state.start('boot');
+
+function create(){
+	 var dirtyString = 'The Desyrelâ¢ font doesn\'t have\na trademark character\nor a â¬Euro sign.\nString length: ';
+
+    var text1 = game.add.bitmapText(0, 0, 'desyrel', dirtyString + (dirtyString.length), 32);
+}

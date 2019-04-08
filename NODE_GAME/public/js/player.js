@@ -80,7 +80,8 @@ var player = {
 
         var fireButton = game.input.keyboard.addKey(Phaser.Keyboard.E);
         fireButton.onDown.add(this.changeGun, this);
-
+		ammoText = game.add.text(game.camera.x, game.camera.y, 'Ammo: ', { font: "15px Arial", fill: "#19de65" });
+		gunText = game.add.text(game.camera.x, game.camera.y + 15, 'Current Gun: '+ this.gunIndex.name, { font: "15px Arial", fill: "#19de65" });
 
     },
     update: function(){
@@ -89,7 +90,9 @@ var player = {
         *Update function for the player, handle all inputs here
         *
         */
-
+		
+		this.playerUI();
+		
         this.debugData();
 
         //set up colision between player and ground layers
@@ -358,5 +361,13 @@ var player = {
             game.debug.bodyInfo(this.sprite);
             game.debug.pointer(game.input.activePointer);
         }
-    }
+    },
+	
+	playerUI: function (){
+		ammoText.x = game.camera.x;
+		ammoText.y = game.camera.y;
+		gunText.x = game.camera.x;
+		gunText.y = game.camera.y + 15;
+		
+	},
 };

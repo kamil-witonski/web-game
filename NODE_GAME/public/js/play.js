@@ -127,7 +127,6 @@ var playState = {
         game.camera.x = player.sprite.x - WINDOW_WIDTH / 2;
         game.camera.y = player.sprite.y - WINDOW_HEIGHT / 2;
 
-
         initialiseClient();
     },
     update: function() {
@@ -158,6 +157,7 @@ var playState = {
                 p.bringToTop();
             }
         }
+		
     },
     preLoadMapData: function() {
         //Create loading text
