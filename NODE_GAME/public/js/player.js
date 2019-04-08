@@ -78,18 +78,10 @@ var player = {
         // this.topSprite.animations.play('two_hand');
 
 
-
-        // this.sprite.children[0].addChild(gunsprite);
-
-
         var fireButton = game.input.keyboard.addKey(Phaser.Keyboard.E);
         fireButton.onDown.add(this.changeGun, this);
 
-		this.ui.ammoText = game.add.text(game.camera.x, game.camera.y, 'Ammo: ', { font: "15px Arial", fill: "#19de65" });
-        this.ui.ammoText.fixedToCamera = true;
-
-		this.ui.gunText = game.add.text(game.camera.x, game.camera.y + 15, 'Current Gun: ', { font: "15px Arial", fill: "#19de65" });
-        this.ui.gunText.fixedToCamera = true;
+        this.setupUI();
     },
     update: function(){
         /*
@@ -97,8 +89,6 @@ var player = {
         *Update function for the player, handle all inputs here
         *
         */
-		
-		// this.playerUI();
 		
         this.debugData();
 
@@ -273,19 +263,7 @@ var player = {
         this.topSprite.animations.play(gun.animation);
         //add the gun as a child of the top body
         this.sprite.children[0].addChild(gunsprite);
-
-
-        //assign new gun data
-        // this.gun.bulletsFired = 0;
-        // this.gun.reloadTime = this.guns[this.gunIndex].reload_time;
-        // this.gun.fireRate = this.guns[this.gunIndex].fire_rate;
-        // this.gun.bulletVelocity = this.guns[this.gunIndex].bullet_velocity;
-        // this.gun.bulletDamage = this.guns[this.gunIndex].bullet_damage;
-        // this.gun.bulletsInMagazine = this.guns[this.gunIndex].mag_size;
-        // this.gun.audio = this.guns[this.gunIndex].audio;
         this.nextFire = 0;
-
-
 
         this.updateUI();
     },
@@ -303,7 +281,6 @@ var player = {
                 for(var i =0; i < self.guns.length; i++) {
                     self.guns[i].bullets_fired = 0;
                 }
-
 
                 //load the initial gun for the player
                 var gun = self.guns[self.gunIndex];
@@ -377,6 +354,7 @@ var player = {
         var spawn = respawnPoints[Math.floor(Math.random()*respawnPoints.length)];
         this.sprite.x = spawn.x;
         this.sprite.y = spawn.y;
+
         socket.emit('move-player',{
             x:this.sprite.x,
             y:this.sprite.y,
@@ -392,6 +370,14 @@ var player = {
             game.debug.bodyInfo(this.sprite);
             game.debug.pointer(game.input.activePointer);
         }
+    },
+    setupUI: function() {
+        //set up ui 
+        this.ui.ammoText = game.add.text(game.camera.x, game.camera.y, 'Ammo: ', { font: "15px Arial", fill: "#19de65" });
+        this.ui.ammoText.fixedToCamera = true;
+
+        this.ui.gunText = game.add.text(game.camera.x, game.camera.y + 15, 'Current Gun: ', { font: "15px Arial", fill: "#19de65" });
+        this.ui.gunText.fixedToCamera = true;
     },
     updateUI: function() {
         //display the bullet ammount
