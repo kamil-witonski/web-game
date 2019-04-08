@@ -1,0 +1,36 @@
+TODO list
+
+
+- fix the body angle when moving left
+	* this should be achieved by changing the angle from radians to degress and taking away an offset
+
+- fix the enemy not showing up on new map load
+	* no clue whats up with this
+
+- add a end game screen
+	* use the values from the server to display a table of results
+		* things like: kills, deaths, bullets fired etc...
+
+- add a pre game menu
+	- jump into a game & look at own stats
+
+
+
+DECISSIONS
+
+	1.
+	do we go wit loadout approach?
+		- we need to add individual user accounts (easy)
+		- add a creen for creating loadouts ( medium? )
+		- add a linking table between users and guns (easy)
+		- load appropriate guns based on the linking table (easy)
+
+	or do we just allow the players to pick any gun?
+		- load all the guns into the game (already doing this)
+
+	2.
+	Adding individual users (username/email & password)
+		- its easy to do 
+		- should net extra marks
+		- will be able to store global srtatistics
+			games played, total kills, deaths
