@@ -17,6 +17,7 @@ var player = {
     direction: 0,
     topBondOrient: 0,
     animation: '',
+        gunText: null
     createPlayer: function() {
 
         // this.sprite = game.add.sprite(100 ,100 ,'sprite2');
@@ -80,9 +81,12 @@ var player = {
 
         var fireButton = game.input.keyboard.addKey(Phaser.Keyboard.E);
         fireButton.onDown.add(this.changeGun, this);
-		ammoText = game.add.text(game.camera.x, game.camera.y, 'Ammo: ', { font: "15px Arial", fill: "#19de65" });
-		gunText = game.add.text(game.camera.x, game.camera.y + 15, 'Current Gun: '+ this.gunIndex.name, { font: "15px Arial", fill: "#19de65" });
 
+		this.ui.ammoText = game.add.text(game.camera.x, game.camera.y, 'Ammo: ', { font: "15px Arial", fill: "#19de65" });
+        this.ui.ammoText.fixedToCamera = true;
+
+		this.ui.gunText = game.add.text(game.camera.x, game.camera.y + 15, 'Current Gun: ', { font: "15px Arial", fill: "#19de65" });
+        this.ui.gunText.fixedToCamera = true;
     },
     update: function(){
         /*
@@ -267,6 +271,7 @@ var player = {
         this.topSprite.animations.play(gun.animation);
         //add the gun as a child of the top body
         this.sprite.children[0].addChild(gunsprite);
+        this.updateUI();
     },
     getGunsData: function() {
         //get gun data from the server
@@ -291,6 +296,7 @@ var player = {
 
                 self.topSprite.animations.play(gun.animation);
                 self.sprite.children[0].addChild(gunsprite);
+                self.updateUI();
             }
         });
     },
@@ -312,6 +318,7 @@ var player = {
 
 				//play reload sound
 				this.bulletsFired = 0;
+                this.updateUI();
 				return;
 			}
 
@@ -335,6 +342,7 @@ var player = {
             game.sound.play(audio);  
 
             this.bulletsFired++;
+            this.updateUI();
 		}
 	},
     takeDamage: function(damage) {
@@ -362,12 +370,11 @@ var player = {
             game.debug.pointer(game.input.activePointer);
         }
     },
-	
-	playerUI: function (){
-		ammoText.x = game.camera.x;
-		ammoText.y = game.camera.y;
-		gunText.x = game.camera.x;
-		gunText.y = game.camera.y + 15;
-		
-	},
+    updateUI: function() {
+        //display the bullet ammount
+        this.ui.ammoText.text = "Ammo:" + (this.guns[this.gunIndex].mag_size - this.guns[this.gunIndex].bullets_fired) + "/" + this.guns[this.gunIndex].mag_size;
+
+         //display UI gun text
+        this.ui.gunText.text = 'Current Gun: '+ this.guns[this.gunIndex].name;
+    }
 };
