@@ -199,43 +199,44 @@ var player = {
             this.sprite.scale.x = -1;
         }
 
+        var topSpriteXOffset;
 
         //rotate correctly rthe top body of the solider
         if(game.input.activePointer.x < this.sprite.x - game.camera.x) {
             // console.log('pointer on left');
             topSpriteOrientation = -1;
-
+            topSpriteXOffset = -1;
         } else {
             // console.log('pointer on right');
             topSpriteOrientation = 1;
+            topSpriteXOffset = -1;
         }
+
+        //This code somehow works but im not sure how, why, or how long for
+
 
         //times the calculated orientation by the current sprite orientation to get the correct direction
         topSpriteOrientation *= this.sprite.scale.x;
 
+        //get the angle of the body based on the position of the sprite and mouse
+        var angle =  Math.atan2(
+            (game.input.activePointer.y - (this.sprite.y - game.camera.y)), 
+            (game.input.activePointer.x - (this.sprite.x - game.camera.x))
+        );
 
         //corectly rotate the player body based on which way the sprite is facing
         if(this.sprite.scale.x < 0) {
-            this.topSprite.scale.y = topSpriteOrientation;
+            this.topSprite.scale.y = -topSpriteOrientation;
+            this.topSprite.scale.x = topSpriteXOffset;
 
-            var angle =  Math.atan2(
-                (game.input.activePointer.x - (this.sprite.x - game.camera.x)),
-                (game.input.activePointer.y - (this.sprite.y - game.camera.y))
-            );
-                
-            angle = angle - 180;
+            angle *= -1;
 
-            this.topSprite.rotation = angle;
         } else {
             this.topSprite.scale.y = topSpriteOrientation;
-
-            var angle =  Math.atan2(
-                (game.input.activePointer.y - (this.sprite.y - game.camera.y)), 
-                (game.input.activePointer.x - (this.sprite.x - game.camera.x))
-            );
-                
-            this.topSprite.rotation = angle;
+            this.topSprite.scale.x = -topSpriteXOffset;            
         }
+
+        this.topSprite.rotation = angle;
 
         this.direction = this.sprite.scale.x;
         this.topBodyAngle = angle;
@@ -383,7 +384,7 @@ var player = {
         //display the bullet ammount
         this.ui.ammoText.text = "Ammo:" + (this.guns[this.gunIndex].mag_size - this.guns[this.gunIndex].bullets_fired) + "/" + this.guns[this.gunIndex].mag_size;
 
-         //display UI gun text
+        //display UI gun text
         this.ui.gunText.text = 'Current Gun: '+ this.guns[this.gunIndex].name;
     }
 };
