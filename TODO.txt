@@ -1,9 +1,14 @@
 TODO list
 ______________________
 
+- fix bullet spawn to reflect the gun position
 
-- fix the body angle when moving left
+----------------------------------------------------------------------------------------------------------------
+
+
+- (FIXED) fix the body angle when moving left
 	* this should be achieved by changing the angle from radians to degress and taking away an offset
+	FIXED::: fixed by some mad dodgy coding, i dont understand how or why it works but it does, so im no touching it haha
 
 ----------------------------------------------------------------------------------------------------------------
 
