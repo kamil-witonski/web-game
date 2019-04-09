@@ -15,6 +15,9 @@ var loadState = {
         this.load.image('sprite1', '/public/assets/sprites/sprite1.png');
         this.load.image('sprite2', '/public/assets/sprites/sprite2.png');
         this.load.image('bullet', '/public/assets/sprites/bullet.png');
+		
+		//Load backgrounds
+		this.load.image('menubg', '/public/images/menubg.png');
 
 
         this.load.spritesheet('recruit_legs', '/public/assets/sprites/rec_legs.png', 61, 76);
@@ -24,7 +27,10 @@ var loadState = {
         this.load.tilemap('test_map', '/public/assets/test_map/test_map.json', null, Phaser.Tilemap.TILED_JSON);
         this.load.spritesheet('tileset1', '/public/assets/test_map/5z1KX.png', 32, 32);
 
-        //load audio for all guns
+        //load audio for menu music
+		this.load.audio('menumusic', ['/public/assets/audio/menumusic.wav']);
+		
+		//load audio for all guns
         this.load.audio('pistol', ['/public/assets/audio/9mm.mp3']);
         this.load.audio('uzi', ['/public/assets/audio/barreta.mp3']);
         this.load.audio('rifle', ['/public/assets/audio/m4a1.mp3']);
@@ -54,7 +60,7 @@ var loadState = {
         this.sound.add('uzi');
         this.sound.add('rifle');
 
-        game.state.start("menu");
+        game.state.start("pre-menu");
     },
 };
 

@@ -55,11 +55,12 @@ app.get('/gun-data', function(req, res) {
 
 /****** END ROUTES ******/
 
-
-app.use('/public/css/',express.static(__dirname + '/public/css'));
-app.use('/public/js/',express.static(__dirname + '/public/js'));
 app.use('/public/assets/',express.static(__dirname + '/public/assets'));
+app.use('/public/css/',express.static(__dirname + '/public/css'));
+app.use('/public/fonts/',express.static(__dirname + '/public/fonts'));
 app.use('/public/images/',express.static(__dirname + '/public/images'));
+app.use('/public/js/',express.static(__dirname + '/public/js'));
+app.use('/public/sound/',express.static(__dirname + '/public/sound'));
 
 // Listen on port 5000
 app.set('port', (process.env.PORT || 5000));
