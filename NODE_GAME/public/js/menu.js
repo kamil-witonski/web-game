@@ -16,6 +16,9 @@ var menuState = {
 		//Create Music
 		var music = game.add.audio('menumusic');
 		
+		//Set Volume
+		music.volume = 0.1;
+		
 		//Play Music
 		music.play();
 		
