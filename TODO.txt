@@ -2,6 +2,11 @@ TODO list
 ______________________
 
 - fix bullet spawn to reflect the gun position
+	*Rotated its original position but will need to add the angle of the cursor to its rotation will look into this more -D
+
+- Change Cursor to Crosshair on level load
+	* This initally does and then something turns it back to default cant find what it is.
+
 
 ----------------------------------------------------------------------------------------------------------------
 
@@ -37,6 +42,9 @@ Notes -
 
 	09/04/19 - Initialised with Music and Background.
 
+
+- Stop Menu Music before level load ***(NOTE: I have turned the inital volume down this can be altered. Currently sitting at 0.1.)***
+
 ----------------------------------------------------------------------------------------------------------------
 
 DECISSIONS
@@ -50,11 +58,11 @@ _____________________
 		- load appropriate guns based on the linking table (easy)
 
 	or do we just allow the players to pick any gun?
-		- load all the guns into the game (already doing this)
+		- load all the guns into the game (already doing this)				(D- Votes to remain as is just now)
 
 	2.
 	Adding individual users (username/email & password)
 		- its easy to do 
 		- should net extra marks
 		- will be able to store global srtatistics
-			games played, total kills, deaths
+			games played, total kills, deaths					(No clue how to do this -D)
