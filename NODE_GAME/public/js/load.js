@@ -35,7 +35,33 @@ var loadState = {
         this.load.audio('uzi', ['/public/assets/audio/barreta.mp3']);
         this.load.audio('rifle', ['/public/assets/audio/m4a1.mp3']);
         // this.load.audio('pistol', ['/public/assets/audio/pistol.mp3']);
-
+		
+		//I wonder if we can group this data and call it as a whole
+		
+/* 		//Load level1 (group 1)
+		this.load.image('lvl1-sky', '/public/assets/level_1/level1_sky.png');
+		this.load.image('lvl1-cloudstr', 'public/assets/level_1/level1_cloudstr.png');
+		this.load.image('lvl1-clouds', '/public/assets/level_1/level1_clouds.png');
+		this.load.image('lvl1-backtrees', '/public/assets/level1/level_backtrees.png');
+		this.load.image('lvl1-trees', '/public/assets/level1/level1_trees.png'); 
+		
+		//Load level2 (group 2)
+		this.load.image('lvl2-sky', '/public/assets/level_2/level2_sky.png');
+		this.load.image('lvl2-cloudstr', 'public/assets/level_2/level2_cloudstr.png');
+		this.load.image('lvl2-clouds', '/public/assets/level_2/level2_clouds.png');
+		this.load.image('lvl2-backtrees', '/public/assets/level_2/level2_backtrees.png');
+		this.load.image('lvl2-trees', '/public/assets/level_2/level2_trees.png');
+		this.load.image('lvl2-midtrees1', '/public/assets/level_2/level2_midtrees1.png');
+		this.load.image('lvl2-midtrees2', '/public/assets/level_2/level2_midtrees2.png');
+		
+		//Load level3 (group 3)
+		this.load.image('lvl3-sky', '/public/assets/level_3/level3_sky.png');
+		this.load.image('lvl3-cloudstr', 'public/assets/level_3/level3_cloudstr.png');
+		this.load.image('lvl3-trees', '/public/assets/level_3/level3_trees.png');
+		this.load.image('lvl3-background', '/public/assets/level_3/level3_background.png');
+		this.load.image('lvl3-midground', '/public/assets/level_3/level3_midground.png');
+		this.load.image('lvl3-foreground', '/public/assets/level_3/level3_foreground.png');
+*/
 
         //load each gun dynamically for the database
         $.ajax({

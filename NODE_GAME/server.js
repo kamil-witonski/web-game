@@ -245,6 +245,7 @@ function getNextLevel(callback) {
 
 // Update the bullets 16 times per frame and send updates 
 function ServerGameLoop(){
+	
 	//bullet code
   for(var i=0;i<bullet_array.length;i++){
     var bullet = bullet_array[i];
@@ -311,7 +312,6 @@ function ServerGameLoop(){
       }
 
       //prepare the data for sending
-      
       getNextLevel(function(data) {
         console.log(data);
       
@@ -320,8 +320,6 @@ function ServerGameLoop(){
           players: players,
           level: data
         }
-
-
 
         //for new level we will broad cast mesage of who won, show all highscores and have a 10s countdown before the next level starrts
         io.emit("game-end", gameEndData);
