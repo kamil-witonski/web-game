@@ -93,6 +93,10 @@ var playState = {
         return sprite;
     },
     startLevel: function() {
+		
+		//Change cursor to crosshair on level load?
+		this.game.input.useCrosshairCursor = true;
+		
         this.readyToPLay = true;
         enemySprites = game.add.group();
 
@@ -131,6 +135,7 @@ var playState = {
         game.camera.y = player.sprite.y - WINDOW_HEIGHT / 2;
 
         initialiseClient();
+
     },
     update: function() {
         if(!this.readyToPLay) {
@@ -162,12 +167,29 @@ var playState = {
         }
 		
 		
-		//Level 1 Paralax 
+/* 		//Level 1 Paralax 
+        this.lvl1-sky.tilePosition.x -= 0.05;
+        this.lvl1-clouds.tilePosition.x -= 0.3;
+        this.lvl1-cloudstr.tilePosition.x -= 0.3;    
+		this.lvl1-trees.tilePosition.x -= 0.75; */
 		
-
-        this.mountainsBack.tilePosition.x -= 0.05;
-        this.mountainsMid1.tilePosition.x -= 0.3;
-        this.mountainsMid2.tilePosition.x -= 0.75;      
+/* 		//Level 2 Paralax 
+        this.lvl1-sky.tilePosition.x -= 0.05;
+        this.lvl1-clouds.tilePosition.x -= 0.3;
+        this.lvl1-cloudstr.tilePosition.x -= 0.3;    
+		this.lvl1-trees.tilePosition.x -= 0.75; */
+		
+/* 		//Level 3 Paralax 
+        this.lvl3-sky.tilePosition.x -= 0.05;
+        this.lvl3-cloudstr.tilePosition.x -= 0.3;    
+		this.lvl3-trees.tilePosition.x -= 0.75; 
+		this.lvl3-background.tilePosition.x -= 0.5;
+		this.lvl3-midground.tilePosition.x -= 0.3;
+		this.lvl3-foreground.tilePosition.x -= 0.1;
+		
+*/
+		
+		
    
 		
     },

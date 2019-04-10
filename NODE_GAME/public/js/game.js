@@ -7,6 +7,7 @@ var WINDOW_HEIGHT = 500;
 //Create game window
 var game = new Phaser.Game(1000, 500, Phaser.WEBGL, 'gameDiv');
 
+
 //global vars
 var groundLayer;
 var bullet_array = [];
