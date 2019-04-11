@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/phaser/2.6.2/phaser.js"></script>
+</head>
+<body>
+
+    <script>
+var config = {
+    type: Phaser.AUTO,
+    width: 800,
+    height: 600,
+    scene: {
+        preload: preload,
+        create: create,
+        update: update
+    }
+};
+
+var game = new Phaser.Game(config);
+
+function preload ()
+{
+	this.load.image('lvl1-sky', '/public/assets/level_1/level1_sky.png');
+	this.load.image('lvl1-cloudstr', 'public/assets/level_1/level1_cloudstr.png');
+	this.load.image('lvl1-clouds', '/public/assets/level_1/level1_clouds.png');
+	this.load.image('lvl1-backtrees', '/public/assets/level1/level_backtrees.png');
+	this.load.image('lvl1-trees', '/public/assets/level1/level1_trees.png'); 
+}
+
+function create ()
+{
+	this.add.image(400, 300, 'lvl1-sky');
+}
+
+function update ()
+{
+}
+    </script>
+
+</body>
+</html>
