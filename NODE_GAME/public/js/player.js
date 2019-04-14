@@ -179,7 +179,8 @@ var player = {
             y:this.sprite.y,
             angle: this.topBodyAngle,
             dir:this.direction,
-            topOrient: this.topBondOrient,
+            topOrientY: this.topBondOrientY,
+            topOrientX: this.topBondOrientX,
             anim: this.animation
         });
     },
@@ -236,21 +237,26 @@ var player = {
 
         //corectly rotate the player body based on which way the sprite is facing
         if(this.sprite.scale.x < 0) {
-            this.topSprite.scale.y = -topSpriteOrientation;
+            topSpriteOrientation = -topSpriteOrientation
+            
+            this.topSprite.scale.y = topSpriteOrientation;
             this.topSprite.scale.x = topSpriteXOffset;
 
             angle *= -1;
 
         } else {
+            topSpriteXOffset = -topSpriteXOffset;
+            
             this.topSprite.scale.y = topSpriteOrientation;
-            this.topSprite.scale.x = -topSpriteXOffset;            
+            this.topSprite.scale.x = topSpriteXOffset;            
         }
 
         this.topSprite.rotation = angle;
 
         this.direction = this.sprite.scale.x;
         this.topBodyAngle = angle;
-        this.topBondOrient = topSpriteOrientation;
+        this.topBondOrientY = topSpriteOrientation;
+        this.topBondOrientX = topSpriteXOffset;
     },
     changeGun: function() {
         this.gunIndex ++;

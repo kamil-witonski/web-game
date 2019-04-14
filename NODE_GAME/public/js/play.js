@@ -162,7 +162,8 @@ var playState = {
                 p.x += (p.target_x - p.x);// * 0.16;
                 p.y += (p.target_y - p.y);// * 0.16;
                 p.scale.x = p.target_dir;
-                p.children[0].scale.y = p.target_topOrient;
+                p.children[0].scale.y = p.target_topOrientY;
+                p.children[0].scale.x = p.target_topOrientX;
                 p.children[0].rotation = p.target_angle;
                 p.animations.play(p.target_anim);
 

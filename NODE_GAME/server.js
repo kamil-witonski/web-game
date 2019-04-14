@@ -155,7 +155,8 @@ io.on('connection', function(socket){
     players[socket.id].y = position_data.y; 
     players[socket.id].angle = position_data.angle; 
     players[socket.id].dir = position_data.dir; 
-    players[socket.id].topOrient = position_data.topOrient;
+    players[socket.id].topOrientY = position_data.topOrientY;
+    players[socket.id].topOrientX = position_data.topOrientX;
     players[socket.id].anim = position_data.anim;
     io.emit('update-players',players);
   });
