@@ -30,7 +30,8 @@ function initialiseClient() {
             other_players[id].target_y  = players_data[id].y;
             other_players[id].target_angle  = players_data[id].angle;
             other_players[id].target_dir  = players_data[id].dir;
-            other_players[id].target_topOrient  = players_data[id].topOrient;
+            other_players[id].target_topOrientY  = players_data[id].topOrientY;
+            other_players[id].target_topOrientX  = players_data[id].topOrientX;
             other_players[id].target_anim  = players_data[id].anim;
           }
       }
