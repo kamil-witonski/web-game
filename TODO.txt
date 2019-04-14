@@ -17,13 +17,14 @@ ______________________
 
 ----------------------------------------------------------------------------------------------------------------
 
-- fix the enemy not showing up on new map load
+-  (FIXED)fix the enemy not showing up on new map load
 	* no clue whats up with this
 
 	*	Blind Suggestions-
 			*Redraw/Reload all sprites.
 			*Send new map layer to back.
 								*		-D
+	FIXED::: fixed by clearing the other_players object on new map load, the players didnt spawn as that opbject was populated with data from previous level
 
 ----------------------------------------------------------------------------------------------------------------
 
