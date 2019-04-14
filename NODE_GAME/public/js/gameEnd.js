@@ -20,10 +20,12 @@ var gameEnd = {
 
         //count down before game restarts
         var timer = setInterval(function() {
-            console.log("sadasdas");
+
             count--;
             if(count == 1) {
                 clearInterval(timer);
+                //clear players array
+                other_players = {};
                 game.state.start("play", false, false, selfs.data.level);
             } 
         }, 1000);
