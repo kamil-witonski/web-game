@@ -53,30 +53,10 @@ var player = {
 
         this.topSprite.animations.add('one_hand', [0], 24, true);
         this.topSprite.animations.add('two_hand', [1], 24, true);
-        // this.topSprite.animations.play('one_hand');
 
         this.sprite.bringToTop();
 
         this.getGunsData();
-
-
-        //set for pistol
-        // var gunsprite = game.add.sprite(20,-12,'pistol_gun');
-        // gunsprite.scale.setTo(0.5, 0.5);
-        // gunsprite.anchor.setTo(0.5,0.5);
-        // this.topSprite.animations.play('one_hand');
-
-        //set up for uzi - need image
-        // var gunsprite = game.add.sprite(20,-12,'UZI_gun');
-        // gunsprite.scale.setTo(0.5, 0.5);
-        // gunsprite.anchor.setTo(0.5,0.5);
-        // this.topSprite.animations.play('one_hand');
-
-        // var gunsprite = game.add.sprite(15,-5,'AK47_gun');
-        // gunsprite.scale.setTo(0.5, 0.5);
-        // gunsprite.anchor.setTo(0.5,0.5);
-        // this.topSprite.animations.play('two_hand');
-
 
         var fireButton = game.input.keyboard.addKey(Phaser.Keyboard.E);
         fireButton.onDown.add(this.changeGun, this);
