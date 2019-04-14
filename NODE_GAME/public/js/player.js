@@ -163,6 +163,16 @@ var player = {
         //move the actual sprite
         this.sprite.body.velocity.x = this.speed_x;
      
+        console.log(this.sprite.body.checkCollision);
+
+        //enable paralaz flag
+        if(this.speed_x != 0) {
+            isParalax = true;
+        } else {
+            isParalax = false;
+        }
+
+
         // Tell the server we've moved 
         socket.emit('move-player',{
             x:this.sprite.x,

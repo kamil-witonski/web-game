@@ -1,5 +1,5 @@
 var dragonBonesPlugin;
-
+var isParalax = false;
 // JavaScript source code play
 var playState = {
     data: "",
@@ -107,7 +107,11 @@ var playState = {
         map.addTilesetImage('test', 'tileset1'); // tilesheet is the key of the tileset in map's JSON file
 		
 		//Sky Image
-		this.mountainsBack = this.game.add.tileSprite(0, 0, this.game.width, 0,'lvl1-sky');
+        this.paralax = game.add.tileSprite(0,0, 3000, 1080, 'paralax_img1');
+        this.paralax1 = game.add.tileSprite(0,0, 3000, 1080, 'paralax_img2');
+        this.paralax2 = game.add.tileSprite(0,0, 3000, 1080, 'paralax_img3');
+        this.paralax3 = game.add.tileSprite(0,-270, 3000, 1080, 'paralax_img4');
+		this.paralax4 = game.add.tileSprite(0,-280, 3000, 1080, 'paralax_img5');
 
         //layer 0 is always the colision layer !!!
         groundLayer = map.createLayer(0);
@@ -165,8 +169,18 @@ var playState = {
                 p.bringToTop();
             }
         }
-		
-		
+
+
+        //handle paralax		
+        if(isParalax) {
+            console.log(player.sprite.body.velocity);
+            this.paralax2.tilePosition.x += 0.05 * player.direction;
+            this.paralax3.tilePosition.x += 0.3 * player.direction;
+            
+            this.paralax4.tilePosition.x += 0.5 * player.direction;
+                
+        }
+        
 /* 		//Level 1 Paralax 
         this.lvl1-sky.tilePosition.x -= 0.05;
         this.lvl1-clouds.tilePosition.x -= 0.3;
@@ -205,30 +219,30 @@ var playState = {
 		
 		//I wonder if we can group this data and call it as a whole
 		
-/* 		//Load level1 (group 1)
-		this.load.image('lvl1-sky', '/public/assets/level_1/level1_sky.png');
-		this.load.image('lvl1-cloudstr', 'public/assets/level_1/level1_cloudstr.png');
-		this.load.image('lvl1-clouds', '/public/assets/level_1/level1_clouds.png');
-		this.load.image('lvl1-backtrees', '/public/assets/level1/level_backtrees.png');
-		this.load.image('lvl1-trees', '/public/assets/level1/level1_trees.png'); 
+ 		//Load level1 (group 1)
+		this.load.image('paralax_img1', '/public/assets/level_1/level1_sky.png');
+		this.load.image('paralax_img2', 'public/assets/level_1/level1_cloudstr.png');
+		this.load.image('paralax_img3', '/public/assets/level_1/level1_clouds.png');
+		this.load.image('paralax_img4', '/public/assets/level_1/level1_backtrees.png');
+		this.load.image('paralax_img5', '/public/assets/level_1/level1_trees.png'); 
 		
-		//Load level2 (group 2)
-		this.load.image('lvl2-sky', '/public/assets/level_2/level2_sky.png');
-		this.load.image('lvl2-cloudstr', 'public/assets/level_2/level2_cloudstr.png');
-		this.load.image('lvl2-clouds', '/public/assets/level_2/level2_clouds.png');
-		this.load.image('lvl2-backtrees', '/public/assets/level_2/level2_backtrees.png');
-		this.load.image('lvl2-trees', '/public/assets/level_2/level2_trees.png');
-		this.load.image('lvl2-midtrees1', '/public/assets/level_2/level2_midtrees1.png');
-		this.load.image('lvl2-midtrees2', '/public/assets/level_2/level2_midtrees2.png');
+		// //Load level2 (group 2)
+		// this.load.image('lvl2-sky', '/public/assets/level_2/level2_sky.png');
+		// this.load.image('lvl2-cloudstr', 'public/assets/level_2/level2_cloudstr.png');
+		// this.load.image('lvl2-clouds', '/public/assets/level_2/level2_clouds.png');
+		// this.load.image('lvl2-backtrees', '/public/assets/level_2/level2_backtrees.png');
+		// this.load.image('lvl2-trees', '/public/assets/level_2/level2_trees.png');
+		// this.load.image('lvl2-midtrees1', '/public/assets/level_2/level2_midtrees1.png');
+		// this.load.image('lvl2-midtrees2', '/public/assets/level_2/level2_midtrees2.png');
 		
-		//Load level3 (group 3)
-		this.load.image('lvl3-sky', '/public/assets/level_3/level3_sky.png');
-		this.load.image('lvl3-cloudstr', 'public/assets/level_3/level3_cloudstr.png');
-		this.load.image('lvl3-trees', '/public/assets/level_3/level3_trees.png');
-		this.load.image('lvl3-background', '/public/assets/level_3/level3_background.png');
-		this.load.image('lvl3-midground', '/public/assets/level_3/level3_midground.png');
-		this.load.image('lvl3-foreground', '/public/assets/level_3/level3_foreground.png');
-*/
+		// //Load level3 (group 3)
+		// this.load.image('lvl3-sky', '/public/assets/level_3/level3_sky.png');
+		// this.load.image('lvl3-cloudstr', 'public/assets/level_3/level3_cloudstr.png');
+		// this.load.image('lvl3-trees', '/public/assets/level_3/level3_trees.png');
+		// this.load.image('lvl3-background', '/public/assets/level_3/level3_background.png');
+		// this.load.image('lvl3-midground', '/public/assets/level_3/level3_midground.png');
+		// this.load.image('lvl3-foreground', '/public/assets/level_3/level3_foreground.png');
+
         
         //start loading
         this.load.start();
