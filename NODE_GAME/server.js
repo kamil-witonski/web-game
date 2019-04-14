@@ -158,8 +158,11 @@ io.on('connection', function(socket){
     players[socket.id].topOrientY = position_data.topOrientY;
     players[socket.id].topOrientX = position_data.topOrientX;
     players[socket.id].anim = position_data.anim;
+
     io.emit('update-players',players);
   });
+
+
 
   // Listen for shoot-bullet events and add it to our bullet array
   socket.on('shoot-bullet',function(data){
@@ -196,6 +199,7 @@ function getCurrentLevelData(callback) {
         tileSet: [
           data[0].tile_set
         ],
+        background: data[0].background,
         audioFile: ""
       }
 
@@ -228,6 +232,7 @@ function getNextLevel(callback) {
         tileSet: [
           data[0].tile_set
         ],
+        background: data[0].background,
         audioFile: ""
       }
 
