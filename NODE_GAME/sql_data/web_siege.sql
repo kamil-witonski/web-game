@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 07, 2019 at 01:36 PM
+-- Generation Time: Apr 14, 2019 at 06:08 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.9
 
@@ -62,16 +62,17 @@ CREATE TABLE `maps` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `tile_map` varchar(300) NOT NULL,
-  `tile_set` text NOT NULL
+  `tile_set` text NOT NULL,
+  `background` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `maps`
 --
 
-INSERT INTO `maps` (`id`, `name`, `tile_map`, `tile_set`) VALUES
-(1, 'level1', '/public/assets/test_map/test_map.json', '/public/assets/test_map/5z1KX.png'),
-(2, 'level2', '/public/assets/test_map/level2.json', '/public/assets/test_map/5z1KX.png');
+INSERT INTO `maps` (`id`, `name`, `tile_map`, `tile_set`, `background`) VALUES
+(1, 'level1', '/public/assets/test_map/test_map.json', '/public/assets/test_map/5z1KX.png', '[\"/public/assets/level_1/level1_sky.png\", \"/public/assets/level_1/level1_clouds.png\", \"/public/assets/level_1/level1_backtrees.png\", \"/public/assets/level_1/level1_trees.png\"]\r\n'),
+(2, 'level2', '/public/assets/test_map/level2.json', '/public/assets/test_map/5z1KX.png', '[\"/public/assets/level_2/bg.png\", \"/public/assets/level_2/bg_clouds.png\", \"/public/assets/level_2/bg_parallaxFar.png\", \"/public/assets/level_2/bg_parallaxNear.png\"]');
 
 --
 -- Indexes for dumped tables
