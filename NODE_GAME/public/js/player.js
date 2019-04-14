@@ -143,7 +143,7 @@ var player = {
         //move the actual sprite
         this.sprite.body.velocity.x = this.speed_x;
      
-        console.log(this.sprite.body.checkCollision);
+        // console.log(this.sprite.body.checkCollision);
 
         //enable paralaz flag
         if(this.speed_x != 0) {
@@ -284,7 +284,7 @@ var player = {
 
                 var gunOffset = JSON.parse(gun.gun_offset);
 
-                console.log(self.guns);
+                // console.log(self.guns);
 
                 var gunsprite = game.add.sprite(gunOffset.x,gunOffset.y,'pistol_gun');
                 gunsprite.scale.setTo(0.5, 0.5);
@@ -343,7 +343,7 @@ var player = {
 		}
 	},
     takeDamage: function(damage) {
-        console.log("taking damage boii");
+        // console.log("taking damage boii");
 
         //draw blood or soemthing
     },
