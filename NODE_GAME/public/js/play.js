@@ -167,6 +167,7 @@ var playState = {
         if(!this.readyToPLay) {
             return;
         }
+		this.paralax1.tilePosition.x += 0.5;
 
         player.update();
 
@@ -196,7 +197,7 @@ var playState = {
 
         //handle paralax		
         if(isParalax) {
-            this.paralax1.tilePosition.x += 0.05 * player.direction;
+            //this.paralax1.tilePosition.x += 0.05 * player.direction;
             this.paralax2.tilePosition.x += 0.3 * player.direction;
             
             this.paralax3.tilePosition.x += 0.5 * player.direction;
