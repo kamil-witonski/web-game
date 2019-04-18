@@ -1,10 +1,24 @@
-var express = require('express'); // Express contains some boilerplate to for routing and such
+var express = require('express');
 var app = express();
 var http = require('http').Server(app);
-var io = require('socket.io')(http); // Here's where we include socket.io as a node module 
+var io = require('socket.io')(http);
+var passport = require('passport');
+var session = require('express-session');
+var Middleware = require('./Middleware');
+var bodyParser = require('body-parser');
+var User = require('./models/User');
 
 app.set('view engine', 'ejs');
 
+exports.passport = passport;
+
+require('./passport');
+var knex = require('./knex');
+
+app.use( bodyParser.urlencoded({ extended: true }) );
+app.use(session({ secret: 'this_is_a_super_secret_session', key: 'sid'}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 /****** ROUTES *******/
 
@@ -14,28 +28,23 @@ app.get("/", function (req, res) {
 });
 
 app.get("/aboutus", function (req, res) {
-  res.render("aboutus");
-  // res.sendFile(__dirname + '/aboutus.html'); 
+  res.render("aboutus"); 
 });
 
-app.get("/game", function (req, res) {
-  res.render("game");
-  // res.sendFile(__dirname + '/game.html'); 
+app.get("/game", Middleware.isLoggedIn, function (req, res) {
+  res.render("game"); 
 });
 
 app.get("/gdd", function (req, res) {
-  res.render("gdd");
-  // res.sendFile(__dirname + '/gdd.html'); 
+  res.render("gdd"); 
 });
 
 app.get("/inspiration", function (req, res) {
-  res.render("inspiration");
-  // res.sendFile(__dirname + '/inspiration.html'); 
+  res.render("inspiration"); 
 });
 
 app.get("/contactus", function (req, res) {
-  res.render("contactus");
-  // res.sendFile(__dirname + '/contactus.html'); 
+  res.render("contactus"); 
 });
 
 app.get('/get-map-data', function(req, res) {
@@ -46,12 +55,52 @@ app.get('/get-map-data', function(req, res) {
 
 app.get('/gun-data', function(req, res) {
   getGunData(function(data) {
-
-
     res.send({data: data});
 
-  })
+  });
 });
+
+
+app.get('/login', function(req, res) {
+  res.render("login"); 
+});
+
+// console.log(User.generateHash('test123'));
+
+//authentication routes
+app.post('/login', function(req, res, next) {
+    passport.authenticate('local-login', function(err, user, info) {
+        console.log(info);
+
+        if(err) {
+            console.log(err);
+            return res.send({status: 'error', message: err});
+        }
+
+        if(!user) {
+            return res.send({status: 'error', message: info.message});
+        }
+
+        // log user in manually
+        req.logIn(user, function(err){
+            if(err) {
+                console.log(err);
+                return next(err);
+            }
+
+            currUser = req.user[0].id;
+
+            console.log(req.user);
+
+            //assign user to session
+            req.session.user = req.user[0];
+
+            return res.redirect('/game');
+        });
+    })(req, res, next);
+});
+
+
 
 /****** END ROUTES ******/
 
@@ -68,54 +117,12 @@ http.listen(app.get('port'), function(){
   console.log('listening on port',app.get('port'));
 });
 
-//connect to db
-var knex = require('knex')({
-  client: 'mysql',
-  connection: {
-    host : '127.0.0.1',
-    user : 'root',
-    password : 'password123',
-    database : 'web_siege'
-  }
-});
-
-// knex.select().from('maps').then(function(data) {
-//   console.log(data);
-// });
 
 
 var players = {}; //Keeps a table of all players, the key is the socket id
 var bullet_array = []; // Keeps track of all the bullets to update them on the server
 var levelData = []; //Keeps a track of all the levels that are playable
 var currentLevelIndex = 1;
-
-// levelData = [
-//   {
-//     name: "level1",
-//     tileMapPath: "/public/assets/test_map/test_map.json",
-//     tileSet: [
-//       "/public/assets/test_map/5z1KX.png"
-//     ],
-//     audioFile: ""
-//   },
-//   {
-//     name: "level2",
-//     tileMapPath: "/public/assets/test_map/level2.json",
-//     tileSet: [
-//       "/public/assets/test_map/5z1KX.png"
-//     ],
-//     audioFile: ""
-//   }
-// ];
-
-
-
-
-
-
-
-
-
 
 
 var winConditions = {
@@ -239,9 +246,7 @@ function getNextLevel(callback) {
 
       callback(returnData);
 
-
     });
-
 
   });
 
