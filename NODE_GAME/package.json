@@ -7,10 +7,14 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "ejs": "2.6.1",
     "express": "^4.15.2",
+    "express-session": "^1.16.1",
     "knex": "^0.16.3",
     "mysql": "^2.16.0",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "socket.io": "^2.0.1"
   },
   "engines": {
