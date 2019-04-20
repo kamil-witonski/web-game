@@ -127,11 +127,11 @@ var playState = {
         }
 
 		//Sky Image
-        this.paralax = game.add.tileSprite(0,0, 3000, 1080, 'paralax_img1');
+        this.paralax1 = game.add.tileSprite(0,0, 3000, 1080, 'paralax_img1');
         // this.paralax1 = game.add.tileSprite(0,0, 3000, 1080, 'paralax_img2');
-        this.paralax1 = game.add.tileSprite(0,0, 3000, 1080, 'paralax_img2');
-        this.paralax2 = game.add.tileSprite(0,-270, 3000, 1080, 'paralax_img3');
-		this.paralax3 = game.add.tileSprite(0,-280, 3000, 1080, 'paralax_img4');
+  //       this.paralax1 = game.add.tileSprite(0,0, 3000, 1080, 'paralax_img2');
+  //       this.paralax2 = game.add.tileSprite(0,-270, 3000, 1080, 'paralax_img3');
+		// this.paralax3 = game.add.tileSprite(0,-280, 3000, 1080, 'paralax_img4');
 
         console.log(game);
 
@@ -198,9 +198,9 @@ var playState = {
         //handle paralax		
         if(isParalax) {
             //this.paralax1.tilePosition.x += 0.05 * player.direction;
-            this.paralax2.tilePosition.x += 0.3 * player.direction;
+            // this.paralax2.tilePosition.x += 0.3 * player.direction;
             
-            this.paralax3.tilePosition.x += 0.5 * player.direction;
+            // this.paralax3.tilePosition.x += 0.5 * player.direction;
                 
         }
 		
@@ -225,10 +225,14 @@ var playState = {
 
         console.log(this.game.image);
 
-        //load all the bg images
-        $.each(paralaxBG, function(i, bg) {
-            self.load.image('paralax_img' + (i +1), bg, true);
-        });
+        console.log(paralaxBG);
+
+        self.load.image('paralax_img1', paralaxBG[0], true)
+
+        // //load all the bg images
+        // $.each(paralaxBG, function(i, bg) {
+        //     self.load.image('paralax_img' + (i +1), bg, true);
+        // });
 
         console.log("fsdfsdfsdf");
 
