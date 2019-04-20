@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2019 at 02:16 PM
--- Server version: 10.1.26-MariaDB
--- PHP Version: 7.1.9
+-- Generation Time: Apr 20, 2019 at 05:19 PM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 7.3.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -50,7 +50,8 @@ CREATE TABLE `guns` (
 INSERT INTO `guns` (`id`, `name`, `sprite`, `fire_rate`, `reload_time`, `bullet_velocity`, `bullet_damage`, `mag_size`, `audio`, `asset_img`, `animation`, `gun_offset`) VALUES
 (1, 'pistol', '', 300, 2000, 20, 25, 7, 'pistol', '/public/assets/guns/pistol.png', 'one_hand', '{\"x\": \"20\",\r\n\"y\": \"-12\"}'),
 (2, 'UZI', '', 150, 2500, 40, 30, 15, 'uzi', '/public/assets/guns/uzi.png', 'one_hand', '{\"x\":\"20\",\"y\":\"-12\"}'),
-(3, 'AK47', '', 200, 2500, 45, 33, 30, 'rifle', '/public/assets/guns/ar.png', 'two_hand', '{\"x\":\"15\",\"y\": \"-5\"}');
+(3, 'AK47', '', 200, 2500, 45, 33, 30, 'rifle', '/public/assets/guns/ar.png', 'two_hand', '{\"x\":\"15\",\"y\": \"-5\"}'),
+(4, 'sniper', '', 1, 7000, 50, 100, 1, 'sniper', '/public/assets/guns/sniper.png', 'two_hand', '{\"x\":\"15\",\"y\": \"-5\"}');
 
 -- --------------------------------------------------------
 
@@ -244,7 +245,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `guns`
 --
 ALTER TABLE `guns`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `maps`
