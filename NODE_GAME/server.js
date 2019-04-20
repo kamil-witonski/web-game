@@ -61,6 +61,14 @@ app.get('/gun-data', function(req, res) {
   });
 });
 
+app.get('/get-user-stats', function(req, res) {
+  getUserStats(req.session.user.id, function(data) {
+
+    res.send(data);
+    // console.log(data);
+
+  });
+});
 
 app.get('/login', function(req, res) {
   res.render("login"); 
@@ -278,11 +286,21 @@ function saveMatchData(data, callback) {
     }
   });
 
-
-
   //save individual players data like kills deaths and xp
 
   callback();
+}
+
+function getUserStats(userID, callback) {
+
+  knex.raw("SELECT sum(kills) as kills, sum(deaths) as deaths FROM `matchdata` WHERE user_id = ? group by user_id", [userID]).then(function(data) {
+    console.log(data);
+
+    callback(data);
+  });
+
+  // knex.rav SELECT count(kills) as kills, sum(deaths) as deaths FROM `matchdata` WHERE user_id = 2 group by user_id
+
 }
 
 

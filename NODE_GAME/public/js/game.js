@@ -26,6 +26,7 @@ game.state.add('pre-menu', premenuState);
 game.state.add('menu', menuState);
 game.state.add('play', playState);
 game.state.add('game-end', gameEnd);
+game.state.add('stats', stats)
 
 //Load boot state
 game.state.start('boot');

@@ -1,8 +1,15 @@
 // JavaScript source code for menuState
 
-var Stats = {
+var stats = {
     init: function() {
         //get data
+        $.ajax({
+            type:'GET',
+            url: '/get-user-stats',
+            success: function(data) {
+                console.log(data);
+            }
+        });
     },
     create: function () {
 		
