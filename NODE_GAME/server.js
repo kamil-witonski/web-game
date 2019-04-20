@@ -32,7 +32,8 @@ app.get("/aboutus", function (req, res) {
 });
 
 app.get("/game", Middleware.isLoggedIn, function (req, res) {
-  res.render("game"); 
+  res.locals.user = req.session.user;
+  res.render("game", {user1: req.session.user}); 
 });
 
 app.get("/gdd", function (req, res) {
@@ -66,7 +67,7 @@ app.get('/login', function(req, res) {
 });
 
 // console.log(User.generateHash('test123'));
-
+// var currUser;
 //authentication routes
 app.post('/login', function(req, res, next) {
     passport.authenticate('local-login', function(err, user, info) {
@@ -88,7 +89,7 @@ app.post('/login', function(req, res, next) {
                 return next(err);
             }
 
-            currUser = req.user[0].id;
+            currUser = req.user[0];
 
             console.log(req.user);
 
@@ -124,9 +125,8 @@ var bullet_array = []; // Keeps track of all the bullets to update them on the s
 var levelData = []; //Keeps a track of all the levels that are playable
 var currentLevelIndex = 1;
 
-
 var winConditions = {
-  kills: 5,
+  kills: 1,
   time: 10000
 };
 
@@ -137,6 +137,9 @@ io.on('connection', function(socket){
 	// Listen for a new player trying to connect
 	socket.on('new-player',function(state){
 		console.log("New player joined with state:",state);
+    console.log('logged user');
+    console.log(session);
+
 		//add extra server side properties to keep track of certain stats
     state.kills = 0;
     state.deaths = 0;
@@ -183,8 +186,6 @@ io.on('connection', function(socket){
     bullet_array.push(new_bullet);
   });
 });
-
-
 
 
 function getGunData(callback) {
@@ -253,6 +254,37 @@ function getNextLevel(callback) {
   // return levelData[currentLevelIndex]
 }
 
+function saveMatchData(data, callback) {
+  // save actual match data
+  var saveData = data;
+
+  knex('matches').insert({
+    date: new Date(),
+    data: JSON.stringify(data)
+  }).then(function() {
+
+    for(sockId in saveData) {
+
+      knex('matchdata').insert({
+        date: new Date(),
+        kills: saveData[sockId].kills,
+        deaths: saveData[sockId].deaths,
+        damage:saveData[sockId].damageDelt,
+        user_id:saveData[sockId].user_id
+      }).then(function() {
+        console.log("MATCH DATA ADDED");
+      });
+      console.log("UPDATED USER");
+    }
+  });
+
+
+
+  //save individual players data like kills deaths and xp
+
+  callback();
+}
+
 
 // Update the bullets 16 times per frame and send updates 
 function ServerGameLoop(){
@@ -305,9 +337,11 @@ function ServerGameLoop(){
       //rerset healt & add death to count
       players[id].health = 100;
       players[id].deaths ++;
-      
+
       //add kill to player who shot the person last
       players[players[id].hit_by].kills++;
+
+      console.log(players[players[id].hit_by].kills);
 
       io.emit("dead-respawn", id);
     }
@@ -317,23 +351,53 @@ function ServerGameLoop(){
       //get player data from db for tyhe winner
 
 
-      //save all the player kills into db???
+
+
+      var playerData = JSON.parse(JSON.stringify(players));
+
+
+
+      //reset player data
       for(var p in players) {
+
+        // playerData[p].kills =players[p].kills = 0;
+        // players[p].deaths = 0;
+        // players[p].damageDelt = 0;
+
+
+
+
         players[p].kills = 0;
+        players[p].deaths = 0;
+        players[p].damageDelt = 0;
+        // players[p].kills = 0;
       }
 
-      //prepare the data for sending
-      getNextLevel(function(data) {
-        console.log(data);
-      
-        var gameEndData = {
-          winner: players[id],
-          players: players,
-          level: data
-        }
+      console.log("PLAYER DATA:::::::::::");
+      console.log(playerData);
 
-        //for new level we will broad cast mesage of who won, show all highscores and have a 10s countdown before the next level starrts
-        io.emit("game-end", gameEndData);
+
+      saveMatchData(playerData, function() {
+
+        
+
+        //prepare the data for sending
+        getNextLevel(function(data) {
+          // console.log(data);
+        
+          var gameEndData = {
+            winner: players[id],
+            players: playerData,
+            level: data
+          }
+
+
+       
+
+          //for new level we will broad cast mesage of who won, show all highscores and have a 10s countdown before the next level starrts
+          io.emit("game-end", gameEndData);
+        });
+
       });
     }
   }
