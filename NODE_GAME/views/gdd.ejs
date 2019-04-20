@@ -12,13 +12,9 @@
                     <div id="submenu-wrapper>">
                         <div id="submenu">
                         <ul>
-                            <li><a class="content-selector" data-id="gameidea" href="" accesskey="7" title="">Game Idea</a></li>
-                            <li><a class="content-selector" data-id="overview" href="" accesskey="8" title="">Game Overview</a></li>
-                            <li><a class="content-selector" data-id="env" href="" accesskey="9" title="">Game Enviroment</a></li>
-                            <br/>
-                            <li><a class="content-selector" data-id="impl" href="" accesskey="10" title="">Implementation</a></li>
-                            <li><a class="content-selector" data-id="insp" href="" accesskey="10" title="">Inspiration</a></li>
-                            <li><a class="content-selector" data-id="market" href="" accesskey="11" title="">Research</a></li>
+                            <li><a class="content-selector" data-id="gameidea" href="" accesskey="7" title="">Inspiration</a></li>
+                            <li><a class="content-selector" data-id="overview" href="" accesskey="8" title="">Game Specification</a></li>
+                            <li><a class="content-selector" data-id="env" href="" accesskey="9" title="">Project Management</a></li>
                         </ul>
                         </div>
                     </div>
@@ -54,24 +50,22 @@
 <div id="gameidea" style="display:none;">
     <div class="content">
         <p>
-        <h1>Game Idea</h1>
+        <h1>Inspiration</h1>
         <br/>
-        <h2>Title</h2>
-        The title for this web based game is "Web Siege", we feel this title is justified from the goal of the game.
+		Web Siege is a free web-game where you, the player battle against other players in a bid to hit the kill score.
         <br/>
+		When deciding to make our webgame, our discussion was based around a number of games that inspired us currently and in the past. We both absolutely love Rainbow Six Siege. 
         <br/>
-        <h2>Genre</h2>
-        The genre of this game is classed as " Indie Shooter". <br/>
-        Indie: Is short for independent developer, this is developers that make games without backing of any third-party publisher.<br/>
-        Shooter: Is a genre based on aim and shoot.
-
+        It was decided that we wanted a shooter. When we then got discussing what kind of shooter we were wanting to make (that game you should in class at the start) came to mind.
+		<br/>
+        Let's head towards this approach and mix it up with some R6:Siege aspects! 
+		<br/>
+		Great!
         <br/>
-        <h2>Concept</h2>
-        The object of the game is to kill as many players without being killed<br/>
-        The more you kill your tally will rise towards the kill limit.<br/>
-        Each character is unique and has their own style of play and loadout.
-        <br/>
-        <br/>
+		We then got to level environment and we both agreed that a worms was epic for 2D shooting in regards to level design and so it was decided that this would be our style of level design.
+		<br/>
+        When it came to art and character style we wanted to keep it quite relevant to the aim of the game, shooter, siege and worms type design. So, we decided that South Parks art style really captured a balance between any type of scenario. 
+		We took inspiration from all these sources and came up with a game that we are really happy with.
         </p>
     </div>
 </div>
@@ -79,45 +73,94 @@
 <div id="overview" style="display:none;">
     <div class="content">
         <p>
-        <h1>Game Overview</h1>
+        <h1>Game Specification</h1>
         <br/>
-        <h2>Core Objective</h2>
-        The goal is to kill as many players as possible, tallying up points towards the kill limit by using unique characters and loadouts.
+		<br/>
+        <h2>Title</h2>
+        The title for this web based game is "Web Siege", we feel this title is justified from the goal of the game. 
+		Users will be able to siege there opponents in any way they see fit using multiple tactics in an environment that allows them to plan attacks from both below and high advantages with different weapons catering to different situations.
         <br/>
-        Players are encouraged to use each characters main ability to win to their advantage. However, not all abilities will be beneficial in certain situations and will require a cooldown after used.
+		<br/>
+        <h2>Genre</h2>
+        The genre of this game is classed as " Indie Shooter". Two dudes, are an Independant studio that is building a web based game that relies on shooting the opponent.
         <br/>
+		<br/>
+		<h2>Concept</h2>
+		The object of the game is to kill as many players without being killed. The more you kill your tally will rise towards the kill limit. Players are free to use tactical approaches using the levels environment and switching between guns to cater to their positional advantages.
         <br/>
+		<br/>
+		<h2>Core Objective</h2>
+		The goal is to kill as many players as possible, tallying up points towards the kill limit by using unique characters and loadouts. 
+		Players are encouraged to use each characters main ability to win to their advantage. However, not all abilities will be beneficial in certain situations and will require a cooldown after used. 
+		<br/>
+		<br/>
         <h2>Expected Experience</h2>
-        Players are expected to have fun and feel a sense of laughter from the game. This game is not to resemble reality.
+        Players are expected to have fun and feel a sense of laughter from the game. This game is not to resemble reality. Players are also to feel a little adrenaline rush from the speed at which the game can be played at. 
         <br/>
-        Players are also to feel a little adrenaline rush from the speed at which the game can be played at.
+		<br/>
+        <h2>Purpose</h2>
+		The purpose of the game is to have a flowing fun multiplayer shooter where users can create and track their stats as they fill some free time playing out free game. We want to have also created a platform for some competitiveness between users and friends.
         <br/>
-        <br/>
-        <h2>Gameplay Theme</h2>
-        
-        <br/>
-        <br/>
+		<br/>
         <h2>Game Structure</h2>
+		In web-siege we have a number of states implemented into the structure of the game.
+		<br/>
+		<br/>
+		<ul>
+		<li><h3>Boot  </h3> We have a boot state that initialises a phaser game and frameworks.<li/>
+		<li><h3>Load  </h3> A load state that preloads all assets of the game including gun and level sprites.<li/>
+		<li><h3>Pre-menu  </h3> A premenu that will require the players to log in to the games server to retrieve their match stats.<li/>
+		<li><h3>Menu  </h3> A menu state to browse their stats or play the game.<li/>
+		<li><h3>Play  </h3> A play state which will preload level data from the server and initalise the current level.<li/>
+		<li><h3>Game  </h3> A game state which will create the current level and draw the map along this state is also responsible for creating a player sprite.<li/>
+		<ul/>
+		<br/>
+		We have a server running that controls all passing data sent to active players through client code and an entity code to update the players status ie health.
+		<br/>
+		At the end of the game another state will be called into play called the endgame state, this state will show performance ingame and send data to a external database which the pre-menu state will have access to. To retrieve stats and display them.
         <br/>
-        <br/>
+		<br/>
         <h2>Features Implemented</h2>
+		<h3>SQL</h3>
+		Database using SQL. We have implemented a database to hold player stats, weapons stats, weapon ammo, match stats. Matches, users and maps
+		<br/>
+		<h3>Node</h3>
+		We are running a server using NODE, currently this is only reachable via localhost. There is talk of going to an external hosted ip.
+		<br/>
+		<h3>Socket.IO</h3>
+		We used Socket.IO as our multiplayer plugin.
+		<br/>
+		<h3>Player Mechanics</h3>
+		<ul>
+		<li>W = Jump<li/>
+		<li>A = Moves Left<li/>
+		<li>D = Moves Right<li/>
+		<li>Mouse look handles the crosshair.<li/>
+		<li>LMB = Fire<li/>
     </div>
 </div>
 
 <div id="env" style="display:none;">
     <div class="content">
         <p>
-            <h1>Game Environment</h1>
-            <h2>GUI</h2>
-
+            <h1>Project Management</h1>
+            <h2>Version Control</h2>
             <br/>
-            <h2>Level Design</h2>
-            
+			For version control, we used GitHub to keep track of our changes and versions of the web game. Google docs was also used to created a document which was accessible for every member of the group to have their input.
+            <h2>Communication</h2>  
             <br/>
-            <h2>Scene Description</h2>
+			Whatsapp and Discord were used for communication between the team. A Server was created on Discord and later a Whatsapp group.
+            <h2>Gantt Chart</h2>
             <br/>
-            <br/>
-            <h2>Intended Gameplay Sequence</h2>
+			<img class="img-fluid float-right" src="public/images/gantt.png" alt="" width="50%" height="25%">
+            <h2>Roles</h2>
+			Whilst all members played a part in every role in developing this game at some point throughout the project, there were lead action taken throughout the project that these titles correspond too.
+			<br/>
+			<br/>
+			<h3>Kamil Witonski</h3>
+			Lead Server & Games Programmer
+			<h3>Darren Griffiths</h3>
+			Lead Web & Art Designer
 
         </p>
     </div>
