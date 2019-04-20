@@ -34,6 +34,7 @@ var loadState = {
         this.load.audio('pistol', ['/public/assets/audio/9mm.mp3']);
         this.load.audio('uzi', ['/public/assets/audio/barreta.mp3']);
         this.load.audio('rifle', ['/public/assets/audio/m4a1.mp3']);
+		this.load.audio('sniper', ['/public/assets/audio/sniper.mp3']);
         // this.load.audio('pistol', ['/public/assets/audio/pistol.mp3']);
 		
 		//I wonder if we can group this data and call it as a whole
