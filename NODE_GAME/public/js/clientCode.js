@@ -2,8 +2,14 @@ function initialiseClient() {
   //create multiplayer link
 
   if(socket == undefined) {
-    socket = io(); // This triggers the 'connection' event on the server
-    socket.emit('new-player',{x:player.sprite.x,y:player.sprite.y,angle:player.sprite.rotation,type:1})
+    socket = io();
+    socket.emit('new-player',{
+      x:player.sprite.x,
+      y:player.sprite.y,
+      angle:player.sprite.rotation,
+      type:1,
+      user_id: $('#user_id').val()
+    });
   }
 
   // console.log(socket);
