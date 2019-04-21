@@ -12,6 +12,7 @@ var playState = {
     init: function(data) {
 
         var self = this;
+        this.readyToPLay = false;
 
         if(data == undefined) {
             // /get-map-data
@@ -161,6 +162,34 @@ var playState = {
         game.camera.y = player.sprite.y - WINDOW_HEIGHT / 2;
 
         initialiseClient();
+
+        var ESCkey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+
+        ESCkey.onDown.addOnce(function(){
+
+            socket.emit('disconnect');
+
+
+            // // Check if a player is missing and delete them 
+            //   for(var id in other_players){
+            //     console.log(other_players);
+            //     // console.log(players_found);
+            //     console.log(socket.id);
+
+            //     if(other_players[socket.id])
+
+
+            //       // if(!players_found[id]){
+            //       //     other_players[id].destroy();
+            //       //     delete other_players[id];
+            //       // }
+            //   }
+
+
+            this.game.state.start('boot');
+
+        }, this);
+
 
     },
     update: function() {

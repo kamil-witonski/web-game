@@ -291,14 +291,11 @@ function saveMatchData(data, callback) {
 
 function getUserStats(userID, callback) {
 
-  knex.raw("SELECT sum(kills) as kills, sum(deaths) as deaths FROM `matchdata` WHERE user_id = ? group by user_id", [userID]).then(function(data) {
+  knex.raw("SELECT sum(kills) as kills, sum(deaths) as deaths, sum(damage) as damage FROM `matchdata` WHERE user_id = ? group by user_id", [userID]).then(function(data) {
     console.log(data);
 
     callback(data);
   });
-
-  // knex.rav SELECT count(kills) as kills, sum(deaths) as deaths FROM `matchdata` WHERE user_id = 2 group by user_id
-
 }
 
 
