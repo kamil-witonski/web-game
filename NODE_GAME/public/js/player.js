@@ -18,8 +18,10 @@ var player = {
     topBondOrient: 0,
     animation: '',
     ui: {
+        killMsgTime: 5,
         ammoText: null,
-        gunText: null
+        gunText: null,
+        killText: null
     },
     createPlayer: function() {
 
@@ -375,6 +377,9 @@ var player = {
 
         this.ui.gunText = game.add.text(game.camera.x, game.camera.y + 15, 'Current Gun: ', { font: "15px Arial", fill: "#19de65" });
         this.ui.gunText.fixedToCamera = true;
+
+        this.ui.killText = game.add.text(game.camera.x + (game.width / 2) - 100, game.camera.y + 400, '', { font: '30px Arial', fill: '#ff0000' });
+        this.ui.killText.fixedToCamera = true;
     },
     updateUI: function() {
         //display the bullet ammount
@@ -382,5 +387,23 @@ var player = {
 
         //display UI gun text
         this.ui.gunText.text = 'Current Gun: '+ this.guns[this.gunIndex].name;
+
+
+    },
+    displayKillMessage: function(data) {
+        this.ui.killText.text = "KILLED: " + data.name;
+
+        var selfs = this;
+        //display message for 5 seconds
+        var timer = setInterval(function() {
+            selfs.ui.killMsgTime--;
+
+            if(selfs.ui.killMsgTime == 1) {
+                clearInterval(timer);
+                selfs.ui.killText.text = "";
+
+                selfs.ui.killMsgTime = 5;
+            } 
+        }, 1000);
     }
 };

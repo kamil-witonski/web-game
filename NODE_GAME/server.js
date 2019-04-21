@@ -65,8 +65,6 @@ app.get('/get-user-stats', function(req, res) {
   getUserStats(req.session.user.id, function(data) {
 
     res.send(data);
-    // console.log(data);
-
   });
 });
 
@@ -134,7 +132,7 @@ var levelData = []; //Keeps a track of all the levels that are playable
 var currentLevelIndex = 1;
 
 var winConditions = {
-  kills: 1,
+  kills: 5,
   time: 10000
 };
 
@@ -360,6 +358,14 @@ function ServerGameLoop(){
       players[players[id].hit_by].kills++;
 
       console.log(players[players[id].hit_by].kills);
+
+      var killed = {
+        name: players[id].username,
+        by: players[id].hit_by 
+      }
+
+      io.emit('killed', killed);
+      io.emit('killed_by')
 
       io.emit("dead-respawn", id);
     }

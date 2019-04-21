@@ -8,11 +8,10 @@ function initialiseClient() {
       y:player.sprite.y,
       angle:player.sprite.rotation,
       type:1,
-      user_id: $('#user_id').val()
+      user_id: $('#user_id').val(),
+      username: $('#username').val()
     });
   }
-
-  // console.log(socket);
 
   // Listen for other players connecting
   socket.on('update-players',function(players_data){
@@ -101,6 +100,13 @@ function initialiseClient() {
         //If this is you
         player.respawn();
     } 
+  });
+
+  //code for showing who you killed
+  socket.on('killed', function(data) {
+      if(data.by == socket.id) {
+        player.displayKillMessage(data);
+      }
   });
 
   socket.on("game-end", function(data) {
