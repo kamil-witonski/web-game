@@ -392,6 +392,24 @@ var player = {
     },
     displayKillMessage: function(data) {
         this.ui.killText.text = "KILLED: " + data.name;
+        this.ui.killMsgTime = 5
+
+        var selfs = this;
+        //display message for 5 seconds
+        var timer = setInterval(function() {
+            selfs.ui.killMsgTime--;
+
+            if(selfs.ui.killMsgTime == 1) {
+                clearInterval(timer);
+                selfs.ui.killText.text = "";
+
+                selfs.ui.killMsgTime = 5;
+            } 
+        }, 1000);
+    },
+    displayDeathMessage: function(data) {
+        this.ui.killText.text = "KILLED BY: " + data.name;
+        this.ui.killMsgTime = 5
 
         var selfs = this;
         //display message for 5 seconds

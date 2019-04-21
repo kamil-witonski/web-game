@@ -109,6 +109,13 @@ function initialiseClient() {
       }
   });
 
+  socket.on('killedBy', function(data) {
+      if(data.user == socket.id) {
+        console.log("YOU DIED");
+        player.displayDeathMessage(data);
+      }
+  });
+
   socket.on("game-end", function(data) {
     game.state.start('game-end', false, false, data);
   });

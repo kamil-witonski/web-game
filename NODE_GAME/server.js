@@ -357,15 +357,20 @@ function ServerGameLoop(){
       //add kill to player who shot the person last
       players[players[id].hit_by].kills++;
 
-      console.log(players[players[id].hit_by].kills);
-
       var killed = {
         name: players[id].username,
         by: players[id].hit_by 
       }
 
       io.emit('killed', killed);
-      io.emit('killed_by')
+
+      var killedBy = {
+        name: players[players[id].hit_by].username,
+        user: id
+      }
+
+
+      io.emit('killedBy', killedBy);
 
       io.emit("dead-respawn", id);
     }
