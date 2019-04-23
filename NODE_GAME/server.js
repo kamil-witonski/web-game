@@ -214,7 +214,8 @@ function getCurrentLevelData(callback) {
           data[0].tile_set
         ],
         background: data[0].background,
-        audioFile: ""
+        audioFile: "",
+        spawns: data[0].spawn_points
       }
 
 
@@ -247,7 +248,8 @@ function getNextLevel(callback) {
           data[0].tile_set
         ],
         background: data[0].background,
-        audioFile: ""
+        audioFile: "",
+        spawns: data[0].spawn_points
       }
 
 

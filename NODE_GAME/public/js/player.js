@@ -351,8 +351,9 @@ var player = {
     },
     respawn: function() {
         var spawn = respawnPoints[Math.floor(Math.random()*respawnPoints.length)];
-        this.sprite.x = spawn.x;
-        this.sprite.y = spawn.y;
+
+        this.sprite.x = parseInt(spawn.x);
+        this.sprite.y = parseInt(spawn.y);
 
         socket.emit('move-player',{
             x:this.sprite.x,

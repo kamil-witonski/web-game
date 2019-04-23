@@ -174,6 +174,9 @@ var playState = {
     
         this.load.image('paralax_img1', paralaxBG[0], true)
 
+        //respawn points
+        respawnPoints = JSON.parse(this.data.spawns);
+
         //start loading
         this.load.start();
         //wait for load to complete and run the function
