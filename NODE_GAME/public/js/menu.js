@@ -3,10 +3,6 @@
 var menuState = {
 
     create: function () {
-		// this.game.state.restart();
-
-        console.log('menu!?');
-
 		//Background
 		game.add.tileSprite(0, 0, 1000, 600, 'menubg');
 
@@ -17,10 +13,6 @@ var menuState = {
         var test = game.add.text(80, 370, 'Press W to join game', { font: '25px Arial', fill: '#ffffff' })
         var test1 = game.add.text(80, 400, 'Press S for stats', { font: '25px Arial', fill: '#ffffff' })
 		
-        test.bringToTop();
-
-
-        console.log(test);
 
 		//Create Music
 		var music = game.add.audio('menumusic');
