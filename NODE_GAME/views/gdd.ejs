@@ -42,101 +42,136 @@
     });
 </script>
 
+<style type="text/css">
+    .content {
+        width: 90%;
+        margin: auto;
+    } 
 
-</body>
-</html>
+
+</style>
 
 
 <div id="gameidea" style="display:none;">
     <div class="content">
-        <p>
         <h1>Inspiration</h1>
-        <br/>
-		Web Siege is a free web-game where you, the player battle against other players in a bid to hit the kill score.
-        <br/>
-		When deciding to make our webgame, our discussion was based around a number of games that inspired us currently and in the past. We both absolutely love Rainbow Six Siege. 
-        <br/>
+        <p>
+        
+        Web Siege is a free web-game where you, the player battle against other players in a bid to hit the kill score.
+
+        When deciding to make our webgame, our discussion was based around a number of games that inspired us currently and in the past. We both absolutely love Rainbow Six Siege. 
+
         It was decided that we wanted a shooter. When we then got discussing what kind of shooter we were wanting to make (that game you should in class at the start) came to mind.
-		<br/>
+
         Let's head towards this approach and mix it up with some R6:Siege aspects! 
-		<br/>
-		Great!
-        <br/>
-		We then got to level environment and we both agreed that a worms was epic for 2D shooting in regards to level design and so it was decided that this would be our style of level design.
-		<br/>
+        </p>
+        <p>
+        Great!
+        </p>
+        <p>
+        
+        We then got to level environment and we both agreed that a worms was epic for 2D shooting in regards to level design and so it was decided that this would be our style of level design.
+       
         When it came to art and character style we wanted to keep it quite relevant to the aim of the game, shooter, siege and worms type design. So, we decided that South Parks art style really captured a balance between any type of scenario. 
-		We took inspiration from all these sources and came up with a game that we are really happy with.
+        We took inspiration from all these sources and came up with a game that we are really happy with.
         </p>
     </div>
 </div>
 
 <div id="overview" style="display:none;">
     <div class="content">
-        <p>
+    
         <h1>Game Specification</h1>
-        <br/>
-		<br/>
+    
         <h2>Title</h2>
-        The title for this web based game is "Web Siege", we feel this title is justified from the goal of the game. 
-		Users will be able to siege there opponents in any way they see fit using multiple tactics in an environment that allows them to plan attacks from both below and high advantages with different weapons catering to different situations.
-        <br/>
-		<br/>
+        <p>The title for this web based game is "Web Siege", we feel this title is justified from the goal of the game. 
+        Users will be able to siege there opponents in any way they see fit using multiple tactics in an environment that allows them to plan attacks from both below and high advantages with different weapons catering to different situations.
+        </p>
+        
         <h2>Genre</h2>
-        The genre of this game is classed as " Indie Shooter". Two dudes, are an Independant studio that is building a web based game that relies on shooting the opponent.
-        <br/>
-		<br/>
-		<h2>Concept</h2>
-		The object of the game is to kill as many players without being killed. The more you kill your tally will rise towards the kill limit. Players are free to use tactical approaches using the levels environment and switching between guns to cater to their positional advantages.
-        <br/>
-		<br/>
-		<h2>Core Objective</h2>
-		The goal is to kill as many players as possible, tallying up points towards the kill limit by using unique characters and loadouts. 
-		Players are encouraged to use each characters main ability to win to their advantage. However, not all abilities will be beneficial in certain situations and will require a cooldown after used. 
-		<br/>
-		<br/>
+        <p>2D multiplayer shooter</p>
+        
+        <h2>Research</h2>
+        <h4>Inspiration</h4>
+        <p>The biggest inspiration for the game was Soldat and RainbowSix: Siege. Soldat is a 2D multiplayer shooter that is very similar to our game implementation, we wanted to utilise some aspects of RainbowSix:Siege like individual operators and their specific special abilities.</p>
+        <p>Due to time constraints we were unable to implement this feature.</p>
+
+        <h2>Concept</h2>
+        <p>The object of the game is to kill as many players without being killed. The more you kill your tally will rise towards the kill limit. Players are free to use tactical approaches using the levels environment and switching between guns to cater to their positional advantages.</p>
+    
+        <h2>Core Objective</h2>
+        <p>
+            The goal is to kill as many players as possible, tallying up points towards the kill limit by using unique characters and loadouts. 
+        Players are encouraged to use each characters main ability to win to their advantage. However, not all abilities will be beneficial in certain situations and will require a cooldown after used.
+        </p>
+
+
         <h2>Expected Experience</h2>
-        Players are expected to have fun and feel a sense of laughter from the game. This game is not to resemble reality. Players are also to feel a little adrenaline rush from the speed at which the game can be played at. 
-        <br/>
-		<br/>
+        <p>Players are expected to have fun and feel a sense of laughter from the game. This game is not to resemble reality. Players are also to feel a little adrenaline rush from the speed at which the game can be played at.</p> 
+        
         <h2>Purpose</h2>
-		The purpose of the game is to have a flowing fun multiplayer shooter where users can create and track their stats as they fill some free time playing out free game. We want to have also created a platform for some competitiveness between users and friends.
-        <br/>
-		<br/>
+        <p>The purpose of the game is to have a flowing fun multiplayer shooter where users can create and track their stats as they fill some free time playing out free game. We want to have also created a platform for some competitiveness between users and friends.</p>
+        
+
         <h2>Game Structure</h2>
-		In web-siege we have a number of states implemented into the structure of the game.
-		<br/>
-		<br/>
-		<ul>
-		<li><h3>Boot  </h3> We have a boot state that initialises a phaser game and frameworks.<li/>
-		<li><h3>Load  </h3> A load state that preloads all assets of the game including gun and level sprites.<li/>
-		<li><h3>Pre-menu  </h3> A premenu that will require the players to log in to the games server to retrieve their match stats.<li/>
-		<li><h3>Menu  </h3> A menu state to browse their stats or play the game.<li/>
-		<li><h3>Play  </h3> A play state which will preload level data from the server and initalise the current level.<li/>
-		<li><h3>Game  </h3> A game state which will create the current level and draw the map along this state is also responsible for creating a player sprite.<li/>
-		<ul/>
-		<br/>
-		We have a server running that controls all passing data sent to active players through client code and an entity code to update the players status ie health.
-		<br/>
-		At the end of the game another state will be called into play called the endgame state, this state will show performance ingame and send data to a external database which the pre-menu state will have access to. To retrieve stats and display them.
+        In web-siege we have a number of states implemented into the structure of the game.
         <br/>
-		<br/>
+        <br/>
+        <ul>
+        <li><h3>Boot  </h3> We have a boot state that initialises a phaser game and frameworks.<li/>
+        <li><h3>Load  </h3> A load state that preloads all assets of the game including gun and level sprites.<li/>
+        <li><h3>Pre-menu  </h3> A premenu that will require the players to log in to the games server to retrieve their match stats.<li/>
+        <li><h3>Menu  </h3> A menu state to browse their stats or play the game.<li/>
+        <li><h3>Play  </h3> A play state which will preload level data from the server and initalise the current level.<li/>
+        <li><h3>Game  </h3> A game state which will create the current level and draw the map along this state is also responsible for creating a player sprite.<li/>
+        <ul/>
+        <br/>
+        We have a server running that controls all passing data sent to active players through client code and an entity code to update the players status ie health.
+        <br/>
+        At the end of the game another state will be called into play called the endgame state, this state will show performance ingame and send data to a external database which the pre-menu state will have access to. To retrieve stats and display them.
+        <br/>
+        <br/>
+
+
         <h2>Features Implemented</h2>
-		<h3>SQL</h3>
-		Database using SQL. We have implemented a database to hold player stats, weapons stats, weapon ammo, match stats. Matches, users and maps
-		<br/>
-		<h3>Node</h3>
-		We are running a server using NODE, currently this is only reachable via localhost. There is talk of going to an external hosted ip.
-		<br/>
-		<h3>Socket.IO</h3>
-		We used Socket.IO as our multiplayer plugin.
-		<br/>
-		<h3>Player Mechanics</h3>
-		<ul>
-		<li>W = Jump<li/>
-		<li>A = Moves Left<li/>
-		<li>D = Moves Right<li/>
-		<li>Mouse look handles the crosshair.<li/>
-		<li>LMB = Fire<li/>
+        <h3>Database</h3>
+        <p>
+            Database using SQL. We have implemented a database to hold player stats, weapons stats, weapon ammo, match stats. Matches, users and maps    
+        </p>
+
+        
+        <h3>Multiplayer</h3>
+        <p>The game features a centralised server model, where clients connect up to the server, the server keeps a track of all the user details: current position, kills, deaths, guns and the type of animation is used.</p>
+        <p>The data is passed from the client to the server which then is distributed across all other players.</p>
+
+        <h3>Node</h3>
+        <p>The game relies on Node.js to act as a server that communicates with connected players.</p>
+        
+        <h3>Socket.IO</h3>
+        <p>We are using Socket.IO to pass messages between the client and server, socket.io allows us to send specific messages to clients and vice versa</p>
+
+        <br/>
+
+        <h3>Player Mechanics</h3>
+        
+        <h5>Movement</h5>
+        <p>The player has abil;ity to traverse the map by moving and jumping</p>
+        
+        <h5>Guns</h5>
+        <p>The players are able to use multiple different guns that have their own properties</p>
+        
+        <h5>Level Switching</h5>
+        <p>The server is able to keep track of the kills and swithc the maps out after the limit has been reached.</p>
+        <p>This is done dynamically by reading data from a database</p>
+
+        <h3>Player Controls</h3>
+        <ul>
+        <li>W = Jump<li/>
+        <li>A = Moves Left<li/>
+        <li>D = Moves Right<li/>
+        <li>Mouse look handles the crosshair.<li/>
+        <li>LMB = Fire<li/>
+        <li>E = Switch Weapon<li/>
     </div>
 </div>
 
@@ -146,21 +181,21 @@
             <h1>Project Management</h1>
             <h2>Version Control</h2>
             <br/>
-			For version control, we used GitHub to keep track of our changes and versions of the web game. Google docs was also used to created a document which was accessible for every member of the group to have their input.
+            For version control, we used GitHub to keep track of our changes and versions of the web game. Google docs was also used to created a document which was accessible for every member of the group to have their input.
             <h2>Communication</h2>  
             <br/>
-			Whatsapp and Discord were used for communication between the team. A Server was created on Discord and later a Whatsapp group.
+            Whatsapp and Discord were used for communication between the team. A Server was created on Discord and later a Whatsapp group.
             <h2>Gantt Chart</h2>
             <br/>
-			<img class="img-fluid float-right" src="public/images/gantt.png" alt="" width="50%" height="25%">
+            <img class="img-fluid float-right" src="public/images/gantt.png" alt="" width="50%" height="25%">
             <h2>Roles</h2>
-			Whilst all members played a part in every role in developing this game at some point throughout the project, there were lead action taken throughout the project that these titles correspond too.
-			<br/>
-			<br/>
-			<h3>Kamil Witonski</h3>
-			Lead Server & Games Programmer
-			<h3>Darren Griffiths</h3>
-			Lead Web & Art Designer
+            Whilst all members played a part in every role in developing this game at some point throughout the project, there were lead action taken throughout the project that these titles correspond too.
+            <br/>
+            <br/>
+            <h3>Kamil Witonski</h3>
+            Lead Server & Games Programmer
+            <h3>Darren Griffiths</h3>
+            Lead Web & Art Designer
 
         </p>
     </div>
@@ -198,6 +233,8 @@
         </p>
     </div>
 </div>
+
+
 
 
 <% include partials/footer %>
