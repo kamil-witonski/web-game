@@ -366,54 +366,46 @@ function ServerGameLoop(){
         user: id
       }
 
-
+      //emit messages for kills
       io.emit('killedBy', killedBy);
 
       io.emit("dead-respawn", id);
     }
 
+
+    //check if the players have reached the win conditions
     if(players[id].kills >= winConditions.kills) {
-      console.log("Game end load new level");
-      //get player data from db for tyhe winner
-
-
-
-
       var playerData = JSON.parse(JSON.stringify(players));
+      var playerResults = [];
+
+      for(var p in playerData) {
+        playerResults.push(playerData[p]);  
+      }
 
 
 
       //reset player data
       for(var p in players) {
-
-        // playerData[p].kills =players[p].kills = 0;
-        // players[p].deaths = 0;
-        // players[p].damageDelt = 0;
-
-
-
-
         players[p].kills = 0;
         players[p].deaths = 0;
         players[p].damageDelt = 0;
-        // players[p].kills = 0;
       }
-
-      console.log("PLAYER DATA:::::::::::");
-      console.log(playerData);
 
 
       saveMatchData(playerData, function() {
 
-        
-
         //prepare the data for sending
         getNextLevel(function(data) {
           // console.log(data);
-        
+          
+          //order the players descending based on kills
+          playerResults.sort(function(a,b) {
+            return b.kills - a.kills
+          });
+
           var gameEndData = {
             winner: players[id],
-            players: playerData,
+            players: playerResults,
             level: data
           }
 
