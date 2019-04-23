@@ -1,5 +1,4 @@
 var LocalStrategy = require('passport-local').Strategy;
-// var User = require('./models/User');
 var App = require('./server');
 var passport = App.passport;
 var User = require('./models/User');
@@ -23,20 +22,20 @@ passport.use('local-signup', new LocalStrategy({
 
 	process.nextTick(function() {
 		User.getByUsername(username, function(user){
+			console.log(user);
+
 			//check if the array contains any results
-			//if it does means user exists with the specified email and
+			//if it does means user exists with the specified username and
 			//we should redirect back to signup page
 			if(user.length > 0) {
-				return done(null, false, req.flash('signupMessage', 'This email is already in use please try a different one.'));
+				return done(null, false, req.flash('signupMessage', 'This username is already in use please try a different one.'));
 			} else {
-				//if email doesnt exist create a new user
+				//if usernam doesnt exist create a new user
 				var userData = req.body;
 
-				userData['company_id'] = null;
-				userData['crm_user_id'] = null;
-				userData['user_type'] = 2;
+				console.log(userData);
 
-				User.createUser(1, userData, function(newUserId) {
+				User.createUser(userData, function(newUserId) {
 					User.getById(newUserId, function(user) {
 						return done(null, user);
 					});

@@ -19,6 +19,19 @@ var User = {
 	},
 	validPassword: function(uPassword, dbPassword) {
 		return bcrypt.compareSync(uPassword, dbPassword);
+	},
+	createUser: function(data, callback) {
+
+		knex(this.table).insert({
+			username: data.username, 
+			password: this.generateHash(data.password),
+			kills:0,
+			deaths: 0,
+			xp:0,
+			damage:0
+		}).then(function(id) {
+			callback(id);
+		});
 	}
 }
 

@@ -107,6 +107,15 @@ app.post('/login', function(req, res, next) {
     })(req, res, next);
 });
 
+app.get('/signup', function(req, res) {
+  res.render('signup');
+});
+
+app.post('/signup', passport.authenticate('local-signup', {
+    successRedirect : '/login',
+    failureRedirect : '/signup'
+}));
+
 
 
 /****** END ROUTES ******/
