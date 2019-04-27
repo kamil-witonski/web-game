@@ -95,11 +95,8 @@ io.on('connection', function(socket){
   socket.on('shoot-bullet',function(data){
     if(players[socket.id] == undefined) return;
     var new_bullet = data;
-    data.owner_id = socket.id; // Attach id of the player to the bullet 
-
-    //if(Math.abs(data.speed_x) > 20 || Math.abs(data.speed_y) > 20){
-      //console.log("Player",socket.id,"is cheating!");
-    //}
+    data.owner_id = socket.id;
+    
     bullet_array.push(new_bullet);
   });
 });
