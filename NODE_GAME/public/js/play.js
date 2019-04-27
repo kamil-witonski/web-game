@@ -120,7 +120,10 @@ var playState = {
         game.camera.x = player.sprite.x - WINDOW_WIDTH / 2;
         game.camera.y = player.sprite.y - WINDOW_HEIGHT / 2;
 
-        initialiseClient();
+        if(socket == undefined) {
+            console.log('initialise client code');
+            initialiseClient();    
+        }
 
         var ESCkey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
 
