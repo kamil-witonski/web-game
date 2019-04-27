@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 27, 2019 at 04:52 PM
--- Server version: 10.1.26-MariaDB
--- PHP Version: 7.1.9
+-- Generation Time: Apr 27, 2019 at 05:43 PM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 7.3.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -73,8 +73,8 @@ CREATE TABLE `maps` (
 --
 
 INSERT INTO `maps` (`id`, `name`, `tile_map`, `tile_set`, `background`, `spawn_points`) VALUES
-(1, 'level1', '/public/assets/test_map/test_map.json', '/public/assets/test_map/5z1KX.png', '[\"/public/assets/level_1/level1_sky.png\", \"/public/assets/level_1/level1_clouds.png\", \"/public/assets/level_1/level1_backtrees.png\", \"/public/assets/level_1/level1_trees.png\"]\r\n', '[{ \"x\": \"100\", \"y\": \"100\" }, { \"x\": \"300\", \"y\": \"300\" }]'),
-(2, 'level2', '/public/assets/test_map/level2.json', '/public/assets/test_map/5z1KX.png', '[\"/public/assets/level_2/bg.png\", \"/public/assets/level_2/bg_clouds.png\", \"/public/assets/level_2/bg_parallaxFar.png\", \"/public/assets/level_2/bg_parallaxNear.png\"]', '[{ \"x\": \"100\", \"y\": \"100\" }, { \"x\": \"300\", \"y\": \"300\" }]');
+(1, 'level1', '/public/assets/test_map/test_map.json', '/public/assets/test_map/5z1KX.png', '[\"/public/assets/level_1/level1_sky.png\", \"/public/assets/level_1/level1_clouds.png\", \"/public/assets/level_1/level1_backtrees.png\", \"/public/assets/level_1/level1_trees.png\"]\r\n', '[{ \"x\": \"900\", \"y\": \"250\" }, { \"x\": \"1250\", \"y\": \"550\" }, { \"x\": \"2150\", \"y\": \"700\" }, { \"x\": \"100\", \"y\": \"100\" }]'),
+(2, 'level2', '/public/assets/test_map/level2.json', '/public/assets/test_map/5z1KX.png', '[\"/public/assets/level_2/bg.png\", \"/public/assets/level_2/bg_clouds.png\", \"/public/assets/level_2/bg_parallaxFar.png\", \"/public/assets/level_2/bg_parallaxNear.png\"]', '[{ \"x\": \"2170\", \"y\": \"160\" }, { \"x\": \"2000\", \"y\": \"700\" }, { \"x\": \"700\", \"y\": \"480\" }, { \"x\": \"100\", \"y\": \"100\" }]');
 
 -- --------------------------------------------------------
 
@@ -340,7 +340,21 @@ INSERT INTO `matchdata` (`id`, `date`, `kills`, `deaths`, `damage`, `user_id`) V
 (242, 2019, 5, 1, 590, 12),
 (243, 2019, 1, 5, 168, 11),
 (244, 2019, 5, 1, 654, 11),
-(245, 2019, 1, 5, 130, 12);
+(245, 2019, 1, 5, 130, 12),
+(246, 2019, 5, 3, 578, 11),
+(247, 2019, 3, 5, 330, 1),
+(248, 2019, 0, 5, 0, 11),
+(249, 2019, 5, 0, 547, 1),
+(250, 2019, 0, 5, 0, 1),
+(251, 2019, 5, 0, 568, 11),
+(252, 2019, 0, 5, 0, 11),
+(253, 2019, 5, 0, 500, 1),
+(254, 2019, 0, 5, 0, 11),
+(255, 2019, 5, 0, 500, 1),
+(256, 2019, 0, 5, 0, 11),
+(257, 2019, 5, 0, 592, 1),
+(258, 2019, 0, 5, 0, 1),
+(259, 2019, 5, 0, 540, 11);
 
 -- --------------------------------------------------------
 
@@ -488,7 +502,14 @@ INSERT INTO `matches` (`id`, `date`, `data`) VALUES
 (126, 2019, '{\"rjbXtaCj4pqvQNu1AAA1\":{\"x\":204.16666666666666,\"y\":154,\"angle\":2.8832393350369028,\"type\":1,\"user_id\":\"11\",\"username\":\"Griffiola\",\"kills\":2,\"deaths\":2,\"health\":67,\"damageDelt\":200,\"dir\":1,\"topOrientY\":-1,\"topOrientX\":1,\"anim\":\"run\",\"hit_by\":\"AtriYRCdC9tUbmoNAAA2\"},\"AtriYRCdC9tUbmoNAAA2\":{\"x\":62.49999999999999,\"y\":506,\"angle\":1.4243759988682234,\"type\":1,\"user_id\":\"12\",\"username\":\"Kamil_should_Pass\",\"kills\":5,\"deaths\":3,\"health\":100,\"damageDelt\":639,\"dir\":-1,\"topOrientY\":1,\"topOrientX\":-1,\"anim\":\"idle\",\"hit_by\":\"aD5aZNqx2J25e4t_AAA3\"},\"aD5aZNqx2J25e4t_AAA3\":{\"x\":300,\"y\":300,\"angle\":-0.28599316788163714,\"type\":1,\"user_id\":\"1\",\"username\":\"kamil\",\"kills\":1,\"deaths\":3,\"health\":100,\"damageDelt\":100,\"dir\":-1,\"topOrientY\":1,\"topOrientX\":-1,\"anim\":\"idle\",\"hit_by\":\"AtriYRCdC9tUbmoNAAA2\"}}'),
 (127, 2019, '{\"nbp2FKw96aaN_HQDAAA4\":{\"x\":772.3333333333336,\"y\":692.5833333333334,\"angle\":-2.3521270578187217,\"type\":1,\"user_id\":\"11\",\"username\":\"Griffiola\",\"kills\":1,\"deaths\":5,\"health\":100,\"damageDelt\":153,\"dir\":1,\"topOrientY\":-1,\"topOrientX\":1,\"anim\":\"fall\",\"hit_by\":\"xDIgZA4TU0e5mW97AAA5\"},\"xDIgZA4TU0e5mW97AAA5\":{\"x\":447.0000000000009,\"y\":422.36111111111103,\"angle\":-0.5710269942137889,\"type\":1,\"user_id\":\"1\",\"username\":\"kamil\",\"kills\":5,\"deaths\":1,\"health\":67,\"damageDelt\":536,\"dir\":-1,\"topOrientY\":1,\"topOrientX\":-1,\"anim\":\"fall\",\"hit_by\":\"nbp2FKw96aaN_HQDAAA4\"}}'),
 (128, 2019, '{\"41tqDuBH07H1yr-uAAA6\":{\"x\":720.8333333333329,\"y\":167.6388888888889,\"angle\":2.7431479866294017,\"type\":1,\"user_id\":\"12\",\"username\":\"Kamil_should_Pass\",\"kills\":5,\"deaths\":1,\"health\":50,\"damageDelt\":590,\"dir\":1,\"topOrientY\":-1,\"topOrientX\":1,\"anim\":\"fall\",\"hit_by\":\"f8oFpwt2CJ8jDryPAAA7\"},\"f8oFpwt2CJ8jDryPAAA7\":{\"x\":345.83333333333354,\"y\":294.0833333333336,\"angle\":0.48015509802124695,\"type\":1,\"user_id\":\"11\",\"username\":\"Griffiola\",\"kills\":1,\"deaths\":5,\"health\":100,\"damageDelt\":168,\"dir\":-1,\"topOrientY\":1,\"topOrientX\":-1,\"anim\":\"fall\",\"hit_by\":\"41tqDuBH07H1yr-uAAA6\"}}'),
-(129, 2019, '{\"xT-n3b_WFYjzQzG3AAA8\":{\"x\":300,\"y\":570,\"angle\":-0.2355027663814244,\"type\":1,\"user_id\":\"11\",\"username\":\"Griffiola\",\"kills\":5,\"deaths\":1,\"health\":100,\"damageDelt\":654,\"dir\":-1,\"topOrientY\":1,\"topOrientX\":-1,\"anim\":\"idle\",\"hit_by\":\"RmVUZcCxvy2PIXR2AAA9\"},\"RmVUZcCxvy2PIXR2AAA9\":{\"x\":504.1666666666676,\"y\":570,\"angle\":3.0705544547022385,\"type\":1,\"user_id\":\"12\",\"username\":\"Kamil_should_Pass\",\"kills\":1,\"deaths\":5,\"health\":100,\"damageDelt\":130,\"dir\":1,\"topOrientY\":-1,\"topOrientX\":1,\"anim\":\"run\",\"hit_by\":\"xT-n3b_WFYjzQzG3AAA8\"}}');
+(129, 2019, '{\"xT-n3b_WFYjzQzG3AAA8\":{\"x\":300,\"y\":570,\"angle\":-0.2355027663814244,\"type\":1,\"user_id\":\"11\",\"username\":\"Griffiola\",\"kills\":5,\"deaths\":1,\"health\":100,\"damageDelt\":654,\"dir\":-1,\"topOrientY\":1,\"topOrientX\":-1,\"anim\":\"idle\",\"hit_by\":\"RmVUZcCxvy2PIXR2AAA9\"},\"RmVUZcCxvy2PIXR2AAA9\":{\"x\":504.1666666666676,\"y\":570,\"angle\":3.0705544547022385,\"type\":1,\"user_id\":\"12\",\"username\":\"Kamil_should_Pass\",\"kills\":1,\"deaths\":5,\"health\":100,\"damageDelt\":130,\"dir\":1,\"topOrientY\":-1,\"topOrientX\":1,\"anim\":\"run\",\"hit_by\":\"xT-n3b_WFYjzQzG3AAA8\"}}'),
+(130, 2019, '{\"0Zp0i9eSeE56KVKUAAAB\":{\"x\":466.6666666666674,\"y\":570,\"angle\":3.1090368788799663,\"type\":1,\"user_id\":\"11\",\"username\":\"Griffiola\",\"kills\":5,\"deaths\":3,\"health\":100,\"damageDelt\":578,\"dir\":1,\"topOrientY\":-1,\"topOrientX\":1,\"anim\":\"idle\",\"hit_by\":\"HRplreFS18rVZVQyAAAC\"},\"HRplreFS18rVZVQyAAAC\":{\"x\":200,\"y\":500,\"angle\":3.1395868977030044,\"type\":1,\"user_id\":\"1\",\"username\":\"kamil\",\"kills\":3,\"deaths\":5,\"health\":100,\"damageDelt\":330,\"dir\":1,\"topOrientY\":-1,\"topOrientX\":1,\"anim\":\"idle\",\"hit_by\":\"0Zp0i9eSeE56KVKUAAAB\"}}'),
+(131, 2019, '{\"EhUleE_5i0TPVvr-AAAD\":{\"x\":300,\"y\":100,\"angle\":-2.385621696563621,\"type\":1,\"user_id\":\"11\",\"username\":\"Griffiola\",\"kills\":0,\"deaths\":5,\"health\":100,\"damageDelt\":0,\"dir\":-1,\"anim\":\"idle\",\"hit_by\":\"dIQ7qNJBmI3obCUjAAAE\"},\"dIQ7qNJBmI3obCUjAAAE\":{\"x\":454.16666666666714,\"y\":378,\"angle\":2.1168222444306286,\"type\":1,\"user_id\":\"1\",\"username\":\"kamil\",\"kills\":5,\"deaths\":0,\"health\":100,\"damageDelt\":547,\"dir\":-1,\"topOrientY\":-1,\"topOrientX\":-1,\"anim\":\"idle\"}}'),
+(132, 2019, '{\"Q9YLCf5qExNKOYmRAAAF\":{\"x\":1000,\"y\":250,\"angle\":-2.686558770466553,\"type\":1,\"user_id\":\"1\",\"username\":\"kamil\",\"kills\":0,\"deaths\":5,\"health\":100,\"damageDelt\":0,\"dir\":1,\"topOrientY\":-1,\"topOrientX\":1,\"anim\":\"idle\",\"hit_by\":\"SgLJxICJqf3E6RH6AAAG\"},\"SgLJxICJqf3E6RH6AAAG\":{\"x\":801.5,\"y\":601.3333333333331,\"angle\":-1.0806393520784183,\"type\":1,\"user_id\":\"11\",\"username\":\"Griffiola\",\"kills\":5,\"deaths\":0,\"health\":100,\"damageDelt\":568,\"dir\":1,\"topOrientY\":1,\"topOrientX\":1,\"anim\":\"fall\"}}'),
+(133, 2019, '{\"N70ZwHklN8V_rEv7AAAH\":{\"x\":800,\"y\":282,\"angle\":0.07153079244343022,\"type\":1,\"user_id\":\"11\",\"username\":\"Griffiola\",\"kills\":0,\"deaths\":5,\"health\":100,\"damageDelt\":0,\"dir\":1,\"topOrientY\":1,\"topOrientX\":1,\"anim\":\"idle\",\"hit_by\":\"SBr_705yxzDwzB3gAAAI\"},\"SBr_705yxzDwzB3gAAAI\":{\"x\":708.6666666666706,\"y\":634,\"angle\":-1.3033220417878917,\"type\":1,\"user_id\":\"1\",\"username\":\"kamil\",\"kills\":5,\"deaths\":0,\"health\":100,\"damageDelt\":500,\"dir\":1,\"topOrientY\":1,\"topOrientX\":1,\"anim\":\"idle\"}}'),
+(134, 2019, '{\"wRQUcIT2EvcTrkeWAAAa\":{\"x\":600,\"y\":698,\"angle\":-2.4005491852285896,\"type\":1,\"user_id\":\"11\",\"username\":\"Griffiola\",\"kills\":0,\"deaths\":5,\"health\":100,\"damageDelt\":0,\"dir\":1,\"topOrientY\":-1,\"topOrientX\":1,\"anim\":\"idle\",\"hit_by\":\"4wLUS8v2qa0FG19RAAAb\"},\"4wLUS8v2qa0FG19RAAAb\":{\"x\":682.0000000000008,\"y\":634,\"angle\":-2.508663360700171,\"type\":1,\"user_id\":\"1\",\"username\":\"kamil\",\"kills\":5,\"deaths\":0,\"health\":100,\"damageDelt\":500,\"dir\":-1,\"topOrientY\":-1,\"topOrientX\":-1,\"anim\":\"idle\"}}'),
+(135, 2019, '{\"PTTFCxHBN8Pvpz_PAAAc\":{\"x\":900,\"y\":698,\"angle\":-2.4690462945292273,\"type\":1,\"user_id\":\"11\",\"username\":\"Griffiola\",\"kills\":0,\"deaths\":5,\"health\":100,\"damageDelt\":0,\"dir\":1,\"topOrientY\":-1,\"topOrientX\":1,\"anim\":\"idle\",\"hit_by\":\"V_oYCjEWKVzA5SDoAAAd\"},\"V_oYCjEWKVzA5SDoAAAd\":{\"x\":1039.6666666666483,\"y\":602,\"angle\":2.717154259479307,\"type\":1,\"user_id\":\"1\",\"username\":\"kamil\",\"kills\":5,\"deaths\":0,\"health\":100,\"damageDelt\":592,\"dir\":1,\"topOrientY\":-1,\"topOrientX\":1,\"anim\":\"idle\"}}'),
+(136, 2019, '{\"AicZCRy5WALuwD3_AAAe\":{\"x\":1250,\"y\":538,\"angle\":2.63987874718919,\"type\":1,\"user_id\":\"1\",\"username\":\"kamil\",\"kills\":0,\"deaths\":5,\"health\":100,\"damageDelt\":0,\"dir\":-1,\"topOrientY\":-1,\"topOrientX\":-1,\"anim\":\"idle\",\"hit_by\":\"vZlysgX6fZ3mdT_kAAAf\"},\"vZlysgX6fZ3mdT_kAAAf\":{\"x\":1694.5000000000086,\"y\":698,\"angle\":2.7620572417898126,\"type\":1,\"user_id\":\"11\",\"username\":\"Griffiola\",\"kills\":5,\"deaths\":0,\"health\":100,\"damageDelt\":540,\"dir\":-1,\"topOrientY\":-1,\"topOrientX\":-1,\"anim\":\"idle\"}}');
 
 -- --------------------------------------------------------
 
@@ -539,6 +560,7 @@ ALTER TABLE `guns`
 --
 ALTER TABLE `maps`
   ADD PRIMARY KEY (`id`);
+ALTER TABLE `maps` ADD FULLTEXT KEY `spawn_points` (`spawn_points`);
 
 --
 -- Indexes for table `matchdata`
@@ -578,13 +600,13 @@ ALTER TABLE `maps`
 -- AUTO_INCREMENT for table `matchdata`
 --
 ALTER TABLE `matchdata`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=246;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=260;
 
 --
 -- AUTO_INCREMENT for table `matches`
 --
 ALTER TABLE `matches`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
 
 --
 -- AUTO_INCREMENT for table `users`
