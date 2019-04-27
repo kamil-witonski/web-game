@@ -7,118 +7,25 @@ var session = require('express-session');
 var Middleware = require('./Middleware');
 var bodyParser = require('body-parser');
 var User = require('./models/User');
+var db = require('./models/db');
+
 
 app.set('view engine', 'ejs');
 
 exports.passport = passport;
 
 require('./passport');
-var knex = require('./knex');
+
 
 app.use( bodyParser.urlencoded({ extended: true }) );
 app.use(session({ secret: 'this_is_a_super_secret_session', key: 'sid'}));
 app.use(passport.initialize());
 app.use(passport.session());
 
-/****** ROUTES *******/
+//set up routes
+var appRoutes = require('./routes/app');
+app.use('/', appRoutes);
 
-// Serve the index page 
-app.get("/", function (req, res) {
-  res.render("index");
-});
-
-app.get("/aboutus", function (req, res) {
-  res.render("aboutus"); 
-});
-
-app.get("/game", Middleware.isLoggedIn, function (req, res) {
-  res.locals.user = req.session.user;
-  res.render("game", {user1: req.session.user}); 
-});
-
-app.get("/gdd", function (req, res) {
-  res.render("gdd"); 
-});
-
-app.get("/inspiration", function (req, res) {
-  res.render("inspiration"); 
-});
-
-app.get("/contactus", function (req, res) {
-  res.render("contactus"); 
-});
-
-app.get('/get-map-data', function(req, res) {
-  getCurrentLevelData(function(data) {
-    res.send({data: data});
-  });
-});
-
-app.get('/gun-data', function(req, res) {
-  getGunData(function(data) {
-    res.send({data: data});
-
-  });
-});
-
-app.get('/get-user-stats', function(req, res) {
-  getUserStats(req.session.user.id, function(data) {
-
-    res.send(data);
-  });
-});
-
-app.get('/login', function(req, res) {
-  res.render("login"); 
-});
-
-// console.log(User.generateHash('test123'));
-// var currUser;
-//authentication routes
-app.post('/login', function(req, res, next) {
-    passport.authenticate('local-login', function(err, user, info) {
-        console.log(info);
-
-        if(err) {
-            console.log(err);
-            return res.send({status: 'error', message: err});
-        }
-
-        if(!user) {
-            return res.send({status: 'error', message: info.message});
-        }
-
-        // log user in manually
-        req.logIn(user, function(err){
-            if(err) {
-                console.log(err);
-                return next(err);
-            }
-
-            currUser = req.user[0];
-
-            console.log(req.user);
-
-            //assign user to session
-            req.session.user = req.user[0];
-
-            return res.redirect('/game');
-        });
-    })(req, res, next);
-});
-
-app.get('/signup', function(req, res) {
-  res.render('signup');
-});
-
-app.post('/signup', passport.authenticate('local-signup', {
-    successRedirect : '/login',
-    failureRedirect : '/signup'
-}));
-
-
-
-/****** END ROUTES ******/
 
 app.use('/public/assets/',express.static(__dirname + '/public/assets'));
 app.use('/public/css/',express.static(__dirname + '/public/css'));
@@ -128,17 +35,14 @@ app.use('/public/js/',express.static(__dirname + '/public/js'));
 app.use('/public/sound/',express.static(__dirname + '/public/sound'));
 
 // Listen on port 5000
-app.set('port', (process.env.PORT || 5000));
+app.set('port', (process.env.PORT || 9000));
 http.listen(app.get('port'), function(){
   console.log('listening on port',app.get('port'));
 });
 
 
-
 var players = {}; //Keeps a table of all players, the key is the socket id
 var bullet_array = []; // Keeps track of all the bullets to update them on the server
-var levelData = []; //Keeps a track of all the levels that are playable
-var currentLevelIndex = 1;
 
 var winConditions = {
   kills: 5,
@@ -187,8 +91,6 @@ io.on('connection', function(socket){
     io.emit('update-players',players);
   });
 
-
-
   // Listen for shoot-bullet events and add it to our bullet array
   socket.on('shoot-bullet',function(data){
     if(players[socket.id] == undefined) return;
@@ -202,112 +104,6 @@ io.on('connection', function(socket){
   });
 });
 
-
-function getGunData(callback) {
-  knex('guns').select().then(function(data) {
-   
-    callback(data);
-    // return data;    
-  });
-}
-
-
-function getCurrentLevelData(callback) {
-
-    knex('maps').select().where('id', currentLevelIndex).then(function(data) {
-      
-      var returnData = {
-        name: data[0].name,
-        tileMapPath: data[0].tile_map,
-        tileSet: [
-          data[0].tile_set
-        ],
-        background: data[0].background,
-        audioFile: "",
-        spawns: data[0].spawn_points
-      }
-
-
-      callback(returnData);
-    });
-}
-
-function getNextLevel(callback) {
-  currentLevelIndex++;
-
-
-  knex('maps').count('id as CNT').then(function(data) {
-    console.log(data[0].CNT);
-
-    var mapCount = data[0].CNT; 
-
-    if(currentLevelIndex > mapCount) {
-      currentLevelIndex = 1;
-    }
-
-
-    knex('maps').select().where('id', currentLevelIndex).then(function(data) {
-      
-
-
-      var returnData = {
-        name: data[0].name,
-        tileMapPath: data[0].tile_map,
-        tileSet: [
-          data[0].tile_set
-        ],
-        background: data[0].background,
-        audioFile: "",
-        spawns: data[0].spawn_points
-      }
-
-
-      callback(returnData);
-
-    });
-
-  });
-
-  // return levelData[currentLevelIndex]
-}
-
-function saveMatchData(data, callback) {
-  // save actual match data
-  var saveData = data;
-
-  knex('matches').insert({
-    date: new Date(),
-    data: JSON.stringify(data)
-  }).then(function() {
-
-    for(sockId in saveData) {
-
-      knex('matchdata').insert({
-        date: new Date(),
-        kills: saveData[sockId].kills,
-        deaths: saveData[sockId].deaths,
-        damage:saveData[sockId].damageDelt,
-        user_id:saveData[sockId].user_id
-      }).then(function() {
-        console.log("MATCH DATA ADDED");
-      });
-      console.log("UPDATED USER");
-    }
-  });
-
-  //save individual players data like kills deaths and xp
-
-  callback();
-}
-
-function getUserStats(userID, callback) {
-
-  knex.raw("SELECT sum(kills) as kills, sum(deaths) as deaths, sum(damage) as damage FROM `matchdata` WHERE user_id = ? group by user_id", [userID]).then(function(data) {
-    console.log(data);
-
-    callback(data);
-  });
-}
 
 
 // Update the bullets 16 times per frame and send updates 
@@ -353,7 +149,6 @@ function ServerGameLoop(){
 
   //general loop for non specific things
   for(var id in players) {
-    //console.log("Player : " + id + " h: " + players[id].health + " DEAD: " + players[id].deaths + " kills: " + players[id].kills);
 
     //handle player kills
     if(players[id].health <= 0) {
@@ -393,8 +188,6 @@ function ServerGameLoop(){
         playerResults.push(playerData[p]);  
       }
 
-
-
       //reset player data
       for(var p in players) {
         players[p].kills = 0;
@@ -402,13 +195,11 @@ function ServerGameLoop(){
         players[p].damageDelt = 0;
       }
 
-
-      saveMatchData(playerData, function() {
+      db.saveMatchData(playerData, function() {
 
         //prepare the data for sending
-        getNextLevel(function(data) {
-          // console.log(data);
-          
+        db.getNextLevel(function(data) {
+
           //order the players descending based on kills
           playerResults.sort(function(a,b) {
             return b.kills - a.kills
@@ -420,13 +211,9 @@ function ServerGameLoop(){
             level: data
           }
 
-
-       
-
           //for new level we will broad cast mesage of who won, show all highscores and have a 10s countdown before the next level starrts
           io.emit("game-end", gameEndData);
         });
-
       });
     }
   }
