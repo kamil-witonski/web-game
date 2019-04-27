@@ -125,10 +125,10 @@ var playState = {
         var ESCkey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
 
         ESCkey.onDown.addOnce(function(){
+            window.location.reload();
+            // socket.emit('disconnect');
 
-            socket.emit('disconnect');
-
-            this.game.state.start('boot');
+            // this.game.state.start('boot');
         }, this);
     },
     update: function() {
