@@ -66,6 +66,9 @@ var player = {
         var fireButton = game.input.keyboard.addKey(Phaser.Keyboard.E);
         fireButton.onDown.add(this.changeGun, this);
 
+        this.kills = 0;
+        this.deaths = 0;
+
 
         this.setupUI();
     },
@@ -377,18 +380,20 @@ var player = {
     },
     setupUI: function() {
 
+        var uiFont = { font: "15px Arial", fill: "#19de65" };
+
         // ui_bg
         var uiBG = game.add.sprite(0 ,0 ,'ui_bg');
         uiBG.fixedToCamera = true;
 
         //set up ui 
-        this.ui.ammoText = game.add.text(game.camera.x + 10, game.camera.y + 15, 'Ammo: ', { font: "15px Arial", fill: "#19de65" });
+        this.ui.ammoText = game.add.text(game.camera.x + 10, game.camera.y + 15, 'Ammo: ', uiFont);
         this.ui.ammoText.fixedToCamera = true;
 
-        this.ui.gunText = game.add.text(game.camera.x + 10, game.camera.y + 30, 'Current Gun: ', { font: "15px Arial", fill: "#19de65" });
+        this.ui.gunText = game.add.text(game.camera.x + 10, game.camera.y + 30, 'Current Gun: ', uiFont);
         this.ui.gunText.fixedToCamera = true;
 
-        this.ui.gameStats = game.add.text(game.camera.x + 10, game.camera.y + 50, 'Kills: ' + this.kills + " Deaths: " + this.deaths, { font: "15px Arial", fill: "#19de65" });
+        this.ui.gameStats = game.add.text(game.camera.x + 10, game.camera.y + 50, 'Kills: ' + this.kills + " Deaths: " + this.deaths, uiFont);
         this.ui.gameStats.fixedToCamera = true;
 
 
