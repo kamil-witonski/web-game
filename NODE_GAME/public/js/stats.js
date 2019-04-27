@@ -11,7 +11,7 @@ var stats = {
             url: '/get-user-stats',
             success: function(data) {
                 console.log(data);
-                selfs.data = data[0][0];
+                selfs.data = data;
 
                 selfs.displayData();
             }
@@ -32,6 +32,8 @@ var stats = {
         game.add.text(340, 210, this.data.kills, fontStyle);
         game.add.text(440, 210, this.data.deaths, fontStyle);
         game.add.text(540, 210, this.data.damage, fontStyle);
+
+        game.add.text(420, 250, "LEVEL " + this.data.level, fontStyle);
 
         game.add.text(350, 400, "PRESS ESC TO RETURN", fontStyle);
     },
