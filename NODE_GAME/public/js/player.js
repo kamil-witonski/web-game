@@ -4,6 +4,8 @@ var player = {
     speed_y:0,
     speed:250,
     friction:0.95,
+    kills: 0,
+    deaths: 0,
     shot:false,
     jumpTimer: 0,
     canJump: false,
@@ -21,7 +23,8 @@ var player = {
         killMsgTime: 5,
         ammoText: null,
         gunText: null,
-        killText: null
+        killText: null,
+        gameStats: null
     },
     createPlayer: function() {
 
@@ -62,6 +65,7 @@ var player = {
 
         var fireButton = game.input.keyboard.addKey(Phaser.Keyboard.E);
         fireButton.onDown.add(this.changeGun, this);
+
 
         this.setupUI();
     },
@@ -372,15 +376,26 @@ var player = {
         }
     },
     setupUI: function() {
+
+        // ui_bg
+        var uiBG = game.add.sprite(0 ,0 ,'ui_bg');
+        uiBG.fixedToCamera = true;
+
         //set up ui 
-        this.ui.ammoText = game.add.text(game.camera.x, game.camera.y, 'Ammo: ', { font: "15px Arial", fill: "#19de65" });
+        this.ui.ammoText = game.add.text(game.camera.x + 10, game.camera.y + 15, 'Ammo: ', { font: "15px Arial", fill: "#19de65" });
         this.ui.ammoText.fixedToCamera = true;
 
-        this.ui.gunText = game.add.text(game.camera.x, game.camera.y + 15, 'Current Gun: ', { font: "15px Arial", fill: "#19de65" });
+        this.ui.gunText = game.add.text(game.camera.x + 10, game.camera.y + 30, 'Current Gun: ', { font: "15px Arial", fill: "#19de65" });
         this.ui.gunText.fixedToCamera = true;
 
+        this.ui.gameStats = game.add.text(game.camera.x + 10, game.camera.y + 50, 'Kills: ' + this.kills + " Deaths: " + this.deaths, { font: "15px Arial", fill: "#19de65" });
+        this.ui.gameStats.fixedToCamera = true;
+
+
+        //main kill message
         this.ui.killText = game.add.text(game.camera.x + (game.width / 2) - 100, game.camera.y + 400, '', { font: '30px Arial', fill: '#ff0000' });
         this.ui.killText.fixedToCamera = true;
+
     },
     updateUI: function() {
         //display the bullet ammount
@@ -389,9 +404,10 @@ var player = {
         //display UI gun text
         this.ui.gunText.text = 'Current Gun: '+ this.guns[this.gunIndex].name;
 
-
+        this.ui.gameStats.text = 'Kills: ' + this.kills + " Deaths: " + this.deaths;
     },
     displayMessage: function(text) {
+        this.updateUI();
         this.ui.killText.text = text;
         this.ui.killMsgTime = 5
 

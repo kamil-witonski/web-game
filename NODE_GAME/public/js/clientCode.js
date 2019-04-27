@@ -105,6 +105,7 @@ function initialiseClient() {
   //code for showing who you killed
   socket.on('killed', function(data) {
       if(data.by == socket.id) {
+        player.kills++;
         player.displayMessage("KILLED: " + data.name);
       }
   });
@@ -112,6 +113,7 @@ function initialiseClient() {
   socket.on('killedBy', function(data) {
       if(data.user == socket.id) {
         console.log("YOU DIED");
+        player.deaths++;
         player.displayMessage("KILLED BY: " + data.name);
       }
   });

@@ -15,6 +15,9 @@ var loadState = {
         this.load.image('sprite1', '/public/assets/sprites/sprite1.png');
         this.load.image('sprite2', '/public/assets/sprites/sprite2.png');
         this.load.image('bullet', '/public/assets/sprites/bullet.png');
+
+
+        this.load.image('ui_bg', '/public/assets/sprites/ui_bg.png');
 		
 		//Load backgrounds
 		this.load.image('menubg', '/public/images/menubg.png');

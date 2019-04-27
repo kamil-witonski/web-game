@@ -1,6 +1,17 @@
 TODO list
 ______________________
 
+
+add more guns
+ok - fix map backgrounds
+store name to be used in results table
+add stats page
+
+
+
+
+
+
 - fix bullet spawn to reflect the gun position
 	*Rotated its original position but will need to add the angle of the cursor to its rotation will look into this more -D
 
