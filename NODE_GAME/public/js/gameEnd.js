@@ -32,7 +32,8 @@ var gameEnd = {
                 clearInterval(timer);
                 //clear players array
                 other_players = {};
-                game.state.start("play", false, false, selfs.data.level);
+                window.location.reload();
+                // game.state.start("play", false, false, selfs.data.level);
             } 
         }, 1000);
     },
@@ -43,9 +44,9 @@ var gameEnd = {
 
         game.add.text(180, 180, "POS", fontStyle);
         game.add.text(260, 180, "NAME", fontStyle);
-        game.add.text(380, 180, "KILLS", fontStyle);
-        game.add.text(470, 180, "DEATHS", fontStyle);
-        game.add.text(560, 180, "DAMAGE", fontStyle);
+        game.add.text(400, 180, "KILLS", fontStyle);
+        game.add.text(490, 180, "DEATHS", fontStyle);
+        game.add.text(580, 180, "DAMAGE", fontStyle);
         
         var count = 1;
 
@@ -56,9 +57,9 @@ var gameEnd = {
         $.each(players, function(i, player) {
             game.add.text(190, yOffset, count++, fontStyle);
             game.add.text(270, yOffset, player.username, fontStyle);
-            game.add.text(390, yOffset, player.kills, fontStyle);
-            game.add.text(480, yOffset, player.deaths, fontStyle);
-            game.add.text(570, yOffset, player.damageDelt, fontStyle);
+            game.add.text(410, yOffset, player.kills, fontStyle);
+            game.add.text(500, yOffset, player.deaths, fontStyle);
+            game.add.text(590, yOffset, player.damageDelt, fontStyle);
 
             yOffset += 20;
         });
