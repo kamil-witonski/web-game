@@ -19,7 +19,6 @@ passport.use('local-signup', new LocalStrategy({
 	passwordField : 'password',
 	passReqToCallback : true
 }, function(req, username, password, done){
-
 	process.nextTick(function() {
 		User.getByUsername(username, function(user){
 			console.log(user);
@@ -27,8 +26,14 @@ passport.use('local-signup', new LocalStrategy({
 			//check if the array contains any results
 			//if it does means user exists with the specified username and
 			//we should redirect back to signup page
-			if(user.length > 0) {
-				return done(null, false, req.flash('signupMessage', 'This username is already in use please try a different one.'));
+			if(username.length < 4) {
+				var string = JSON.stringify({'signupMessage': 'Username must be longer than 4 characters.'});
+
+				return done(null, false, {'signupMessage': 'Username must be longer than 4 characters.'});
+			} else if (password.length < 4) {
+				return done(null, false, {'signupMessage': 'Password must be longer than 4 characters.'});
+			} else if(user.length > 0) {
+				return done(null, false, {'signupMessage': 'This username is already in use please try a different one.'});
 			} else {
 				//if usernam doesnt exist create a new user
 				var userData = req.body;
@@ -51,9 +56,6 @@ passport.use('local-login', new LocalStrategy({
 	passwordField: 'password',
 	passReqToCallback: true
 }, function(req, username, password, done) {
-
-	console.log('local login');
-
 	User.getByUsername(username, function(user){
 		//check if user has been found in the db
 		if(user.length == 0) {
@@ -65,15 +67,6 @@ passport.use('local-login', new LocalStrategy({
 			return done(null, false, {message: "Invalid email or password combination"});
 		}
 
-		// User.getCompanyDetails(user[0].id, function(result){
-
-
-		// 	if(result[0].active == 0) {
-		// 		return done(null, false, {message:'The company associated with this account is no longer active, please contact admin support'}, req.flash('loginMessage', 'Company not active'));
-		// 	}
-
-
-			return done(null, user);
-		// });
+		return done(null, user);
 	});
 }));

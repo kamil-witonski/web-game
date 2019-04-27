@@ -21,6 +21,11 @@
 							<input type="password" name="password" id="password">	
 						</p>
 
+						<div>
+							<p class="error-msg" style="display:none;">ERROR!</p>
+						</div>
+
+
 						<button id="login">Login</button>
 
 						<p>
@@ -38,14 +43,21 @@
 
 <script type="text/javascript">
 	$('#login').on('click', function(e) {
-		e.PreventDefault();
+		e.preventDefault();
 
 		$.ajax({
 			type: 'POST',
 			url: '/login',
 			data: {username: $('#username').val(), password: $('#password').val()},
 			success: function(data) {
-				console.log(data);
+
+				if(data.status == "error") {
+					$('.error-msg').show();
+					$('.error-msg').text("");
+					$('.error-msg').text("ERROR! " + data.message);
+				} else {
+					window.location.href = "/game";
+				}
 			}
 		});
 	});

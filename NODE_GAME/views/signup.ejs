@@ -2,6 +2,7 @@
 
 <% include partials/menu %>
 
+	
 <!-- Contact Us -->
 <div id="wrapper">
 	<div id="featured-wrapper">
@@ -21,6 +22,11 @@
 							<input type="password" name="password" id="password">	
 						</p>
 
+						<div>
+							<p class="error-msg" style="display:none;">ERROR!</p>
+						</div>
+
+
 						<button id="signup-btn">Create Account</button>					
 						
 					</form>
@@ -32,13 +38,23 @@
 
 <script type="text/javascript">
 	$('#signup-btn').on('click', function(e) {
-		e.PreventDefault();
+		e.preventDefault();
 
 		$.ajax({
 			type: 'POST',
 			url: '/signup',
 			data: {username: $('#username').val(), password: $('#password').val()},
 			success: function(data) {
+				console.log(data);
+				if(data.status == "error") {
+					$('.error-msg').show();
+					$('.error-msg').text("");
+					$('.error-msg').text("ERROR! " + data.message);
+				} else {
+					window.location.href = "/login";
+				}
+			},
+			error: function(data) {
 				console.log(data);
 			}
 		});
