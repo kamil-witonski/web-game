@@ -339,11 +339,9 @@ var player = {
                 y: this.sprite.y, 
                 speed_x: vel.x , 
                 speed_y:vel.y,
-                damage: this.guns[this.gunIndex].bullet_damage
+                damage: this.guns[this.gunIndex].bullet_damage,
+                gun_audio: this.guns[this.gunIndex].audio 
             });
-
-            //play the gun sound
-            game.sound.play(this.guns[this.gunIndex].audio);  
 
             this.guns[this.gunIndex].bullets_fired++;
             this.totalBulletsFired++;

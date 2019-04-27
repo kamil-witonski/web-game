@@ -59,9 +59,13 @@ function initialiseClient() {
             var bullet = game.add.sprite(server_bullet_array[i].x,server_bullet_array[i].y,'bullet');
             bullet.scale.setTo(0.5,0.5);
 
+            console.log(server_bullet_array[i].gun_audio);
+
+            game.sound.play(server_bullet_array[i].gun_audio);  
+
+
             bullet_array[i] = bullet;
         } else {
-            //Otherwise, just update it! 
             bullet_array[i].x = server_bullet_array[i].x; 
             bullet_array[i].y = server_bullet_array[i].y;
         }
