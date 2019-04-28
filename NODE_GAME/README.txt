@@ -16,3 +16,7 @@ password: password123
 username: darren
 password: test123
 
+Team memebers
+
+Kamil B00289017
+Darren B00303592
