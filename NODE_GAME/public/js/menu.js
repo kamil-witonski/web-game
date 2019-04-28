@@ -1,5 +1,5 @@
 // JavaScript source code for menuState
-
+var music;
 var menuState = {
 
     create: function () {
@@ -15,14 +15,13 @@ var menuState = {
 		
 
 		//Create Music
-		var music = game.add.audio('menumusic');
+		music = game.add.audio('menumusic');
 		
 		//Set Volume
 		music.volume = 0.1; 
 		
 		//Play Music
-		// music.play();
-
+		music.play();
 
         var skey = game.input.keyboard.addKey(Phaser.Keyboard.S);
 
@@ -39,7 +38,7 @@ var menuState = {
     start: function () {
 		
 		//Stop Music
-		//music.stop();
+		music.stop();
 
         //Loads playState
         game.state.start('play');
