@@ -2,7 +2,7 @@
 
 var loadState = {
     init: function(data) {
-        console.log("WE ARE PRE LOADING DATA");
+
     },
     //all player sprites should be loaded 
     //only load the required assets for the current level
@@ -15,7 +15,6 @@ var loadState = {
         this.load.image('sprite1', '/public/assets/sprites/sprite1.png');
         this.load.image('sprite2', '/public/assets/sprites/sprite2.png');
         this.load.image('bullet', '/public/assets/sprites/bullet.png');
-
 
         this.load.image('ui_bg', '/public/assets/sprites/ui_bg.png');
 		
@@ -46,9 +45,7 @@ var loadState = {
                 self.guns = data.data;
 
                 $.each(data.data, function(i, gun) {
-                    console.log(gun.name)
                     game.load.image(gun.name + '_gun', gun.asset_img);
-
                 });
             }
         });

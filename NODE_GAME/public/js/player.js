@@ -46,11 +46,9 @@ var player = {
         this.sprite.body.collideWorldBounds = true;
 
 
-
         //load top part of the body
         this.topSprite = game.add.sprite(0,0, 'recruit_body');
         this.topSprite.anchor.setTo(0.5,0.5);
-
 
 
         this.sprite.addChild(this.topSprite);
@@ -150,8 +148,6 @@ var player = {
     
         //move the actual sprite
         this.sprite.body.velocity.x = this.speed_x;
-     
-        // console.log(this.sprite.body.checkCollision);
 
         //enable paralaz flag
         if(this.speed_x != 0) {
@@ -159,7 +155,6 @@ var player = {
         } else {
             isParalax = false;
         }
-
 
         // Tell the server we've moved 
         socket.emit('move-player',{
@@ -202,17 +197,14 @@ var player = {
 
         //rotate correctly rthe top body of the solider
         if(game.input.activePointer.x < this.sprite.x - game.camera.x) {
-            // console.log('pointer on left');
             topSpriteOrientation = -1;
             topSpriteXOffset = -1;
         } else {
-            // console.log('pointer on right');
             topSpriteOrientation = 1;
             topSpriteXOffset = -1;
         }
 
         //This code somehow works but im not sure how, why, or how long for
-
 
         //times the calculated orientation by the current sprite orientation to get the correct direction
         topSpriteOrientation *= this.sprite.scale.x;
@@ -274,7 +266,6 @@ var player = {
     },
     getGunsData: function() {
         //get gun data from the server
-
         var self = this;
 
         $.ajax({
@@ -289,10 +280,7 @@ var player = {
 
                 //load the initial gun for the player
                 var gun = self.guns[self.gunIndex];
-
                 var gunOffset = JSON.parse(gun.gun_offset);
-
-                // console.log(self.guns);
 
                 var gunsprite = game.add.sprite(gunOffset.x,gunOffset.y,'pistol_gun');
                 gunsprite.scale.setTo(0.5, 0.5);

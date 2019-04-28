@@ -15,7 +15,6 @@ var playState = {
                 type:'GET',
                 url: '/get-map-data',
                 success: function(data) {
-                    // console.log(data);
                     self.data = data.data;
                     self.readyToPLay = false;
                     self.preLoadMapData();
@@ -34,8 +33,6 @@ var playState = {
     //so if other player takes damage you will draw blood here for example
     //and another on your own player instance in player.js
     CreateLocalPlayer: function (x, y, angle, direction) {
-
-
         var sprite = game.add.sprite(x ,y ,'recruit_legs');
 
 
@@ -91,7 +88,6 @@ var playState = {
             this.paralax1.destroy();
         }
 
-
 		//Sky Image
         this.paralax1 = game.add.tileSprite(0,0, 3000, 1080, 'paralax_img1');
 
@@ -120,8 +116,8 @@ var playState = {
         game.camera.x = player.sprite.x - WINDOW_WIDTH / 2;
         game.camera.y = player.sprite.y - WINDOW_HEIGHT / 2;
 
+        //check if socket has been defined
         if(socket == undefined) {
-            console.log('initialise client code');
             initialiseClient();    
         }
 
@@ -129,9 +125,6 @@ var playState = {
 
         ESCkey.onDown.addOnce(function(){
             window.location.reload();
-            // socket.emit('disconnect');
-
-            // this.game.state.start('boot');
         }, this);
     },
     update: function() {

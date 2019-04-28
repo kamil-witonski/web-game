@@ -24,8 +24,6 @@ function initialiseClient() {
               var data = players_data[id];
               var p = playState.CreateLocalPlayer(data.x,data.y,data.angle);
               other_players[id] = p;
-              //enemySprites.add(p);
-              console.log("Created new player at (" + data.x + ", " + data.y + ")");
           }
           players_found[id] = true;
           
@@ -55,14 +53,13 @@ function initialiseClient() {
 
     // If there's not enough bullets on the client, create them
    for(var i=0;i<server_bullet_array.length;i++){
+        //if bullet doesnt exist create it based on the data provided from the server
         if(bullet_array[i] == undefined){
+
             var bullet = game.add.sprite(server_bullet_array[i].x,server_bullet_array[i].y,'bullet');
             bullet.scale.setTo(0.5,0.5);
-
-            console.log(server_bullet_array[i].gun_audio);
-
+            //play the shoot sound
             game.sound.play(server_bullet_array[i].gun_audio);  
-
 
             bullet_array[i] = bullet;
         } else {
@@ -76,10 +73,7 @@ function initialiseClient() {
          bullet_array.splice(i,1);
          i--;
      }
-    
   });
-
-
 
   // Listen for any player hit events and make that player flash 
   socket.on('player-hit',function(id, bullet){
@@ -91,8 +85,6 @@ function initialiseClient() {
           // Find the right player 
           entity = other_players[id]
       }
-
-      //both checks are necessary if you want to display the necessary data for all players
 
       // entity.alpha = 0;
       entity.takeDamage(10);
@@ -116,7 +108,6 @@ function initialiseClient() {
 
   socket.on('killedBy', function(data) {
       if(data.user == socket.id) {
-        console.log("YOU DIED");
         player.deaths++;
         player.displayMessage("KILLED BY: " + data.name);
       }

@@ -9,13 +9,13 @@ var bodyParser = require('body-parser');
 var User = require('./models/User');
 var db = require('./models/db');
 
-
+//change view engine to ejs
 app.set('view engine', 'ejs');
 
 exports.passport = passport;
 
 require('./passport');
-
+//set up session and passport 
 app.use( bodyParser.urlencoded({ extended: true }) );
 app.use(session({ secret: 'this_is_a_super_secret_session', key: 'sid'}));
 app.use(passport.initialize());
@@ -25,7 +25,7 @@ app.use(passport.session());
 var appRoutes = require('./routes/app');
 app.use('/', appRoutes);
 
-
+//set up static folder
 app.use('/public/assets/',express.static(__dirname + '/public/assets'));
 app.use('/public/css/',express.static(__dirname + '/public/css'));
 app.use('/public/fonts/',express.static(__dirname + '/public/fonts'));
@@ -39,9 +39,9 @@ http.listen(app.get('port'), function(){
   console.log('listening on port',app.get('port'));
 });
 
-
-var players = {}; //Keeps a table of all players, the key is the socket id
-var bullet_array = []; // Keeps track of all the bullets to update them on the server
+//current connected player
+var players = {};
+var bullet_array = [];
 
 var winConditions = {
   kills: 5,
@@ -50,14 +50,10 @@ var winConditions = {
 
 var isGameOver = false;
 
-// Tell Socket.io to start accepting connections
+// Socket IO setup 
 io.on('connection', function(socket){
 	// Listen for a new player trying to connect
 	socket.on('new-player',function(state){
-		console.log("New player joined with state:",state);
-    console.log('logged user');
-    console.log(session);
-
 		//add extra server side properties to keep track of certain stats
     state.kills = 0;
     state.deaths = 0;
@@ -110,8 +106,7 @@ function ServerGameLoop(){
     var bullet = bullet_array[i];
     bullet.x += bullet.speed_x; 
     bullet.y += bullet.speed_y;
-    //bullet.hit = false;
-    
+
     // Check if this bullet is close enough to hit any player 
     for(var id in players){
       if(bullet.owner_id != id){
@@ -191,7 +186,6 @@ function ServerGameLoop(){
       }
 
       db.saveMatchData(playerData, function() {
-
         //prepare the data for sending
         db.getNextLevel(function(data) {
 

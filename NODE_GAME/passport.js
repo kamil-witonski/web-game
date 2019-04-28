@@ -21,14 +21,11 @@ passport.use('local-signup', new LocalStrategy({
 }, function(req, username, password, done){
 	process.nextTick(function() {
 		User.getByUsername(username, function(user){
-			console.log(user);
 
 			//check if the array contains any results
 			//if it does means user exists with the specified username and
 			//we should redirect back to signup page
 			if(username.length < 4) {
-				var string = JSON.stringify({'signupMessage': 'Username must be longer than 4 characters.'});
-
 				return done(null, false, {'signupMessage': 'Username must be longer than 4 characters.'});
 			} else if (password.length < 4) {
 				return done(null, false, {'signupMessage': 'Password must be longer than 4 characters.'});
@@ -37,8 +34,6 @@ passport.use('local-signup', new LocalStrategy({
 			} else {
 				//if usernam doesnt exist create a new user
 				var userData = req.body;
-
-				console.log(userData);
 
 				User.createUser(userData, function(newUserId) {
 					User.getById(newUserId, function(user) {

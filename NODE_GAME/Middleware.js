@@ -1,7 +1,5 @@
 var Middleware = {
 	isLoggedIn: function(req, res, next) {
-	    console.log('lslslslsl');
-
 	    if(req.isAuthenticated()) {
 	    	console.log('logged in');
 	        res.locals.isLoggedIn = true;
