@@ -20,6 +20,31 @@
                     </div>
                 </div>
                 <div class="content switchable-content">
+                    <div id="gameidea">
+                        <div class="content">
+                            <h1>Inspiration</h1>
+                            <p>
+                            
+                            Web Siege is a free web-game where you, the player battle against other players in a bid to hit the kill score.
+
+                            When deciding to make our webgame, our discussion was based around a number of games that inspired us currently and in the past. We both absolutely love Rainbow Six Siege. 
+
+                            It was decided that we wanted a shooter. When we then got discussing what kind of shooter we were wanting to make, Soldat came to mind.
+
+                            Let's head towards this approach and mix it up with some R6:Siege aspects! 
+                            </p>
+                            <p>
+                            Great!
+                            </p>
+                            <p>
+                            
+                            We then got to level environment and we both agreed that a worms was epic for 2D shooting in regards to level design and so it was decided that this would be our style of level design.
+                           
+                            When it came to art and character style we wanted to keep it quite relevant to the aim of the game, shooter, siege and worms type design. So, we decided that South Parks art style really captured a balance between any type of scenario. 
+                            We took inspiration from all these sources and came up with a game that we are really happy with.
+                            </p>
+                        </div>
+                    </div>
                 </div>
                 <% include partials/playnow %>
             </div>
@@ -46,7 +71,11 @@
     .content {
         width: 90%;
         margin: auto;
-    } 
+    }
+
+    #db_img {
+        width: 100%;
+    }
 
 
 </style>
@@ -136,15 +165,37 @@
         <h2>Features Implemented</h2>
         <h3>Database</h3>
         <p>
-            Database using SQL. We have implemented a database to hold player stats, weapons stats, weapon ammo, match stats. Matches, users and maps    
+            Database using SQL. We have implemented a database to hold player stats, weapons stats, weapon ammo, match stats. Matches, users and maps
+
+            <p><b>Guns</b> - table holds all the data for each gun and its loaded at the match start, this could be expanded further by limiting the guns each player has access to by creating a linking table</p>
+
+            <p><b>Maps</b> - the table holds the map data, the tilemap and tilsets, its loaded on each map entry or on new level load</p>
+
+            <p><b>Matches</b> - takes an overall dump of data from each match and stores it</p>
+
+            <p><b>Matchdata</b> - each match id broken down into kills, deaths and damage delt which is assigned to each user, this data is used to display stats</p>
+
+            <p><b>Users</b> - holds the data for individual user, the passwords are hashed using a bcrypt plugin to increase security</p>
+
+            <img id="db_img" src="/public/images/db_schema.png">
         </p>
 
         <h3>Multiplayer</h3>
         <p>The game features a centralised server model, where clients connect up to the server, the server keeps a track of all the user details: current position, kills, deaths, guns and the type of animation is used.</p>
         <p>The data is passed from the client to the server which then is distributed across all other players.</p>
+        <p>
+            <p>
+            The image shows a basic breakdown of how we handle multipleyer, each client sends its own position to the server, which then transmits this to all other players.
+            </p>
+
+            <img src="/public/images/server.png">
+        </p>
 
         <h3>Authentication</h3>
         <p>We have created a simple authentication sustem using passport.js to alllow the players to have their own accounts, the game requires an account before you can start playing</p>
+
+        <h3>Design Patterns</h3>
+        <p>We have utilised the Singleton pattern to create our player object (player.js) and out client side server communication. </p>
 
         <h3>Node</h3>
         <p>The game relies on Node.js to act as a server that communicates with connected players.</p>
@@ -157,7 +208,7 @@
         <h3>Player Mechanics</h3>
         
         <h5>Movement</h5>
-        <p>The player has abil;ity to traverse the map by moving and jumping</p>
+        <p>The player has ability to traverse the map by moving and jumping</p>
         
         <h5>Guns</h5>
         <p>The players are able to use multiple different guns that have their own properties</p>
@@ -165,6 +216,9 @@
         <h5>Level Switching</h5>
         <p>The server is able to keep track of the kills and swithc the maps out after the limit has been reached.</p>
         <p>This is done dynamically by reading data from a database</p>
+
+        <h5>Stats</h5>
+        <p>The game keeps a track of the player stats, kills, deaths and damage delt.</p>
 
         <h3>Player Controls</h3>
         <ul>
@@ -184,6 +238,8 @@
             <h2>Version Control</h2>
             <br/>
             For version control, we used GitHub to keep track of our changes and versions of the web game. Google docs was also used to created a document which was accessible for every member of the group to have their input.
+            <p>Find the GitHub repo <a href="https://github.com/kamil-witonski/web-game/tree/development">HERE!</a></p>
+
             <h2>Communication</h2>  
             <br/>
             Whatsapp and Discord were used for communication between the team. A Server was created on Discord and later a Whatsapp group.
@@ -195,9 +251,12 @@
             <br/>
             <br/>
             <h3>Kamil Witonski</h3>
-            Lead Server & Games Programmer
+            <h5>Lead Server & Games Programmer</h5>
+            <p>Kamil was tasked with creating the base framework for the server communication and the database implementation</p>
+            
             <h3>Darren Griffiths</h3>
-            Lead Web & Art Designer
+            <h5>Lead Web & Art Designer</h5>
+            <p>Darren was tasked with the design of the look of the game and the website</p>
 
         </p>
     </div>
