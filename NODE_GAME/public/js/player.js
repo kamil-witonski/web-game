@@ -3,7 +3,6 @@ var player = {
     speed_x:0,
     speed_y:0,
     speed:250,
-    friction:0.95,
     kills: 0,
     deaths: 0,
     shot:false,
