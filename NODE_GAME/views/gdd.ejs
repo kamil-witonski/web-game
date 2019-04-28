@@ -2,6 +2,24 @@
 
 <% include partials/menu %>
 
+<style type="text/css">
+    .content {
+        width: 90%;
+        margin: auto;
+    }
+
+    .content-selector.button {
+        color: white !important;
+    }
+
+
+    #db_img {
+        width: 100%;
+    }
+
+
+</style>
+
 <!-- Game Design Document-->
 <div id="wrapper">
     <div id="featured-wrapper">
@@ -12,9 +30,9 @@
                     <div id="submenu-wrapper>">
                         <div id="submenu">
                         <ul>
-                            <li><a class="content-selector" data-id="gameidea" href="" accesskey="7" title="">Inspiration</a></li>
-                            <li><a class="content-selector" data-id="overview" href="" accesskey="8" title="">Game Specification</a></li>
-                            <li><a class="content-selector" data-id="env" href="" accesskey="9" title="">Project Management</a></li>
+                            <li><a class="content-selector button" data-id="gameidea" href="" accesskey="7" title="">Inspiration</a></li>
+                            <li><a class="content-selector button" data-id="overview" href="" accesskey="8" title="">Game Specification</a></li>
+                            <li><a class="content-selector button" data-id="env" href="" accesskey="9" title="">Project Management</a></li>
                         </ul>
                         </div>
                     </div>
@@ -67,18 +85,7 @@
     });
 </script>
 
-<style type="text/css">
-    .content {
-        width: 90%;
-        margin: auto;
-    }
 
-    #db_img {
-        width: 100%;
-    }
-
-
-</style>
 
 
 <div id="gameidea" style="display:none;">
