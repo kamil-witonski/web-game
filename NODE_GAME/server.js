@@ -16,7 +16,6 @@ exports.passport = passport;
 
 require('./passport');
 
-
 app.use( bodyParser.urlencoded({ extended: true }) );
 app.use(session({ secret: 'this_is_a_super_secret_session', key: 'sid'}));
 app.use(passport.initialize());
@@ -96,7 +95,7 @@ io.on('connection', function(socket){
     if(players[socket.id] == undefined) return;
     var new_bullet = data;
     data.owner_id = socket.id;
-    
+
     bullet_array.push(new_bullet);
   });
 });
@@ -175,7 +174,6 @@ function ServerGameLoop(){
       io.emit("dead-respawn", id);
     }
 
-
     //check if the players have reached the win conditions
     if(players[id].kills >= winConditions.kills) {
       var playerData = JSON.parse(JSON.stringify(players));
@@ -198,7 +196,7 @@ function ServerGameLoop(){
         db.getNextLevel(function(data) {
 
           //order the players descending based on kills
-          playerResults.sort(function(a,b) {
+          playerResults = playerResults.sort(function(a,b) {
             return b.kills - a.kills
           });
 
